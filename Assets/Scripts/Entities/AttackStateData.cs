@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class MeleeAttackStateData : ScriptableObject
+public class AttackStateData : ScriptableObject
 {
     public Vector2 attackPosition;
     public float attackRadius;

@@ -16,6 +16,8 @@ public class Entity : MonoBehaviour
     [SerializeField] protected Transform groundCheckRight;
     [SerializeField] protected Transform groundCheckLeft;
     [SerializeField] protected Transform playerDistCheck;
+    [SerializeField] protected Transform meleeAttackPositionRight;
+    [SerializeField] protected Transform meleeAttackPositionLeft;
     protected GameObject aliveGO;
 
     [SerializeField]protected EntityData d_Entity;
@@ -31,6 +33,7 @@ public class Entity : MonoBehaviour
     [SerializeField] protected PlayerDetectedStateData d_PlayerDetectedState;
     [SerializeField] protected ChargeStateData d_ChargeState;
     [SerializeField] protected LookForPlayerStateData d_LookForPlayerState;
+    [SerializeField] protected MeleeAttackStateData d_MeleeAttackState;
 
     public AttackEventReceiver attackEventReceiver;
     public bool flipNow { get; private set; } = false;
@@ -53,6 +56,8 @@ public class Entity : MonoBehaviour
         wallCheckLeft.gameObject.SetActive(false);
         groundCheckLeft.gameObject.SetActive(false);
         attackEventReceiver = aliveGO.GetComponent<AttackEventReceiver>();
+        meleeAttackPositionRight.gameObject.SetActive(true);
+        meleeAttackPositionLeft.gameObject.SetActive(false);
 
     }
     public void SetFlipNow(bool x)
@@ -79,6 +84,17 @@ public class Entity : MonoBehaviour
         else
         {
             return groundCheckRight;
+        }
+    }
+    public Transform GetActiveMeleeAttackPosition()
+    {
+        if(meleeAttackPositionRight.gameObject.activeSelf==false)
+        {
+            return meleeAttackPositionLeft;
+        }
+        else
+        {
+            return meleeAttackPositionRight;
         }
     }
     public void SetAnimBool(string varName, bool myBool)
@@ -128,6 +144,8 @@ public class Entity : MonoBehaviour
             groundCheckLeft.gameObject.SetActive(false);
             wallCheckRight.gameObject.SetActive(true);
             groundCheckRight.gameObject.SetActive(true);
+            meleeAttackPositionRight.gameObject.SetActive(true);
+            meleeAttackPositionLeft.gameObject.SetActive(false);
         }
         else
         {
@@ -136,6 +154,8 @@ public class Entity : MonoBehaviour
             groundCheckRight.gameObject.SetActive(false);
             wallCheckLeft.gameObject.SetActive(true);
             groundCheckLeft.gameObject.SetActive(true);
+            meleeAttackPositionRight.gameObject.SetActive(false);
+            meleeAttackPositionLeft.gameObject.SetActive(true);
         }
         facingDirection *= -1;
     }
@@ -180,6 +200,10 @@ public class Entity : MonoBehaviour
     {
         return Physics2D.Raycast(playerDistCheck.position, transform.right * facingDirection, d_PlayerDetectedState.playerDetectedMaxDist, whatIsPlayer);
     }
+    public bool CheckMeleeAttackDist()
+    {
+        return Physics2D.Raycast(playerDistCheck.position, transform.right * facingDirection, d_Entity.meleeAttackDist, whatIsPlayer);
+    }
     public void OnDrawGizmos()
     {
         if (wallCheckRight == null || wallCheckLeft == null || groundCheckRight == null || groundCheckLeft == null)
@@ -192,5 +216,7 @@ public class Entity : MonoBehaviour
         Gizmos.DrawLine(groundCheckLeft.position, new Vector3(groundCheckLeft.position.x, groundCheckLeft.position.y - d_Entity.groundCheckDist, groundCheckLeft.position.z));
         Gizmos.DrawLine(groundCheckRight.position, new Vector3(groundCheckRight.position.x, groundCheckRight.position.y - d_Entity.groundCheckDist, groundCheckRight.position.z));
         Gizmos.DrawLine(playerDistCheck.position, new Vector3(playerDistCheck.position.x + d_PlayerDetectedState.playerDetectedMaxDist, playerDistCheck.position.y, playerDistCheck.position.z));
+        Gizmos.DrawWireSphere(meleeAttackPositionRight.position, d_MeleeAttackState.attackRadius);
+        Gizmos.DrawWireSphere(meleeAttackPositionLeft.position, d_MeleeAttackState.attackRadius);
     }
 }

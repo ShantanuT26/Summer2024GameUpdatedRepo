@@ -19,14 +19,13 @@ public class Enemy1_PlayerDetectedState : PlayerDetectedState
     public override void ActionPhysicsUpdate()
     {
         base.ActionPhysicsUpdate();
-        /*if (!(entity.CheckPlayerMaxDist()))
+        if (entity.CheckMeleeAttackDist())
         {
-            fsm.ChangeState(enemy1.myIdleState);
-        }*/
-        if(Time.time > actionStartTime + d_PlayerDetectedState.timeUntilCharge)
+            fsm.ChangeState(enemy1.myMeleeAttackState);
+        }
+        if (Time.time > actionStartTime + d_PlayerDetectedState.timeUntilCharge)
         {
-            Debug.Log("enteringchargestate");
-            fsm.ChangeState(enemy1.myChargeState);
+             fsm.ChangeState(enemy1.myChargeState);
         }
         else if(entity.CheckPlayerMaxDist()==false)
         {

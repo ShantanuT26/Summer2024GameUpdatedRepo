@@ -20,6 +20,7 @@ public class Enemy1_LookForPlayerState : LookForPlayerState
                 entity.Flip();
                 FlipsCompleted++;
                 lastFlipCompleted = Time.time;
+                
                 if(entity.CheckPlayerMinDist())
                 {
                     fsm.ChangeState(enemy1.myPlayerDetectedState);

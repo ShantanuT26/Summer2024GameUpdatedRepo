@@ -14,7 +14,9 @@ public class PlayerStats : MonoBehaviour
 
     private GameManager gameManager;
 
-    
+    private delegate void OnPlayerTakeDamage(AttackDetails attackDetails);
+
+    private event OnPlayerTakeDamage damageHandler;
 
     [SerializeField] private GameObject deathChunkParticle, deathBloodParticle;
 
@@ -23,9 +25,39 @@ public class PlayerStats : MonoBehaviour
         currentHealth = maxHealth;
         playerController = GetComponent<PlayerController>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        
     }
-    private void Damage(float[] damageInfo)
+    private void OnEnable()
+    {
+        damageHandler += HandleDamage;
+    }
+    private void OnDisable()
+    {
+        damageHandler -= HandleDamage;
+    }
+    private void HandleDamage(AttackDetails attackDetails)
+    {
+        Debug.Log("HandlingDamage");
+        int direction;
+        if (attackDetails.position.x > transform.position.x)
+        {
+            direction = -1;
+        }
+        else
+        {
+            direction = 1;
+        }
+        currentHealth -= attackDetails.damage;
+        Debug.Log("HandlingDamage current health: " + currentHealth);
+        if (currentHealth > 0)
+        {
+            playerController.KnockedBack(direction);
+        }
+        else
+        {
+            Die();
+        }
+    }
+    /*private void Damage(float[] damageInfo)
     {
         int direction;
         if(damageInfo[1]>transform.position.x)
@@ -45,6 +77,11 @@ public class PlayerStats : MonoBehaviour
         {
             Die();
         }
+    }*/
+    public void TakeDamage(AttackDetails attackDetails)
+    {
+        Debug.Log("takedamage");
+        damageHandler.Invoke(attackDetails);
     }
     private void Die()
     {

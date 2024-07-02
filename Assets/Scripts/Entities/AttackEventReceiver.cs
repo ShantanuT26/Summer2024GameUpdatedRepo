@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackEventReceiver
+public class AttackEventReceiver: MonoBehaviour
 {
     public AttackState attackState;
     public void DoDamage()

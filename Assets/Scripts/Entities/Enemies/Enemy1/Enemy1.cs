@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Enemy1 : Entity
 {
+    
+
     public Enemy1_WalkingState myWalkState;
     public Enemy1_IdleState myIdleState;
     public Enemy1_PlayerDetectedState myPlayerDetectedState;
     public Enemy1_ChargeState myChargeState;
     public Enemy1_LookForPlayerState lookForPlayerState;
+    public Enemy1_MeleeAttackState myMeleeAttackState;
     /*[SerializeField] IdleStateData d_IdleState;
     [SerializeField] WalkingStateData d_WalkingState;*/
 
@@ -26,6 +29,9 @@ public class Enemy1 : Entity
         myPlayerDetectedState = new Enemy1_PlayerDetectedState(this, fsm, "playerDetected", d_PlayerDetectedState, this);
         myChargeState = new Enemy1_ChargeState(this, fsm, "charge", d_ChargeState, this);
         lookForPlayerState = new Enemy1_LookForPlayerState(this, fsm, "lookForPlayer", d_LookForPlayerState, this);
+        myMeleeAttackState = new Enemy1_MeleeAttackState(this, fsm, "meleeAttack", d_MeleeAttackState, meleeAttackPositionLeft, 
+            meleeAttackPositionRight, this);
+
         fsm.InitializeState(myWalkState);
     }
     protected override void FixedUpdate()

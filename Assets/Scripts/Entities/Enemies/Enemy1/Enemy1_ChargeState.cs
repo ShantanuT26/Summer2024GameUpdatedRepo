@@ -18,6 +18,10 @@ public class Enemy1_ChargeState : ChargeState
             Debug.Log("enteringlookforplayerstate; isTouchingGround = " + isTouchingGround);
             fsm.ChangeState(enemy1.lookForPlayerState);
         }
+        if(entity.CheckMeleeAttackDist())
+        {
+            fsm.ChangeState(enemy1.myMeleeAttackState);
+        }
         else if(Time.time > actionStartTime + d_ChargeState.chargeTime)
         {
             if(!(entity.CheckPlayerMinDist()))
