@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Entity : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Entity : MonoBehaviour
     protected SpriteRenderer spriteRenderer;
     protected int facingDirection = 1;
     protected Animator anim;
+
     [SerializeField] protected Transform wallCheckRight;
     [SerializeField] protected Transform wallCheckLeft;
     [SerializeField] protected Transform groundCheckRight;
@@ -20,6 +22,9 @@ public class Entity : MonoBehaviour
     [SerializeField] protected Transform meleeAttackPositionLeft;
     protected GameObject aliveGO;
 
+    protected float currentHealth;
+    protected float lastTimeKnockedBack;
+
     [SerializeField]protected EntityData d_Entity;
 
     [SerializeField] protected LayerMask whatIsGround;
@@ -27,6 +32,7 @@ public class Entity : MonoBehaviour
 
     [SerializeField] protected bool debugTouchingGround;
     [SerializeField] protected bool debugTouchingWall;
+    protected bool roadToStun;
 
     [SerializeField] protected IdleStateData d_IdleState;
     [SerializeField] protected WalkingStateData d_WalkingState;
@@ -34,8 +40,16 @@ public class Entity : MonoBehaviour
     [SerializeField] protected ChargeStateData d_ChargeState;
     [SerializeField] protected LookForPlayerStateData d_LookForPlayerState;
     [SerializeField] protected MeleeAttackStateData d_MeleeAttackState;
+    [SerializeField] protected StunStateData d_StunState;
 
     public AttackEventReceiver attackEventReceiver;
+
+    protected delegate void GetAttacked(AttackDetails attackDetails);
+    protected event GetAttacked damageEvent;
+
+    protected int hitsUntilStunned;
+    protected int knockBackDirection;
+
     public bool flipNow { get; private set; } = false;
 
 
@@ -58,7 +72,90 @@ public class Entity : MonoBehaviour
         attackEventReceiver = aliveGO.GetComponent<AttackEventReceiver>();
         meleeAttackPositionRight.gameObject.SetActive(true);
         meleeAttackPositionLeft.gameObject.SetActive(false);
+        currentHealth = d_Entity.health;
+        roadToStun = false;
+        hitsUntilStunned = d_Entity.stunResistance;
+    }
+    protected virtual void Update()
+    {
+        if(fsm.GetCurrentState()==null)
+        {
+            Debug.Log("Houston, we have a problem");
+        }
+        else
+        {
+            fsm.GetCurrentState().ActionLogicUpdate();
+        }
+        if(roadToStun)
+        {
+            if(Time.time > lastTimeKnockedBack + d_Entity.stunRecovery)
+            {
+                hitsUntilStunned = d_Entity.stunResistance;
+            }
+        }
+        
+    }
+    protected virtual void FixedUpdate()
+    {
+       /* wallCheckRight.transform.position = aliveGO.transform.position;
+        groundCheckRight.transform.position = aliveGO.transform.position;
+        wallCheckLeft.transform.position = aliveGO.transform.position;
+        groundCheckLeft.transform.position = aliveGO.transform.position;*/
+        fsm.GetCurrentState().ActionPhysicsUpdate();
+        Debug.Log("currentstate: " + fsm.GetCurrentState());
+        Debug.Log("entityvelocity: " + rb.velocity.x);
+    }
+    protected virtual void OnEnable()
+    {
+        damageEvent += DecreaseHealth;
+    }
+    protected virtual void OnDisable()
+    {
+        damageEvent -= DecreaseHealth;
+    }
+    protected void DecreaseHealth(AttackDetails attackDetails)
+    {
+        currentHealth -= attackDetails.damage;
+        roadToStun = true;
+        lastTimeKnockedBack = Time.time;
+        hitsUntilStunned--;
+        if(currentHealth<=0)
+        {
+            Die();
+        }
+        else if(hitsUntilStunned==0)
+        {
+            GetStunned();
+        }
+        else
+        {
+            Debug.Log("bouttaknockbackenemy, knockbackforcex is: " + d_Entity.knockBackForce.x);
+            if(attackDetails.position.x> transform.GetChild(0).transform.position.x)
+            {
+                knockBackDirection = -1;
+            }
+            else
+            {
+                knockBackDirection = 1;
+            }
+            Debug.Log("positiondebugenemy: " + transform.position.x);
+            Debug.Log("positiondebugplayer: " + attackDetails.position.x);
 
+            rb.AddForce(new Vector2(d_Entity.knockBackForce.x * knockBackDirection, d_Entity.knockBackForce.y));
+        }
+
+    }
+    public void TakeDamage(AttackDetails attackDetails)
+    {
+        damageEvent.Invoke(attackDetails);
+    }
+    protected virtual void Die()
+    {
+        roadToStun = false;
+    }
+    protected virtual void GetStunned()
+    {
+        roadToStun = false;
     }
     public void SetFlipNow(bool x)
     {
@@ -103,28 +200,6 @@ public class Entity : MonoBehaviour
         anim.SetBool(varName, myBool);
         Debug.Log("animVar: " + varName);
         Debug.Log("animBool: " + myBool);
-    }
-    protected virtual void Update()
-    {
-        if(fsm.GetCurrentState()==null)
-        {
-            Debug.Log("Houston, we have a problem");
-        }
-        else
-        {
-            fsm.GetCurrentState().ActionLogicUpdate();
-        }
-        
-    }
-    protected virtual void FixedUpdate()
-    {
-       /* wallCheckRight.transform.position = aliveGO.transform.position;
-        groundCheckRight.transform.position = aliveGO.transform.position;
-        wallCheckLeft.transform.position = aliveGO.transform.position;
-        groundCheckLeft.transform.position = aliveGO.transform.position;*/
-        fsm.GetCurrentState().ActionPhysicsUpdate();
-        Debug.Log("currentstate: " + fsm.GetCurrentState());
-        Debug.Log("entityvelocity: " + rb.velocity.x);
     }
     public void SetVelocity(float vel)
     {
@@ -194,11 +269,11 @@ public class Entity : MonoBehaviour
     }
     public bool CheckPlayerMinDist()
     {
-        return Physics2D.Raycast(playerDistCheck.position, transform.right * facingDirection, d_PlayerDetectedState.playerDetectedMinDist, whatIsPlayer);
+        return Physics2D.Raycast(playerDistCheck.position, transform.right * facingDirection, d_Entity.playerDetectedMinDist, whatIsPlayer);
     }
     public bool CheckPlayerMaxDist()
     {
-        return Physics2D.Raycast(playerDistCheck.position, transform.right * facingDirection, d_PlayerDetectedState.playerDetectedMaxDist, whatIsPlayer);
+        return Physics2D.Raycast(playerDistCheck.position, transform.right * facingDirection, d_Entity.playerDetectedMaxDist, whatIsPlayer);
     }
     public bool CheckMeleeAttackDist()
     {
@@ -215,8 +290,13 @@ public class Entity : MonoBehaviour
         Gizmos.DrawLine(wallCheckLeft.position, new Vector3(wallCheckLeft.position.x - d_Entity.wallCheckDist, wallCheckLeft.position.y, wallCheckLeft.position.z));
         Gizmos.DrawLine(groundCheckLeft.position, new Vector3(groundCheckLeft.position.x, groundCheckLeft.position.y - d_Entity.groundCheckDist, groundCheckLeft.position.z));
         Gizmos.DrawLine(groundCheckRight.position, new Vector3(groundCheckRight.position.x, groundCheckRight.position.y - d_Entity.groundCheckDist, groundCheckRight.position.z));
-        Gizmos.DrawLine(playerDistCheck.position, new Vector3(playerDistCheck.position.x + d_PlayerDetectedState.playerDetectedMaxDist, playerDistCheck.position.y, playerDistCheck.position.z));
-        Gizmos.DrawWireSphere(meleeAttackPositionRight.position, d_MeleeAttackState.attackRadius);
-        Gizmos.DrawWireSphere(meleeAttackPositionLeft.position, d_MeleeAttackState.attackRadius);
+        Gizmos.DrawWireSphere(new Vector3(playerDistCheck.position.x + d_Entity.playerDetectedMaxDist, playerDistCheck.position.y,
+            playerDistCheck.position.z), 0.5f);
+        Gizmos.DrawWireSphere(new Vector3(playerDistCheck.position.x + d_Entity.playerDetectedMinDist, playerDistCheck.position.y,
+            playerDistCheck.position.z), 0.5f);
+        Gizmos.DrawWireSphere(new Vector3(playerDistCheck.position.x + d_Entity.meleeAttackDist, playerDistCheck.position.y,
+            playerDistCheck.position.z), 0.5f);
+        Gizmos.DrawWireSphere(meleeAttackPositionRight.position, d_Entity.attackRadius);
+        Gizmos.DrawWireSphere(meleeAttackPositionLeft.position, d_Entity.attackRadius);
     }
 }

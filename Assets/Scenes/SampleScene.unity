@@ -1315,11 +1315,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1243923961450459378, guid: 0bee49a30db3f364d94bd33df8c33b7e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.742
+      value: -0.76
       objectReference: {fileID: 0}
     - target: {fileID: 1243923961450459378, guid: 0bee49a30db3f364d94bd33df8c33b7e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.27
+      value: -0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1829854747038126190, guid: 0bee49a30db3f364d94bd33df8c33b7e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1334,6 +1334,10 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 5609837262957088740, guid: 0bee49a30db3f364d94bd33df8c33b7e, type: 3}
+      propertyPath: d_StunState
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d1e5fe7f93a011499324d78607e79e2, type: 2}
+    - target: {fileID: 5609837262957088740, guid: 0bee49a30db3f364d94bd33df8c33b7e, type: 3}
       propertyPath: meleeAttackPositionLeft
       value: 
       objectReference: {fileID: 246149824}
@@ -1344,6 +1348,14 @@ PrefabInstance:
     - target: {fileID: 5740030945903862225, guid: 0bee49a30db3f364d94bd33df8c33b7e, type: 3}
       propertyPath: m_FlipX
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386280815308920654, guid: 0bee49a30db3f364d94bd33df8c33b7e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386280815308920654, guid: 0bee49a30db3f364d94bd33df8c33b7e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.34
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -57,7 +57,8 @@ public class MeleeAttackState : AttackState
     public override void EndAction()
     {
         base.EndAction();
-        
+        entity.SetAnimBool(animVarName, false);
+
     }
 
     public override void FinishAttack()

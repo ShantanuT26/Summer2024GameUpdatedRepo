@@ -27,6 +27,8 @@ public class PlayerCombat : MonoBehaviour
 
     private PlayerInput playerInput;
 
+    private AttackDetails attackDetails;
+
     private void Awake()
     {
         //attack1 is the attack itself
@@ -39,6 +41,7 @@ public class PlayerCombat : MonoBehaviour
         canAttack = true;
         playerController = GetComponent<PlayerController>();
         damageInfo = new float[2];
+        attackDetails.damage = attack1Damage;
     }
     private void OnEnable()
     {
@@ -82,13 +85,17 @@ public class PlayerCombat : MonoBehaviour
     }
     private void CheckAttackHitbox()
     {
+        attackDetails.position = gameObject.transform.position;
+        Debug.Log("myplayerposition: " + attackDetails.position);
         Collider2D[] attackedObjects = Physics2D.OverlapCircleAll(attack1HitBox.position, attack1Radius, canBeAttacked);
 
         foreach(Collider2D collider in attackedObjects)
         {
-            damageInfo[0] = attack1Damage;
-            damageInfo[1] = transform.position.x;
-            collider.transform.parent.SendMessage("Damage", damageInfo);
+            Entity entity = collider.transform.parent.GetComponent<Entity>();
+            if(entity!=null)
+            {
+                entity.TakeDamage(attackDetails);
+            }
         }
     }
     private void OnDrawGizmos()

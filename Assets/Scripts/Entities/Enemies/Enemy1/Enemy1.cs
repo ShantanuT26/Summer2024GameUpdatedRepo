@@ -12,6 +12,9 @@ public class Enemy1 : Entity
     public Enemy1_ChargeState myChargeState;
     public Enemy1_LookForPlayerState lookForPlayerState;
     public Enemy1_MeleeAttackState myMeleeAttackState;
+    public Enemy1_StunState myStunState;
+
+
     /*[SerializeField] IdleStateData d_IdleState;
     [SerializeField] WalkingStateData d_WalkingState;*/
 
@@ -31,12 +34,26 @@ public class Enemy1 : Entity
         lookForPlayerState = new Enemy1_LookForPlayerState(this, fsm, "lookForPlayer", d_LookForPlayerState, this);
         myMeleeAttackState = new Enemy1_MeleeAttackState(this, fsm, "meleeAttack", d_MeleeAttackState, meleeAttackPositionLeft, 
             meleeAttackPositionRight, this);
+        myStunState = new Enemy1_StunState(this, fsm, "stun", d_StunState, this);
 
         fsm.InitializeState(myWalkState);
     }
+
+
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
+    }
+    protected override void Die()
+    {
+        base.Die();
+        
+    }
+
+    protected override void GetStunned()
+    {
+        base.GetStunned();
+        fsm.ChangeState(myStunState);
     }
 
     protected override void Update()
