@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meleeAttackDist: 1.15
   attackRadius: 1.1
-  health: 160
+  health: 120
   playerDetectedMinDist: 4
   playerDetectedMaxDist: 6
   stunResistance: 3

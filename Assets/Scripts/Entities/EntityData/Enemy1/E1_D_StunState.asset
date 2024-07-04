@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7972ea0d9103fff41869f094a414922b, type: 3}
-  m_Name: New Melee Attack State Data
+  m_Script: {fileID: 11500000, guid: da04fe8f90f99d341922598ec1ad5856, type: 3}
+  m_Name: E1_D_StunState
   m_EditorClassIdentifier: 
-  attackRadius: 1
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 512
-  attackDamage: 20
+  stunTime: 3

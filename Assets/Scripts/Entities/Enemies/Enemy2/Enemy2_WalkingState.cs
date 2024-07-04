@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeadState : State
+public class Enemy2_WalkingState : WalkingState
 {
-    protected Enemy1 enemy1;
-    protected DeadStateData d_DeadState;
-    public DeadState(Entity entity, FiniteStateMachine fsm, string animVarName, DeadStateData d_DeadState, Enemy1 enemy1) : base(entity, fsm, animVarName)
+    Enemy2 enemy2;
+    public Enemy2_WalkingState(Entity entity, FiniteStateMachine fsm, string animVarName, WalkingStateData d_WalkState, 
+        Enemy2 enemy2) : base(entity, fsm, animVarName, d_WalkState)
     {
-        this.d_DeadState = d_DeadState;
-        this.enemy1 = enemy1;
+        this.enemy2 = enemy2;
     }
 
     public override void ActionLogicUpdate()
@@ -20,6 +19,12 @@ public class DeadState : State
     public override void ActionPhysicsUpdate()
     {
         base.ActionPhysicsUpdate();
+        if(isTouchingWall || !isTouchingGround)
+        {
+            entity.SetFlipNow(true);
+
+            fsm.ChangeState(enemy2.idleState);
+        }
     }
 
     public override void BeginAction()

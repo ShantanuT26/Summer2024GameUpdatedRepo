@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeadState : State
+public class Enemy2_IdleState : IdleState
 {
-    protected Enemy1 enemy1;
-    protected DeadStateData d_DeadState;
-    public DeadState(Entity entity, FiniteStateMachine fsm, string animVarName, DeadStateData d_DeadState, Enemy1 enemy1) : base(entity, fsm, animVarName)
+    private Enemy2 enemy2;
+    public Enemy2_IdleState(Entity entity, FiniteStateMachine fsm, string animVarName, IdleStateData d_IdleState, 
+        Enemy2 enemy2) : base(entity, fsm, animVarName, d_IdleState)
     {
-        this.d_DeadState = d_DeadState;
-        this.enemy1 = enemy1;
+        this.enemy2 = enemy2;
     }
 
     public override void ActionLogicUpdate()
     {
         base.ActionLogicUpdate();
+        if(Time.time > actionStartTime + d_IdleState.maxIdleTime)
+        {
+            fsm.ChangeState(enemy2.walkingState);
+        }
     }
 
     public override void ActionPhysicsUpdate()

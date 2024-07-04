@@ -24,6 +24,7 @@ public class StunState : State
     public override void BeginAction()
     {
         base.BeginAction();
+        entity.SetMovementDeactivated(true);
         entity.SetAnimBool(animVarName, true);
         stunTimeStart = Time.time;
     }
@@ -31,6 +32,7 @@ public class StunState : State
     public override void EndAction()
     {
         base.EndAction();
+        entity.SetMovementDeactivated(false);
         entity.SetAnimBool(animVarName, false);
     }
 }

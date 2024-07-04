@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu]
 public class IdleStateData : ScriptableObject
 {
-    public float maxIdleTime { get; private set; } = 2f;
+    public float maxIdleTime = 2f;
 }

@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu]
 public class WalkingStateData : ScriptableObject
 {
-    public float walkingSpeed { get; private set; } = 4f;
+    public float walkingSpeed  = 4f;
 }

@@ -5,6 +5,6 @@ using UnityEngine;
 [CreateAssetMenu]
 public class LookForPlayerStateData : ScriptableObject
 {
-    public float timeBetweenFlips { get; private set; } = 0.3f;
-    public int numFlips { get; private set; } = 6;
+    public float timeBetweenFlips = 0.3f;
+    public int numFlips = 6;
 }

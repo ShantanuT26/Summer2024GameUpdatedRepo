@@ -33,6 +33,8 @@ public class Entity : MonoBehaviour
     [SerializeField] protected bool debugTouchingGround;
     [SerializeField] protected bool debugTouchingWall;
     protected bool roadToStun;
+    protected bool isDead;
+    protected bool movementDeactivated;
 
     [SerializeField] protected IdleStateData d_IdleState;
     [SerializeField] protected WalkingStateData d_WalkingState;
@@ -41,6 +43,7 @@ public class Entity : MonoBehaviour
     [SerializeField] protected LookForPlayerStateData d_LookForPlayerState;
     [SerializeField] protected MeleeAttackStateData d_MeleeAttackState;
     [SerializeField] protected StunStateData d_StunState;
+    [SerializeField] protected DeadStateData d_DeadState;
 
     public AttackEventReceiver attackEventReceiver;
 
@@ -75,6 +78,8 @@ public class Entity : MonoBehaviour
         currentHealth = d_Entity.health;
         roadToStun = false;
         hitsUntilStunned = d_Entity.stunResistance;
+        isDead = false;
+        movementDeactivated = false;
     }
     protected virtual void Update()
     {
@@ -102,6 +107,7 @@ public class Entity : MonoBehaviour
         wallCheckLeft.transform.position = aliveGO.transform.position;
         groundCheckLeft.transform.position = aliveGO.transform.position;*/
         fsm.GetCurrentState().ActionPhysicsUpdate();
+        CheckMovementDeactivated();
         Debug.Log("currentstate: " + fsm.GetCurrentState());
         Debug.Log("entityvelocity: " + rb.velocity.x);
     }
@@ -143,8 +149,19 @@ public class Entity : MonoBehaviour
 
             rb.AddForce(new Vector2(d_Entity.knockBackForce.x * knockBackDirection, d_Entity.knockBackForce.y));
         }
-
     }
+    public void CheckMovementDeactivated()
+    {
+        if(movementDeactivated)
+        {
+            rb.velocity = new Vector2(0f, rb.velocity.y);
+        }
+    }
+    public void SetMovementDeactivated(bool x)
+    {
+        movementDeactivated = x;
+    }
+
     public void TakeDamage(AttackDetails attackDetails)
     {
         damageEvent.Invoke(attackDetails);
@@ -152,6 +169,15 @@ public class Entity : MonoBehaviour
     protected virtual void Die()
     {
         roadToStun = false;
+        isDead = true;
+    }
+    public void InstantiateDeathChunks(GameObject x)
+    {
+        Instantiate(x, gameObject.transform.GetChild(0).transform.position, gameObject.transform.GetChild(0).transform.rotation);
+    }
+    public void DestroyEntity()
+    {
+        Destroy(this.gameObject);
     }
     protected virtual void GetStunned()
     {

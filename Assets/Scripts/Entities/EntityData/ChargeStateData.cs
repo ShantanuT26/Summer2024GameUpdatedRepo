@@ -5,6 +5,6 @@ using UnityEngine;
 [CreateAssetMenu]
 public class ChargeStateData : ScriptableObject
 {
-    public float chargeSpeed {get; private set;} = 7f;
-    public float chargeTime { get; private set; } = 1.1f;
+    public float chargeSpeed = 7f;
+    public float chargeTime = 1.1f;
 }
