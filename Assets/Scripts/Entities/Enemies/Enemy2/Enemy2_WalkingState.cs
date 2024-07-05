@@ -25,6 +25,10 @@ public class Enemy2_WalkingState : WalkingState
 
             fsm.ChangeState(enemy2.idleState);
         }
+        else if(isInPlayerMinDist)
+        {
+            fsm.ChangeState(enemy2.playerDetectedState);
+        }
     }
 
     public override void BeginAction()

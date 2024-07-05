@@ -6,8 +6,6 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class WalkingState : State
 {
     protected WalkingStateData d_WalkState;
-    protected bool isTouchingWall;
-    protected bool isTouchingGround;
     protected bool isWalking;
 
     public WalkingState(Entity entity, FiniteStateMachine fsm, string animVarName, WalkingStateData d_WalkState) : base(entity, fsm, animVarName)
@@ -25,9 +23,6 @@ public class WalkingState : State
         Debug.Log("walkingphysicsupdate");
         base.ActionPhysicsUpdate();
         entity.SetVelocity(d_WalkState.walkingSpeed);
-        isTouchingWall = entity.CheckWall();
-        isTouchingGround = entity.CheckGround();
-
 
        /* if(isTouchingWall&&isTouchingGround)
         {

@@ -287,6 +287,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 44609187}
+  - component: {fileID: 44609188}
   m_Layer: 0
   m_Name: Enemy2 (Archer)
   m_TagString: Untagged
@@ -310,6 +311,42 @@ Transform:
   - {fileID: 1252738677}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &44609188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44609186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b356e6909951b4e88ebeae6b0a7e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  facingDirection: 1
+  wallCheck: {fileID: 42368758}
+  groundCheck: {fileID: 143238543}
+  playerDistCheck: {fileID: 1762727648}
+  meleeAttackPosition: {fileID: 364386760}
+  aliveGO: {fileID: 1252738676}
+  d_Entity: {fileID: 11400000, guid: 3e50e7ddb9eea7245bd40038c9dc251a, type: 2}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 256
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 512
+  debugTouchingGround: 0
+  debugTouchingWall: 0
+  d_IdleState: {fileID: 11400000, guid: 15a40ee41bf4022428e046130d379d8a, type: 2}
+  d_WalkingState: {fileID: 11400000, guid: 9e0b59e0a3cd8cc4896565c0b2bda3c9, type: 2}
+  d_PlayerDetectedState: {fileID: 11400000, guid: cd46ad3dbb9f4594181a2a5a3fd6f627, type: 2}
+  d_ChargeState: {fileID: 0}
+  d_LookForPlayerState: {fileID: 0}
+  d_MeleeAttackState: {fileID: 0}
+  d_StunState: {fileID: 0}
+  d_DeadState: {fileID: 0}
+  attackEventReceiver: {fileID: 0}
 --- !u!4 &65918140 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2487941715335476066, guid: 5b740e93a9729214eb6eb7234408c958, type: 3}
@@ -64808,7 +64845,6 @@ GameObject:
   - component: {fileID: 1252738681}
   - component: {fileID: 1252738680}
   - component: {fileID: 1252738679}
-  - component: {fileID: 1252738678}
   m_Layer: 7
   m_Name: Enemy2Alive
   m_TagString: Untagged
@@ -64835,42 +64871,6 @@ Transform:
   - {fileID: 364386760}
   m_Father: {fileID: 44609187}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1252738678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252738676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b356e6909951b4e88ebeae6b0a7e7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  facingDirection: 1
-  wallCheck: {fileID: 42368758}
-  groundCheck: {fileID: 143238543}
-  playerDistCheck: {fileID: 1762727648}
-  meleeAttackPosition: {fileID: 364386760}
-  aliveGO: {fileID: 1252738676}
-  d_Entity: {fileID: 11400000, guid: 3e50e7ddb9eea7245bd40038c9dc251a, type: 2}
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 256
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 512
-  debugTouchingGround: 0
-  debugTouchingWall: 0
-  d_IdleState: {fileID: 11400000, guid: 15a40ee41bf4022428e046130d379d8a, type: 2}
-  d_WalkingState: {fileID: 11400000, guid: 9e0b59e0a3cd8cc4896565c0b2bda3c9, type: 2}
-  d_PlayerDetectedState: {fileID: 0}
-  d_ChargeState: {fileID: 0}
-  d_LookForPlayerState: {fileID: 0}
-  d_MeleeAttackState: {fileID: 0}
-  d_StunState: {fileID: 0}
-  d_DeadState: {fileID: 0}
-  attackEventReceiver: {fileID: 0}
 --- !u!95 &1252738679
 Animator:
   serializedVersion: 5

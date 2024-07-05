@@ -13,9 +13,18 @@ public class Enemy2_IdleState : IdleState
 
     public override void ActionLogicUpdate()
     {
-        base.ActionLogicUpdate();   
-        if(Time.time > actionStartTime + d_IdleState.maxIdleTime)
+        base.ActionLogicUpdate(); 
+        if(isInPlayerMinDist)
         {
+            fsm.ChangeState(enemy2.playerDetectedState);
+        }
+        else if(Time.time > actionStartTime + d_IdleState.maxIdleTime)
+        {
+            if(entity.flipNow)
+            {
+                entity.Flip();
+                entity.SetFlipNow(false);
+            }
             fsm.ChangeState(enemy2.walkingState);
         }
     }

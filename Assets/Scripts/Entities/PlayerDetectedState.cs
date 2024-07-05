@@ -6,6 +6,7 @@ public class PlayerDetectedState : State
 {
     protected bool isPlayerDetected;
     protected PlayerDetectedStateData d_PlayerDetectedState;
+    
     public PlayerDetectedState(Entity entity, FiniteStateMachine fsm, string animVarName, PlayerDetectedStateData d_PlayerDetectedState) : base(entity, fsm, animVarName)
     {
         this.d_PlayerDetectedState = d_PlayerDetectedState;
@@ -19,6 +20,7 @@ public class PlayerDetectedState : State
     public override void ActionPhysicsUpdate()
     {
         base.ActionPhysicsUpdate();
+        
         
     }
 

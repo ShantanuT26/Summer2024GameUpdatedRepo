@@ -215,9 +215,11 @@ public class Entity : MonoBehaviour
             return meleeAttackPositionRight;
         }
     }*/
-   public Transform GetMeleeAttackPosition()
+   public Vector2 GetMeleeAttackPosition()
     {
-        return meleeAttackPosition;
+        // return meleeAttackPosition;
+        return new Vector2(aliveGO.transform.position.x + (facingDirection * meleeAttackPosition.localPosition.x),
+             meleeAttackPosition.position.y);
     }
     public void SetAnimBool(string varName, bool myBool)
     {

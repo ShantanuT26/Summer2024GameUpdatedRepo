@@ -17,7 +17,7 @@ public class MeleeAttackState : AttackState
     public override void ActionLogicUpdate()
     {
         base.ActionLogicUpdate();
-        attackDetails.position = entity.GetMeleeAttackPosition().position;
+        attackDetails.position = entity.GetMeleeAttackPosition();
         Debug.Log("activemeleeattackposition: " + entity.GetMeleeAttackPosition());
         attackDetails.damage = d_MeleeAttackState.attackDamage;
         Debug.Log("enemyposition: " + attackDetails.position);
@@ -30,14 +30,14 @@ public class MeleeAttackState : AttackState
     {   
         base.BeginAction();
         entity.SetAnimBool(animVarName, true);
-        attackDetails.position = entity.GetMeleeAttackPosition().position;
+        attackDetails.position = entity.GetMeleeAttackPosition();
         attackDetails.damage = d_MeleeAttackState.attackDamage;
     }
 
     public override void DoDamage()
     {
         base.DoDamage();
-        Collider2D[] hitObjects = Physics2D.OverlapCircleAll(entity.GetMeleeAttackPosition().position,
+        Collider2D[] hitObjects = Physics2D.OverlapCircleAll(entity.GetMeleeAttackPosition(),
             d_MeleeAttackState.attackRadius, d_MeleeAttackState.whatIsPlayer);
         Debug.Log("Player is: ");
         foreach (Collider2D hitobj in hitObjects)

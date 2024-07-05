@@ -15,11 +15,11 @@ public class Enemy1_MeleeAttackState : MeleeAttackState
     public override void ActionLogicUpdate()
     {
         base.ActionLogicUpdate();
-        if(isInMinPlayerDist && !isAttacking)
+        if(isInPlayerMinDist && !isAttacking)
         {
             fsm.ChangeState(enemy1.myPlayerDetectedState);
         }
-        else if(!(isInMaxPlayerDist)&&!isAttacking)
+        else if(!(isInPlayerMaxDist)&&!isAttacking)
         {
             fsm.ChangeState(enemy1.lookForPlayerState);
         }

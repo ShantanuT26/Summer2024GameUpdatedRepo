@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackState : State
+public class Enemy2_MeleeAttackState : MeleeAttackState
 {
-    protected bool isAttacking;
-    public AttackState(Entity entity, FiniteStateMachine fsm, string animVarName) : base(entity, fsm, animVarName)
+    public Enemy2_MeleeAttackState(Entity entity, FiniteStateMachine fsm, string animVarName, MeleeAttackStateData d_MeleeAttackState, Transform meleeAttackPosition) : base(entity, fsm, animVarName, d_MeleeAttackState, meleeAttackPosition)
     {
     }
 
@@ -18,26 +17,19 @@ public class AttackState : State
     {
         base.ActionPhysicsUpdate();
     }
+
     public override void BeginAction()
     {
         base.BeginAction();
-        isAttacking = true;
-        entity.SetVelocity(0f);
-        entity.attackEventReceiver.attackState = this;
-        
     }
 
     public override void EndAction()
     {
         base.EndAction();
-        
     }
-    public virtual void DoDamage()
-    {
 
-    }
-    public virtual void FinishAttack()
+    public override void FinishAttack()
     {
-        isAttacking = false;
+        base.FinishAttack();
     }
 }
