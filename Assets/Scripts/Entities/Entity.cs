@@ -10,17 +10,15 @@ public class Entity : MonoBehaviour
     protected FiniteStateMachine fsm;
     protected Rigidbody2D rb;
     protected SpriteRenderer spriteRenderer;
-    protected int facingDirection = 1;
+    //I am only serializing facingDirection to play with Gizmos
+    [SerializeField]protected int facingDirection = 1;
     protected Animator anim;
 
-    [SerializeField] protected Transform wallCheckRight;
-    [SerializeField] protected Transform wallCheckLeft;
-    [SerializeField] protected Transform groundCheckRight;
-    [SerializeField] protected Transform groundCheckLeft;
+    [SerializeField] protected Transform wallCheck;
+    [SerializeField] protected Transform groundCheck;
     [SerializeField] protected Transform playerDistCheck;
-    [SerializeField] protected Transform meleeAttackPositionRight;
-    [SerializeField] protected Transform meleeAttackPositionLeft;
-    protected GameObject aliveGO;
+    [SerializeField] protected Transform meleeAttackPosition;
+    [SerializeField] protected GameObject aliveGO;
 
     protected float currentHealth;
     protected float lastTimeKnockedBack;
@@ -64,17 +62,14 @@ public class Entity : MonoBehaviour
     }
     protected virtual void Awake()
     {
-        aliveGO = transform.Find("Enemy_Alive").gameObject;
+        //aliveGO = transform.Find("Enemy_Alive").gameObject;
         rb = aliveGO.GetComponent<Rigidbody2D>();
         spriteRenderer = aliveGO.GetComponent<SpriteRenderer>();
         anim = aliveGO.GetComponent<Animator>();
-        wallCheckRight.gameObject.SetActive(true);
-        groundCheckRight.gameObject.SetActive(true);
-        wallCheckLeft.gameObject.SetActive(false);
-        groundCheckLeft.gameObject.SetActive(false);
+        wallCheck.gameObject.SetActive(true);
+        groundCheck.gameObject.SetActive(true);
         attackEventReceiver = aliveGO.GetComponent<AttackEventReceiver>();
-        meleeAttackPositionRight.gameObject.SetActive(true);
-        meleeAttackPositionLeft.gameObject.SetActive(false);
+        meleeAttackPosition.gameObject.SetActive(true);
         currentHealth = d_Entity.health;
         roadToStun = false;
         hitsUntilStunned = d_Entity.stunResistance;
@@ -187,7 +182,7 @@ public class Entity : MonoBehaviour
     {
         flipNow = x;
     }
-    public Transform GetActiveWallCheck()
+   /* public Transform GetActiveWallCheck()
     {
         if(wallCheckRight.gameObject.activeSelf==false)
         {
@@ -219,6 +214,10 @@ public class Entity : MonoBehaviour
         {
             return meleeAttackPositionRight;
         }
+    }*/
+   public Transform GetMeleeAttackPosition()
+    {
+        return meleeAttackPosition;
     }
     public void SetAnimBool(string varName, bool myBool)
     {
@@ -241,55 +240,56 @@ public class Entity : MonoBehaviour
         if (spriteRenderer.flipX == true)
         {
             spriteRenderer.flipX = false;
-            wallCheckLeft.gameObject.SetActive(false);
+            /*wallCheckLeft.gameObject.SetActive(false);
             groundCheckLeft.gameObject.SetActive(false);
             wallCheckRight.gameObject.SetActive(true);
             groundCheckRight.gameObject.SetActive(true);
             meleeAttackPositionRight.gameObject.SetActive(true);
-            meleeAttackPositionLeft.gameObject.SetActive(false);
+            meleeAttackPositionLeft.gameObject.SetActive(false);*/
         }
         else
         {
             spriteRenderer.flipX = true;
-            wallCheckRight.gameObject.SetActive(false);
+           /* wallCheckRight.gameObject.SetActive(false);
             groundCheckRight.gameObject.SetActive(false);
             wallCheckLeft.gameObject.SetActive(true);
             groundCheckLeft.gameObject.SetActive(true);
             meleeAttackPositionRight.gameObject.SetActive(false);
-            meleeAttackPositionLeft.gameObject.SetActive(true);
+            meleeAttackPositionLeft.gameObject.SetActive(true);*/
         }
         facingDirection *= -1;
     }
     public bool CheckWall()
     {
         bool x = false;
-        if(GetActiveWallCheck() == wallCheckRight)
-        {
-            x = Physics2D.Raycast(wallCheckRight.transform.position, transform.right, d_Entity.wallCheckDist, whatIsGround);
-        }
-        else if (GetActiveWallCheck() == wallCheckLeft)
+        //if(GetActiveWallCheck() == wallCheckRight)
+        //{
+            x = Physics2D.Raycast(wallCheck.transform.position, facingDirection*transform.right, d_Entity.wallCheckDist, whatIsGround);
+       // }
+       /* else if (GetActiveWallCheck() == wallCheckLeft)
         {
             x = Physics2D.Raycast(wallCheckLeft.transform.position, -transform.right, d_Entity.wallCheckDist, whatIsGround);
-        }
+        }*/
         debugTouchingWall = x;
-        Debug.Log("ActiveWallCheck: " + GetActiveWallCheck());
+       
         return x;
     }
     public bool CheckGround()
     {
         bool x = false;
-        if (GetActiveGroundCheck() == groundCheckRight)
-        {
-            x = Physics2D.Raycast(groundCheckRight.transform.position, -transform.up, d_Entity.groundCheckDist, whatIsGround);
-            Debug.Log("groundcheck1: " + x);
-        }
-        else if (GetActiveGroundCheck() == groundCheckLeft)
+        //if (GetActiveGroundCheck() == groundCheckRight)
+       // {
+            x = Physics2D.Raycast(new Vector2(aliveGO.transform.position.x + (groundCheck.localPosition.x * facingDirection), groundCheck.transform.position.y),
+                -transform.up, d_Entity.groundCheckDist, whatIsGround);
+       //     Debug.Log("groundcheck1: " + x);
+       // }
+       /* else if (GetActiveGroundCheck() == groundCheckLeft)
         {
             x = Physics2D.Raycast(groundCheckLeft.transform.position, -transform.up, d_Entity.groundCheckDist, whatIsGround);
             Debug.Log("GroundCheck2: " + x);
-        }
+        }*/
         debugTouchingGround = x;
-        Debug.Log("ActiveGroundCheck: " + GetActiveGroundCheck());
+       
         
         return x;
     }
@@ -307,22 +307,24 @@ public class Entity : MonoBehaviour
     }
     public void OnDrawGizmos()
     {
-        if (wallCheckRight == null || wallCheckLeft == null || groundCheckRight == null || groundCheckLeft == null)
+        if (wallCheck == null || groundCheck == null)
         {
             Debug.Log("some error");
             return;
         }
-        Gizmos.DrawLine(wallCheckRight.position, new Vector3(wallCheckRight.position.x + d_Entity.wallCheckDist, wallCheckRight.position.y, wallCheckRight.position.z));
-        Gizmos.DrawLine(wallCheckLeft.position, new Vector3(wallCheckLeft.position.x - d_Entity.wallCheckDist, wallCheckLeft.position.y, wallCheckLeft.position.z));
-        Gizmos.DrawLine(groundCheckLeft.position, new Vector3(groundCheckLeft.position.x, groundCheckLeft.position.y - d_Entity.groundCheckDist, groundCheckLeft.position.z));
-        Gizmos.DrawLine(groundCheckRight.position, new Vector3(groundCheckRight.position.x, groundCheckRight.position.y - d_Entity.groundCheckDist, groundCheckRight.position.z));
-        Gizmos.DrawWireSphere(new Vector3(playerDistCheck.position.x + d_Entity.playerDetectedMaxDist, playerDistCheck.position.y,
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + (facingDirection* d_Entity.wallCheckDist), wallCheck.position.y, wallCheck.position.z));
+        //Gizmos.DrawLine(wallCheckLeft.position, new Vector3(wallCheckLeft.position.x - d_Entity.wallCheckDist, wallCheckLeft.position.y, wallCheckLeft.position.z));
+        //Gizmos.DrawLine(groundCheckLeft.position, new Vector3(groundCheckLeft.position.x, groundCheckLeft.position.y - d_Entity.groundCheckDist, groundCheckLeft.position.z));
+        Gizmos.DrawLine(new Vector3(aliveGO.transform.position.x+(groundCheck.localPosition.x*facingDirection), groundCheck.position.y, groundCheck.position.z), 
+            new Vector3(aliveGO.transform.position.x + (groundCheck.localPosition.x * facingDirection), groundCheck.position.y - d_Entity.groundCheckDist, groundCheck.position.z));
+        Gizmos.DrawWireSphere(new Vector3(playerDistCheck.position.x + (facingDirection*d_Entity.playerDetectedMaxDist), playerDistCheck.position.y,
             playerDistCheck.position.z), 0.5f);
-        Gizmos.DrawWireSphere(new Vector3(playerDistCheck.position.x + d_Entity.playerDetectedMinDist, playerDistCheck.position.y,
+        Gizmos.DrawWireSphere(new Vector3(playerDistCheck.position.x + (facingDirection*d_Entity.playerDetectedMinDist), playerDistCheck.position.y,
             playerDistCheck.position.z), 0.5f);
-        Gizmos.DrawWireSphere(new Vector3(playerDistCheck.position.x + d_Entity.meleeAttackDist, playerDistCheck.position.y,
-            playerDistCheck.position.z), 0.5f);
-        Gizmos.DrawWireSphere(meleeAttackPositionRight.position, d_Entity.attackRadius);
-        Gizmos.DrawWireSphere(meleeAttackPositionLeft.position, d_Entity.attackRadius);
+        Gizmos.DrawWireSphere(new Vector3(playerDistCheck.position.x + (facingDirection*d_Entity.meleeAttackDist), playerDistCheck.position.y,
+            playerDistCheck.position.z), 0.5f); 
+        Gizmos.DrawWireSphere(new Vector2(aliveGO.transform.position.x+(facingDirection*meleeAttackPosition.localPosition.x), 
+            meleeAttackPosition.position.y), d_Entity.attackRadius);
+        //Gizmos.DrawWireSphere(meleeAttackPositionLeft.position, d_Entity.attackRadius);
     }
 }

@@ -33,8 +33,8 @@ public class Enemy1 : Entity
         myPlayerDetectedState = new Enemy1_PlayerDetectedState(this, fsm, "playerDetected", d_PlayerDetectedState, this);
         myChargeState = new Enemy1_ChargeState(this, fsm, "charge", d_ChargeState, this);
         lookForPlayerState = new Enemy1_LookForPlayerState(this, fsm, "lookForPlayer", d_LookForPlayerState, this);
-        myMeleeAttackState = new Enemy1_MeleeAttackState(this, fsm, "meleeAttack", d_MeleeAttackState, meleeAttackPositionLeft, 
-            meleeAttackPositionRight, this);
+        myMeleeAttackState = new Enemy1_MeleeAttackState(this, fsm, "meleeAttack", d_MeleeAttackState, meleeAttackPosition, 
+            this);
         myStunState = new Enemy1_StunState(this, fsm, "stun", d_StunState, this);
         myDeadState = new Enemy1_DeadState(this, fsm, "dead", d_DeadState, this);
 

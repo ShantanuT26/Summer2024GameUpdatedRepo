@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e7d39104c9c5d24a90cca673c7ea7ef, type: 3}
-  m_Name: New Entity Data
+  m_Name: E2_D_Entity
   m_EditorClassIdentifier: 
-  meleeAttackDist: 1.15
-  attackRadius: 1.1
-  health: 120
-  playerDetectedMinDist: 4
-  playerDetectedMaxDist: 6
-  stunResistance: 3
-  stunRecovery: 2.2
-  knockBackForce: {x: 400, y: 200}
+  meleeAttackDist: 0.1
+  attackRadius: 1
+  health: 0
+  playerDetectedMinDist: 2
+  playerDetectedMaxDist: 4
+  stunResistance: 0
+  stunRecovery: 0
+  knockBackForce: {x: 0, y: 0}

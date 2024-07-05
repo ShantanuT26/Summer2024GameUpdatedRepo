@@ -12,7 +12,6 @@ public class Enemy2 : Entity
         idleState = new Enemy2_IdleState(this, fsm, "idle", d_IdleState, this);
         walkingState = new Enemy2_WalkingState(this, fsm, "walking", d_WalkingState, this);
         fsm.InitializeState(walkingState);
-        
     }
 
     protected override void Awake()

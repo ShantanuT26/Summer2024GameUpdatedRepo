@@ -13,7 +13,7 @@ public class Enemy2_IdleState : IdleState
 
     public override void ActionLogicUpdate()
     {
-        base.ActionLogicUpdate();
+        base.ActionLogicUpdate();   
         if(Time.time > actionStartTime + d_IdleState.maxIdleTime)
         {
             fsm.ChangeState(enemy2.walkingState);
