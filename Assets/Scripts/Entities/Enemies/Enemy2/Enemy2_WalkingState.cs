@@ -27,6 +27,14 @@ public class Enemy2_WalkingState : WalkingState
         }
         else if(isInPlayerMinDist)
         {
+            //stay in walking state
+            if(isInPlayerMeleeAttackDist)
+            {
+                fsm.ChangeState(enemy2.meleeAttackState);
+            }
+        }
+        else if(isInPlayerMaxDist)
+        {
             fsm.ChangeState(enemy2.playerDetectedState);
         }
     }

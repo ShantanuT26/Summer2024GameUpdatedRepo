@@ -45,14 +45,15 @@ public class Enemy1 : Entity
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        if(isDead)
-        {
-            fsm.ChangeState(myDeadState);
-        }
+        //if(isDead)
+        //{
+           // fsm.ChangeState(myDeadState);
+        //}
     }
     protected override void Die()
     {
         base.Die();
+        fsm.ChangeState(myDeadState);
     }
 
     protected override void GetStunned()

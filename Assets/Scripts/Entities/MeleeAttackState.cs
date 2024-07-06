@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MeleeAttackState : AttackState
@@ -37,11 +38,13 @@ public class MeleeAttackState : AttackState
     public override void DoDamage()
     {
         base.DoDamage();
+        Debug.Log("DoDamage");
         Collider2D[] hitObjects = Physics2D.OverlapCircleAll(entity.GetMeleeAttackPosition(),
             d_MeleeAttackState.attackRadius, d_MeleeAttackState.whatIsPlayer);
         Debug.Log("Player is: ");
         foreach (Collider2D hitobj in hitObjects)
         {
+            Debug.Log("foreachentered");
             PlayerStats player = hitobj.gameObject.GetComponent<PlayerStats>();
             
             if(player!=null)
@@ -49,6 +52,7 @@ public class MeleeAttackState : AttackState
                 Debug.Log("Playernotnull");
                 player.TakeDamage(attackDetails);
             }
+            Debug.Log("player: " + player);
         }
     }
 

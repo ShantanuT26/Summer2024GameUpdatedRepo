@@ -116,16 +116,19 @@ public class Entity : MonoBehaviour
     }
     protected void DecreaseHealth(AttackDetails attackDetails)
     {
+        Debug.Log("entityhealthdecreased");
         currentHealth -= attackDetails.damage;
         roadToStun = true;
         lastTimeKnockedBack = Time.time;
         hitsUntilStunned--;
         if(currentHealth<=0)
         {
+            Debug.Log("entityif1: " + currentHealth);
             Die();
         }
         else if(hitsUntilStunned==0)
         {
+            Debug.Log("entityif2");
             GetStunned();
         }
         else

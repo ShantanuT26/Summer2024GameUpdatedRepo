@@ -7,8 +7,8 @@ using UnityEngine.UIElements;
 [CreateAssetMenu]
 public class EntityData : ScriptableObject
 {
-    public float wallCheckDist { get; private set; } = 1.3f;
-    public float groundCheckDist { get; private set; } = 1f;
+    public float wallCheckDist = 1.3f;
+    public float groundCheckDist = 1f;
 
     public float meleeAttackDist = 1.6f;
 

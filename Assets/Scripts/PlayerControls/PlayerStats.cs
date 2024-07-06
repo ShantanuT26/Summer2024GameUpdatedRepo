@@ -80,7 +80,7 @@ public class PlayerStats : MonoBehaviour
     }*/
     public void TakeDamage(AttackDetails attackDetails)
     {
-        Debug.Log("takedamage");
+        Debug.Log("playertakingdamage");
         damageHandler.Invoke(attackDetails);
     }
     private void Die()

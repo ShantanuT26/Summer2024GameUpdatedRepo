@@ -304,7 +304,7 @@ Transform:
   m_GameObject: {fileID: 44609186}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.930859, y: 12.461952, z: 0.16100991}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -342,10 +342,10 @@ MonoBehaviour:
   d_WalkingState: {fileID: 11400000, guid: 9e0b59e0a3cd8cc4896565c0b2bda3c9, type: 2}
   d_PlayerDetectedState: {fileID: 11400000, guid: cd46ad3dbb9f4594181a2a5a3fd6f627, type: 2}
   d_ChargeState: {fileID: 0}
-  d_LookForPlayerState: {fileID: 0}
-  d_MeleeAttackState: {fileID: 0}
-  d_StunState: {fileID: 0}
-  d_DeadState: {fileID: 0}
+  d_LookForPlayerState: {fileID: 11400000, guid: bb4597044a9508049807264c16813a03, type: 2}
+  d_MeleeAttackState: {fileID: 11400000, guid: 9912ccf0ec016d84982cab6f7639bf74, type: 2}
+  d_StunState: {fileID: 11400000, guid: a75d756a96fcabb4fa719430827a1d70, type: 2}
+  d_DeadState: {fileID: 11400000, guid: 47671061c1f857145ae58c1a297741d9, type: 2}
   attackEventReceiver: {fileID: 0}
 --- !u!4 &65918140 stripped
 Transform:
@@ -1717,7 +1717,7 @@ Transform:
   m_GameObject: {fileID: 364386759}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.434, y: -0.025, z: 0}
+  m_LocalPosition: {x: 0.44, y: -0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -64845,6 +64845,7 @@ GameObject:
   - component: {fileID: 1252738681}
   - component: {fileID: 1252738680}
   - component: {fileID: 1252738679}
+  - component: {fileID: 1252738683}
   m_Layer: 7
   m_Name: Enemy2Alive
   m_TagString: Untagged
@@ -64861,7 +64862,7 @@ Transform:
   m_GameObject: {fileID: 1252738676}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.89, y: -22.29, z: 0}
+  m_LocalPosition: {x: -7.96, y: -9.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -65016,6 +65017,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1252738683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252738676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fe205c8c2bfe664086d8395b464753b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1259196066
 GameObject:
   m_ObjectHideFlags: 0
@@ -145395,8 +145408,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1762727647}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.83, y: -0.056, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.023, y: -0.058, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -147429,6 +147442,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 764039323970232691, guid: 5b740e93a9729214eb6eb7234408c958, type: 3}
+      propertyPath: maxHealth
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 2487941715335476066, guid: 5b740e93a9729214eb6eb7234408c958, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.051
