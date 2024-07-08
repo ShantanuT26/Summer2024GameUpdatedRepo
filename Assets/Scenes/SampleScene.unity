@@ -329,6 +329,7 @@ MonoBehaviour:
   playerDistCheck: {fileID: 1762727648}
   meleeAttackPosition: {fileID: 364386760}
   aliveGO: {fileID: 1252738676}
+  projectile: {fileID: 1848820215472106265, guid: 145ce53202e019e42819d087973f1a70, type: 3}
   d_Entity: {fileID: 11400000, guid: 3e50e7ddb9eea7245bd40038c9dc251a, type: 2}
   whatIsGround:
     serializedVersion: 2
@@ -346,6 +347,7 @@ MonoBehaviour:
   d_MeleeAttackState: {fileID: 11400000, guid: 9912ccf0ec016d84982cab6f7639bf74, type: 2}
   d_StunState: {fileID: 11400000, guid: a75d756a96fcabb4fa719430827a1d70, type: 2}
   d_DeadState: {fileID: 11400000, guid: 47671061c1f857145ae58c1a297741d9, type: 2}
+  d_RangedAttackState: {fileID: 11400000, guid: 984377a8009ff1247af34e18837af593, type: 2}
   attackEventReceiver: {fileID: 0}
 --- !u!4 &65918140 stripped
 Transform:

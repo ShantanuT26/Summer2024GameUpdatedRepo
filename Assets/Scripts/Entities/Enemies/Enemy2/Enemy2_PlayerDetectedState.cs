@@ -23,6 +23,10 @@ public class Enemy2_PlayerDetectedState : PlayerDetectedState
         {
             fsm.ChangeState(enemy2.meleeAttackState);
         }
+        else if(isInPlayerMaxDist)
+        {
+            fsm.ChangeState(enemy2.rangedAttackState);
+        }
         //If player is in max dist, fire arrows
         else if(!isInPlayerMaxDist)
         {

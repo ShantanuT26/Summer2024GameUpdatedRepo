@@ -18,7 +18,9 @@ public class Entity : MonoBehaviour
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected Transform playerDistCheck;
     [SerializeField] protected Transform meleeAttackPosition;
+
     [SerializeField] protected GameObject aliveGO;
+    [SerializeField] public GameObject projectile;
 
     protected float currentHealth;
     protected float lastTimeKnockedBack;
@@ -42,6 +44,7 @@ public class Entity : MonoBehaviour
     [SerializeField] protected MeleeAttackStateData d_MeleeAttackState;
     [SerializeField] protected StunStateData d_StunState;
     [SerializeField] protected DeadStateData d_DeadState;
+    [SerializeField] protected RangedAttackStateData d_RangedAttackState;
 
     public AttackEventReceiver attackEventReceiver;
 
@@ -113,6 +116,10 @@ public class Entity : MonoBehaviour
     protected virtual void OnDisable()
     {
         damageEvent -= DecreaseHealth;
+    }
+    public int GetFacingDirection()
+    {
+        return facingDirection;
     }
     protected void DecreaseHealth(AttackDetails attackDetails)
     {

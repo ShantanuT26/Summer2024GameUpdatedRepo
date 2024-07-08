@@ -11,6 +11,7 @@ public class Enemy2 : Entity
     public Enemy2_LookForPlayerState lookForPlayerState;
     public Enemy2_StunState stunState;
     public Enemy2_DeadState deadState;
+    public Enemy2_RangedAttackState rangedAttackState;
     public override void Start()
     {
         base.Start();
@@ -21,6 +22,7 @@ public class Enemy2 : Entity
         lookForPlayerState = new Enemy2_LookForPlayerState(this, fsm, "lookForPlayer", d_LookForPlayerState, this);
         stunState = new Enemy2_StunState(this, fsm, "stun", d_StunState, this);
         deadState = new Enemy2_DeadState(this, fsm, "dead", d_DeadState, this);
+        rangedAttackState = new Enemy2_RangedAttackState(this, fsm, "rangedAttack", d_RangedAttackState, projectile, this);
         fsm.InitializeState(walkingState);
     }
 
