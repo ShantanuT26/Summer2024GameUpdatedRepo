@@ -6,6 +6,7 @@ public class PlayerDetectedState : State
 {
     protected bool isPlayerDetected;
     protected PlayerDetectedStateData d_PlayerDetectedState;
+    protected bool isTimeUp;
     
     public PlayerDetectedState(Entity entity, FiniteStateMachine fsm, string animVarName, PlayerDetectedStateData d_PlayerDetectedState) : base(entity, fsm, animVarName)
     {
@@ -15,6 +16,10 @@ public class PlayerDetectedState : State
     public override void ActionLogicUpdate()
     {
         base.ActionLogicUpdate();
+        if(Time.time > actionStartTime + d_PlayerDetectedState.timeUntilCharge)
+        {
+            isTimeUp = true;
+        }
     }
 
     public override void ActionPhysicsUpdate()
@@ -30,6 +35,7 @@ public class PlayerDetectedState : State
         isPlayerDetected = true;
         entity.SetVelocity(0f);
         entity.SetAnimBool(animVarName, isPlayerDetected);
+        isTimeUp = false;
     }
 
     public override void EndAction()

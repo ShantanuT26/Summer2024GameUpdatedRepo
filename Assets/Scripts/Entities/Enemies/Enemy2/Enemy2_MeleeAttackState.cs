@@ -21,13 +21,13 @@ public class Enemy2_MeleeAttackState : MeleeAttackState
         base.ActionPhysicsUpdate();
         if(isInPlayerMaxDist&&!isAttacking)
         {
-            if(isInPlayerMeleeAttackDist)
-            {
-                //stay
-            }
-            else if(isInPlayerMinDist)
+            if(isInPlayerMinDist)
             {
                 fsm.ChangeState(enemy2.walkingState);
+            }
+            else
+            {
+                fsm.ChangeState(enemy2.playerDetectedState);
             }
         }
         else if(!isInPlayerMaxDist&&!isAttacking)

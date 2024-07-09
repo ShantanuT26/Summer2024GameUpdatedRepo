@@ -19,19 +19,25 @@ public class Enemy2_PlayerDetectedState : PlayerDetectedState
     public override void ActionPhysicsUpdate()
     {
         base.ActionPhysicsUpdate();
-        if(isInPlayerMeleeAttackDist)
+        if (isInPlayerMeleeAttackDist && isTimeUp)
         {
             fsm.ChangeState(enemy2.meleeAttackState);
         }
-        else if(isInPlayerMaxDist)
+        else if (isInPlayerMinDist && isTimeUp)
+        {
+            fsm.ChangeState(enemy2.walkingState);
+        }
+        else if (isInPlayerMaxDist && isTimeUp)
         {
             fsm.ChangeState(enemy2.rangedAttackState);
         }
-        //If player is in max dist, fire arrows
-        else if(!isInPlayerMaxDist)
+        else if(isTimeUp)
         {
             fsm.ChangeState(enemy2.lookForPlayerState);
-        } 
+        }
+        
+        //If player is in max dist, fire arrows
+        
     }
     public override void BeginAction()
     {

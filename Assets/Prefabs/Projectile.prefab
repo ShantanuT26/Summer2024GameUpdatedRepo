@@ -157,5 +157,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb8c8f6507a1114384db149cbf59525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGround:
+    serializedVersion: 2
+    m_Bits: 256
+  isPlayer:
+    serializedVersion: 2
+    m_Bits: 512
   damageCheck: {fileID: 6231164045372208802}
   checksRadius: 0.4

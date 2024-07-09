@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f08bd6aa548ad940924f5717d12e03a, type: 3}
   m_Name: New Ranged Attack State Data
   m_EditorClassIdentifier: 
-  attackDamage: 0
-  attackSpeed: 10
+  attackDamage: 10
+  attackSpeed: 30
   attackTime: 3

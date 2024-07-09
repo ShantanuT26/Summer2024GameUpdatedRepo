@@ -24,6 +24,22 @@ public class Enemy2_StunState : StunState
     public override void ActionPhysicsUpdate()
     {
         base.ActionPhysicsUpdate();
+        if(isInPlayerMeleeAttackDist)
+        {
+            fsm.ChangeState(enemy2.meleeAttackState);
+        }
+        else if(isInPlayerMinDist)
+        {
+            fsm.ChangeState(enemy2.walkingState);
+        }
+        else if(isInPlayerMaxDist)
+        {
+            fsm.ChangeState(enemy2.playerDetectedState);
+        }
+        else
+        {
+            fsm.ChangeState(enemy2.lookForPlayerState);
+        }
     }
 
     public override void BeginAction()

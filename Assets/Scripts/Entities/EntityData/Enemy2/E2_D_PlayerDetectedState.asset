@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: E2_D_PlayerDetectedState
   m_EditorClassIdentifier: 
   attackDist: 1
-  timeUntilCharge: 0.8
+  timeUntilCharge: 0.05
