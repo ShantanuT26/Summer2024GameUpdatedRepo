@@ -335,6 +335,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void FreezePlayer(bool x)
+    {
+        isStuck = x;
+    }
     public void FinishedLedgeClimb()
     {
         animator.SetBool("canLedgeClimb", false);

@@ -176,9 +176,10 @@ public class Entity : MonoBehaviour
         roadToStun = false;
         isDead = true;
     }
-    public void InstantiateDeathChunks(GameObject x)
+    public void InstantiateDeathParticles(string x)
     {
-        Instantiate(x, gameObject.transform.GetChild(0).transform.position, gameObject.transform.GetChild(0).transform.rotation);
+        //Instantiate(x, gameObject.transform.GetChild(0).transform.position, gameObject.transform.GetChild(0).transform.rotation);
+        ObjectPooler.Instance.SpawnFromPool(x, gameObject.transform.GetChild(0).transform.position, gameObject.transform.GetChild(0).transform.rotation);
     }
     public void DestroyEntity()
     {

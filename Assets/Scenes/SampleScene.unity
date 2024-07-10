@@ -245,7 +245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!156049354 &42499910
 Grid:
   m_ObjectHideFlags: 0
@@ -63817,65 +63817,7 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 1086473821}
-    m_ColliderPaths:
-    - - X: 190000000
-        Y: 380000000
-      - X: 150000000
-        Y: 380000000
-      - X: 150000000
-        Y: 130000000
-      - X: 190000000
-        Y: 130000000
-    - - X: 2110000000
-        Y: 110000000
-      - X: 350000000
-        Y: 110000000
-      - X: 350000000
-        Y: 380000000
-      - X: 230000000
-        Y: 380000000
-      - X: 230000000
-        Y: 110000000
-      - X: 0
-        Y: 110000000
-      - X: 0
-        Y: 10000000
-      - X: 10000000
-        Y: 10000000
-      - X: 10000000
-        Y: 0
-      - X: 0
-        Y: 0
-      - X: 0
-        Y: -60000000
-      - X: 70000000
-        Y: -60000000
-      - X: 70000000
-        Y: -10000000
-      - X: 130000000
-        Y: -10000000
-      - X: 130000000
-        Y: -30000000
-      - X: 260000000
-        Y: -30000000
-      - X: 260000000
-        Y: -100000000
-      - X: 200000000
-        Y: -100000000
-      - X: 200000000
-        Y: -110000000
-      - X: -120000000
-        Y: -110000000
-      - X: -120000000
-        Y: 110000000
-      - X: -240000000
-        Y: 110000000
-      - X: -240000000
-        Y: -140000000
-      - X: 2110000000
-        Y: -140000000
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
     - - {x: 210.99997, y: -14}
@@ -146281,6 +146223,12 @@ MonoBehaviour:
   - prefab: {fileID: 1848820215472106265, guid: 145ce53202e019e42819d087973f1a70, type: 3}
     tag: Arrow
     quantity: 40
+  - prefab: {fileID: 7873992326397335827, guid: 06fe4cfce42d112469f873d1ecd5d293, type: 3}
+    tag: DeathBlood
+    quantity: 10
+  - prefab: {fileID: 5702298429745995756, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+    tag: DeathChunks
+    quantity: 10
 --- !u!4 &1932838186
 Transform:
   m_ObjectHideFlags: 0
@@ -147257,6 +147205,63 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1309756591}
   m_SourcePrefab: {fileID: 100100000, guid: 3247bc5d354949f4e88fcfdff1a6a3ce, type: 3}
+--- !u!1001 &4396328548003342588
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1541846373373739476, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541846373373739476, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541846373373739476, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541846373373739476, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541846373373739476, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541846373373739476, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541846373373739476, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541846373373739476, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541846373373739476, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541846373373739476, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5702298429745995756, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
+      propertyPath: m_Name
+      value: Enemy1_DeathChunkParticle
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5b802e5559dd505448e81f5977dff4f3, type: 3}
 --- !u!1001 &4423613612073151672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -147577,3 +147582,4 @@ SceneRoots:
   - {fileID: 246149823}
   - {fileID: 44609187}
   - {fileID: 1932838186}
+  - {fileID: 4396328548003342588}

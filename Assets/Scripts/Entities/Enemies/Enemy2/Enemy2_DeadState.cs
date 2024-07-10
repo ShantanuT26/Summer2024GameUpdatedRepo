@@ -13,8 +13,8 @@ public class Enemy2_DeadState : DeadState
     public override void ActionLogicUpdate()
     {
         base.ActionLogicUpdate();
-        entity.InstantiateDeathChunks(d_DeadState.deathChunkParticles);
-        entity.InstantiateDeathChunks(d_DeadState.deathBloodParticles);
+        entity.InstantiateDeathParticles("DeathChunks");
+        entity.InstantiateDeathParticles("DeathBlood");
         entity.DestroyEntity();
     }
 

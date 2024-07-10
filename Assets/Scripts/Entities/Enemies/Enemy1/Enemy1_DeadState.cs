@@ -24,8 +24,8 @@ public class Enemy1_DeadState : DeadState
     public override void BeginAction()
     {
         base.BeginAction();
-        entity.InstantiateDeathChunks(d_DeadState.deathBloodParticles);
-        entity.InstantiateDeathChunks(d_DeadState.deathChunkParticles);
+        entity.InstantiateDeathParticles("DeathBlood");
+        entity.InstantiateDeathParticles("DeathChunks");
         entity.DestroyEntity();
         /*entity.Instantiate(d_DeadState.deathBloodParticles, entity.gameObject.transform.GetChild(0).gameObject.transform.position,
            entity.gameObject.transform.GetChild(0).gameObject.transform.rotation);*/

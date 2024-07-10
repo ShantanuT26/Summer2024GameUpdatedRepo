@@ -35,7 +35,7 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
-        //entity = GameObject.Find("Enemy2 (Archer)").GetComponent<Entity>();  
+        //entity = GameObject.Find("Enemy2   (Archer)").GetComponent<Entity>();  
     }
     private void FixedUpdate()
     {
