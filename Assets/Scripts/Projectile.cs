@@ -18,6 +18,7 @@ public class Projectile : MonoBehaviour
     private Entity entity;
     private SpriteRenderer sr;
     private int travelDirection;
+    private string objPoolerTag = "Arrow";
     float angle=0;
     private void Awake()
     {
@@ -52,12 +53,12 @@ public class Projectile : MonoBehaviour
             {
                 stats.TakeDamage(attackDetails);
             }
-            ObjectPooler.Instance.SendToQueue(this.gameObject, "Arrow");
+            ObjectPooler.Instance.SendToQueue(this.gameObject, objPoolerTag);
         }
         isTouchingGround = Physics2D.OverlapCircle(damageCheck.position, checksRadius, isGround);
         if(isTouchingGround)
         {
-            ObjectPooler.Instance.SendToQueue(this.gameObject, "Arrow");
+            ObjectPooler.Instance.SendToQueue(this.gameObject, objPoolerTag);
         }
     }
     public void FireProjectile(float speed, float damage, float attackTime)

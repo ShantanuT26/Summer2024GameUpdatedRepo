@@ -12,11 +12,12 @@ public class DeathParticleScript : MonoBehaviour
     }
     private void OnEnable()
     {
+        Debug.Log("Death happened");
         HandleDeathParticlePoolReturn(gameObject.tag);
     }
     private async void HandleDeathParticlePoolReturn(string x)
     {
         await Task.Delay(5000);
-        ObjectPooler.Instance.SendToQueue(gameObject, x);
+        ObjectPooler.Instance.SendToQueue(this.gameObject, x);
     }
 }

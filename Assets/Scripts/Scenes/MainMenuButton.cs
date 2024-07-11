@@ -11,7 +11,15 @@ public class MainMenuButton : MonoBehaviour
     private string scene2 = "SampleSceneCont";
     private PlayerController playerController;
     private AsyncOperation loadScene1;
+    private AsyncOperation loadScene2;
     private bool startCalled;
+    private bool sceneLoaded;
+    private bool menuRemoved;
+    private Scene backgroundScene;
+    private Scene menuScene;
+    private Camera menuSceneCam;
+    private Camera backgroundSceneCam;
+    [SerializeField]private CanvasGroup menuCanvasGroup;
     public void ButtonPressSceneSwitch()
     {
         StartGame();
@@ -19,18 +27,32 @@ public class MainMenuButton : MonoBehaviour
     }
     private void Awake()
     {
+        menuRemoved = false;
         startCalled = false;
+        sceneLoaded = false;
+        menuScene = SceneManager.GetSceneByName("MainMenu");
+        GameObject[] gObjects = menuScene.GetRootGameObjects();
+        for(int i = 0; i < gObjects.Length; i++) 
+        {
+            if (gObjects[i].tag == "MainCamera")
+            {
+                menuSceneCam = gObjects[i].GetComponent<Camera>();
+            }
+        }
+        
     }
     public void StartGame()
     {
         //UnloadMainMenuObjects();
         //StartCoroutine(FirstGameLoad());
         startCalled = true;
-        loadScene1 = SceneManager.LoadSceneAsync(scene1);
+        loadScene1 = SceneManager.LoadSceneAsync(scene1, LoadSceneMode.Additive);
+        loadScene1.allowSceneActivation = false;
         
         //playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         //playerController.FreezePlayer(true);
-        SceneManager.LoadScene(scene2, LoadSceneMode.Additive);
+        loadScene2 = SceneManager.LoadSceneAsync(scene2, LoadSceneMode.Additive);
+        loadScene2.allowSceneActivation = false;
 
         //playerController.FreezePlayer(false);
     }
@@ -38,15 +60,44 @@ public class MainMenuButton : MonoBehaviour
     {
         if(startCalled)
         {
-            Debug.Log("startcalled");
-            if (loadScene1.isDone)
+            if(!menuRemoved)
             {
-                Debug.Log("scene1loaded");
-                playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-                playerController.FreezePlayer(true);
+                UnloadMainMenuObjects();
+            }
+            Debug.Log("startcalled");
+            if (loadScene1.progress >=0.9f&& loadScene2.progress >= 0.9f && !sceneLoaded)
+            {
+                Debug.Log("Progress above 90");
+                loadScene1.allowSceneActivation = true;
+                loadScene2.allowSceneActivation = true;
+                if(loadScene1.isDone)
+                {
+                    menuSceneCam.gameObject.SetActive(false);
+                    playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+                    playerController.FreezePlayer(true);
+                }
+                if(loadScene1.isDone && loadScene2.isDone)
+                {
+                    backgroundScene = SceneManager.GetSceneByName(scene2);
+                    GameObject[] gameObjects = backgroundScene.GetRootGameObjects();
+                    for (int i = 0; i < gameObjects.Length; i++)
+                    {
+                        if (gameObjects[i].tag == "MainCamera")
+                        {
+                            backgroundSceneCam = gameObjects[i].GetComponent<Camera>();
+                        }
+                    }
+                    backgroundSceneCam.gameObject.SetActive(false);
+                    Debug.Log("Progress complete");
+                    backgroundScene = SceneManager.GetSceneByName(scene2);
+                    SceneManager.SetActiveScene(SceneManager.GetSceneByName(scene1));   
+                    sceneLoaded = true;
+                    playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+                    playerController.FreezePlayer(false);
+
+                }
             }
         }
-        
     }
     public IEnumerator FirstGameLoad()
     {
@@ -71,6 +122,6 @@ public class MainMenuButton : MonoBehaviour
     }
     public void UnloadMainMenuObjects()
     {
-        //canvasGroup.alpha = 0f;
+        menuCanvasGroup.alpha = 0f;
     }
 }

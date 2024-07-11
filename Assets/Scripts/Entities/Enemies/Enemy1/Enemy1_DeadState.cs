@@ -26,6 +26,7 @@ public class Enemy1_DeadState : DeadState
         base.BeginAction();
         entity.InstantiateDeathParticles("DeathBlood");
         entity.InstantiateDeathParticles("DeathChunks");
+        Debug.Log("Enemy1Death");
         entity.DestroyEntity();
         /*entity.Instantiate(d_DeadState.deathBloodParticles, entity.gameObject.transform.GetChild(0).gameObject.transform.position,
            entity.gameObject.transform.GetChild(0).gameObject.transform.rotation);*/

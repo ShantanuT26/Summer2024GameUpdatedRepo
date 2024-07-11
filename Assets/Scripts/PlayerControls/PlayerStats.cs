@@ -85,6 +85,7 @@ public class PlayerStats : MonoBehaviour
     }
     private void Die()
     {
+        Debug.Log("Playerdeath");
         Instantiate(deathChunkParticle, transform.position, deathChunkParticle.transform.rotation);
         Instantiate(deathBloodParticle, transform.position, deathBloodParticle.transform.rotation);
         gameManager.Respawn(playerController.GetStartingPosition());
