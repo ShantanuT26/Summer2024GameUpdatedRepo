@@ -17,7 +17,12 @@ public class DeathParticleScript : MonoBehaviour
     }
     private async void HandleDeathParticlePoolReturn(string x)
     {
-        await Task.Delay(5000);
-        ObjectPooler.Instance.SendToQueue(this.gameObject, x);
+        await Task.Delay(1000);
+        if(this.gameObject!=null)
+        {
+            Debug.Log("Sendtopool");
+            ObjectPooler.Instance.SendToQueue(this.gameObject, x);
+        }
+        
     }
 }
