@@ -4,15 +4,38 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private PlayerFiniteStateMachine fsm;
+    private PlayerRunState runState;
+    private PlayerIdleState idleState;
+    private PlayerData playerData;
+    private Animator animator;
+    private Rigidbody rb;
+    private void Awake()
     {
-        
+        fsm = new PlayerFiniteStateMachine();
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
+        idleState = new PlayerIdleState(this, fsm, playerData, "idle");
+        runState = new PlayerRunState(this, fsm, playerData, "run");
+        fsm.SetInitialState(idleState);
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        PlayerState.changeAnimBool += SetAnimBool;
+    }
+    private void Start()
+    {
+    }
+    private void Update()
+    {
+        fsm.currentState.LogicUpdate();
+    }
+    private void FixedUpdate()
+    {
+        fsm.currentState.PhysicsUpdate();
+    }
+    public void SetAnimBool(string x, bool y)
+    {
+        animator.SetBool(x, y);
     }
 }

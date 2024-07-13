@@ -21,7 +21,8 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField] private LayerMask canBeAttacked;
 
-    private PlayerController playerController;
+    //IMPORTANT KEEP
+    //private PlayerController playerController;
 
     public InputAction mouseClick;
 
@@ -39,7 +40,8 @@ public class PlayerCombat : MonoBehaviour
         firstAttack = true;
         attack1 = false;
         canAttack = true;
-        playerController = GetComponent<PlayerController>();
+        //IMPORTANT KEEP
+        //playerController = GetComponent<PlayerController>();
         damageInfo = new float[2];
         attackDetails.damage = attack1Damage;
     }
@@ -68,6 +70,8 @@ public class PlayerCombat : MonoBehaviour
     }
     private void changeHitBoxPosition()
     {
+        //IMPORTANT KEEP
+        /*
        if(playerController.GetFacingDirection()==1)
         {
             attack1HitBox.transform.localPosition = new UnityEngine.Vector2(1.28f, -0.13f);
@@ -75,7 +79,7 @@ public class PlayerCombat : MonoBehaviour
        else if(playerController.GetFacingDirection() == -1)
         {
             attack1HitBox.transform.localPosition = new UnityEngine.Vector2(-1.28f, -0.13f);
-        }
+        }*/
     }
     private void OnAttack1End()
     {

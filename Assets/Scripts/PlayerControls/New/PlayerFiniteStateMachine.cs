@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PlayerFiniteStateMachine
 {
-    private State currentState;
+    public PlayerState currentState { get; private set; }
 
-    public void SetInitialState(State x)
+    public void SetInitialState(PlayerState x)
     {
         currentState = x;
+        currentState.BeginAction();
     }
-    public void ChangeState(State x)
+    public void ChangeState(PlayerState x)
     {
         currentState.EndAction();
 

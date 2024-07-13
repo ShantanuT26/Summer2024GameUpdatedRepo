@@ -11,7 +11,8 @@ public class SceneSwitchManager : MonoBehaviour
    // private string scene2 = "SampleSceneCont";
     [SerializeField] private SceneField scene1;
     [SerializeField] private SceneField scene2;
-    private PlayerController playerController;
+    //IMPORTANT KEEP
+    //private PlayerController playerController;
     private AsyncOperation loadScene2;
     private bool startCalled;
     private bool sceneLoaded;
@@ -33,8 +34,9 @@ public class SceneSwitchManager : MonoBehaviour
     }
     private void Start()
     {
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        playerController.FreezePlayer(true);
+        //IMPORTANT KEEP
+        //playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        //playerController.FreezePlayer(true);
     }
     public void StartGame()
     {
@@ -72,7 +74,8 @@ public class SceneSwitchManager : MonoBehaviour
                     backgroundScene = SceneManager.GetSceneByName(scene2);
                     SceneManager.SetActiveScene(SceneManager.GetSceneByName(scene1));   
                     sceneLoaded = true;
-                    playerController.FreezePlayer(false);
+                    //IMPORTANT KEEP
+                    //playerController.FreezePlayer(false);
 
                 }
             }

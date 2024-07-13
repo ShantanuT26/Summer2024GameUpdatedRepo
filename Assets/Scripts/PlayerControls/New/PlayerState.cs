@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerState
@@ -7,27 +9,37 @@ public class PlayerState
     protected Player player;
     protected PlayerFiniteStateMachine fsm;
     protected string animBool;
+    protected float actionStartTime;
+    protected PlayerData playerData;
 
-    public PlayerState(Player player, PlayerFiniteStateMachine fsm, string animBool)
+    public static event Action<string, bool> changeAnimBool;
+
+    public PlayerState(Player player, PlayerFiniteStateMachine fsm, PlayerData playerData, string animBool)
     {
         this.player = player;
         this.fsm = fsm;
         this.animBool = animBool;
+        this.playerData = playerData;
     }
-    private void BeginAction()
+    public virtual void BeginAction()
     {
-        
+        actionStartTime = Time.time;
+        ChangeAnimBool(animBool, true);
     }
-    private void EndAction() 
+    public virtual void EndAction() 
+    {
+        ChangeAnimBool(animBool, true);
+    }
+    public virtual void LogicUpdate()
+    {
+
+    }
+    public virtual void PhysicsUpdate()
     {
 
     }
-    private void LogicUpdate()
+    private void ChangeAnimBool(string x, bool y)
     {
-
-    }
-    private void PhysicsUpdate()
-    {
-
+        changeAnimBool?.Invoke(x, y);
     }
 }

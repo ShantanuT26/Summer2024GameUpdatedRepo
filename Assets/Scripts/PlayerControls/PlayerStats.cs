@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    private PlayerController playerController;
+    //IMPORTANT KEEP
+    //private PlayerController playerController;
 
     [SerializeField] private float maxHealth;
 
@@ -23,7 +24,8 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         currentHealth = maxHealth;
-        playerController = GetComponent<PlayerController>();
+        //IMPORTANT KEEP
+        // playerController = GetComponent<PlayerController>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     private void OnEnable()
@@ -50,7 +52,8 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("HandlingDamage current health: " + currentHealth);
         if (currentHealth > 0)
         {
-            playerController.KnockedBack(direction);
+            //IMPORTANT KEEP
+            //playerController.KnockedBack(direction);
         }
         else
         {
@@ -88,7 +91,8 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("Playerdeath");
         Instantiate(deathChunkParticle, transform.position, deathChunkParticle.transform.rotation);
         Instantiate(deathBloodParticle, transform.position, deathBloodParticle.transform.rotation);
-        gameManager.Respawn(playerController.GetStartingPosition());
+        //IMPORTANT KEEP
+        //gameManager.Respawn(playerController.GetStartingPosition());
         Destroy(gameObject);
     }
 }

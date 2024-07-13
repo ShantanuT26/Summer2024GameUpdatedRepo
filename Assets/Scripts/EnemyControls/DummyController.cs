@@ -25,7 +25,8 @@ public class DummyController : MonoBehaviour
 
     private Animator anim;
 
-    private PlayerController playerController;
+    //IMPORTANT KEEP
+    //private PlayerController playerController;
 
     [SerializeField] private GameObject player;
 
@@ -42,8 +43,9 @@ public class DummyController : MonoBehaviour
         topDead.SetActive(false);
         bottomDead.SetActive(false);
         anim = alive.GetComponent<Animator>();
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        
+        //IMPORTANT KEEP
+        // playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
     }
     private void Damage(float[] damageInfo)
     {
@@ -59,10 +61,13 @@ public class DummyController : MonoBehaviour
         bottomDead.transform.position = alive.transform.position;
         topDead.transform.position = alive.transform.position;
         alive.SetActive(false);
-        topDeadRB.AddForce(new UnityEngine.Vector2(playerController.GetFacingDirection() * deathXForce, 0), ForceMode2D.Impulse);
+        //IMPORTANT KEEP
+        //topDeadRB.AddForce(new UnityEngine.Vector2(playerController.GetFacingDirection() * deathXForce, 0), ForceMode2D.Impulse);
         isAttacked = false;
-        topDeadRB.AddTorque(-playerController.GetFacingDirection() * deathTorque);
-        bottomDeadRB.AddForce(new UnityEngine.Vector2(playerController.GetFacingDirection() * deathXForce, 0));
+        //IMPORTANT KEEP
+        //topDeadRB.AddTorque(-playerController.GetFacingDirection() * deathTorque);
+        //IMPORTANT KEEP
+        //bottomDeadRB.AddForce(new UnityEngine.Vector2(playerController.GetFacingDirection() * deathXForce, 0));
     }
     private void CheckAttack()
     {
@@ -70,8 +75,9 @@ public class DummyController : MonoBehaviour
         {
             if(Time.time<damageMovementStartTime+damageMovementTime)
             {
-                aliveRB.velocity = new UnityEngine.Vector2(playerController.GetFacingDirection() * damageXVelocity, 
-                    aliveRB.velocity.y);
+                //IMPORTANT KEEP
+                /*aliveRB.velocity = new UnityEngine.Vector2(playerController.GetFacingDirection() * damageXVelocity, 
+                    aliveRB.velocity.y);*/
                 anim.SetTrigger("Damage");
             }
             else
@@ -87,7 +93,8 @@ public class DummyController : MonoBehaviour
     }
     private void SetAnimBools()
     {
-        anim.SetBool("rightAttack", !playerController.GetFacingRight());
+        //IMPORTANT KEEP
+        //anim.SetBool("rightAttack", !playerController.GetFacingRight());
     }
     private void Update()
     {
