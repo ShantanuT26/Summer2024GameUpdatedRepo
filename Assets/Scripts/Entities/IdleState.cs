@@ -25,7 +25,6 @@ public class IdleState : State
     public override void BeginAction()
     {
         base.BeginAction();
-        Debug.Log("Idlebegun");
         isIdle = true;
         entity.SetVelocity(0f);
         entity.SetAnimBool(animVarName, isIdle);

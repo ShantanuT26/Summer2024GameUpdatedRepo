@@ -40,9 +40,7 @@ public class Projectile : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Debug.Log("Projectile speed: " + this.speed);
         rb.velocity = new Vector2(speed*travelDirection, rb.velocity.y);
-        Debug.Log("Projectile velocity: " + rb.velocity.x);
         angle = Mathf.Atan2(rb.velocity.x, rb.velocity.y)*Mathf.Rad2Deg;
 
         Collider2D collider = Physics2D.OverlapCircle(damageCheck.position, checksRadius, isPlayer);
@@ -63,12 +61,10 @@ public class Projectile : MonoBehaviour
     }
     public void FireProjectile(float speed, float damage, float attackTime)
     {
-        Debug.Log("Projectilefired");
         rb.gravityScale = 1;
         this.attackTime = attackTime;
         this.damage = damage;
         this.speed = speed;
-        Debug.Log("proj speed: " + this.speed);
         travelDirection = entity.GetFacingDirection();
     }
     void Update()
@@ -78,7 +74,6 @@ public class Projectile : MonoBehaviour
             case 1: sr.flipX = false; break;
             case -1: sr.flipX = true; break;
         }
-        Debug.Log("Projectile speed: " + this.speed);
         attackDetails.position = damageCheck.position;
        // transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }

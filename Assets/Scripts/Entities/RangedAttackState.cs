@@ -29,7 +29,6 @@ public class RangedAttackState : AttackState
         base.BeginAction();
         //GameObject.Instantiate(projectile, entity.gameObject.transform.GetChild(0).transform.position, Quaternion.Euler(0, 0, 0));
         GameObject temp = ObjectPooler.Instance.SpawnFromPool("Arrow", entity.gameObject.transform.GetChild(0).transform.position, Quaternion.Euler(0, 0, 0));
-        Debug.Log("arrowspawned");
         projectileScript = temp.GetComponent<Projectile>();//GameObject.FindGameObjectWithTag("Projectile").GetComponent<Projectile>();
         projectileScript.FireProjectile(d_RangedAttackState.attackSpeed, d_RangedAttackState.attackDamage, d_RangedAttackState.attackTime);
         /*if(projectileScript.gameObject.activeSelf)

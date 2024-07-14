@@ -45,7 +45,6 @@ public class InputHandler : MonoBehaviour
     {
         if (CInventoryManager.gameObject.activeSelf)
         {
-            Debug.Log("Hi");
         }
     }
     public void ClickCanceled(InputAction.CallbackContext context)

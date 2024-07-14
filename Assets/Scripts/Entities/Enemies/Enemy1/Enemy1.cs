@@ -22,7 +22,6 @@ public class Enemy1 : Entity
     public override void Start()
     {
         base.Start();
-        Debug.Log("enteredstartfunc");
         /* fsm.InitializeState(myWalkState);
          myWalkState = new Enemy1_WalkingState(this, fsm, "walking", d_WalkingState, this);
          myIdleState = new Enemy1_IdleState(this, fsm, "idle", d_IdleState, this);*/

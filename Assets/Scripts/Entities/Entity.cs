@@ -59,7 +59,6 @@ public class Entity : MonoBehaviour
 
     public virtual void Start()
     {
-        Debug.Log("Startcalled");
         
         fsm = new FiniteStateMachine();
     }
@@ -83,7 +82,7 @@ public class Entity : MonoBehaviour
     {
         if(fsm.GetCurrentState()==null)
         {
-            Debug.Log("Houston, we have a problem");
+            
         }
         else
         {
@@ -106,8 +105,7 @@ public class Entity : MonoBehaviour
         groundCheckLeft.transform.position = aliveGO.transform.position;*/
         fsm.GetCurrentState().ActionPhysicsUpdate();
         CheckMovementDeactivated();
-        Debug.Log("currentstate: " + fsm.GetCurrentState());
-        Debug.Log("entityvelocity: " + rb.velocity.x);
+        
     }
     protected virtual void OnEnable()
     {
@@ -123,24 +121,20 @@ public class Entity : MonoBehaviour
     }
     protected void DecreaseHealth(AttackDetails attackDetails)
     {
-        Debug.Log("entityhealthdecreased");
         currentHealth -= attackDetails.damage;
         roadToStun = true;
         lastTimeKnockedBack = Time.time;
         hitsUntilStunned--;
         if(currentHealth<=0)
         {
-            Debug.Log("entityif1: " + currentHealth);
             Die();
         }
         else if(hitsUntilStunned==0)
         {
-            Debug.Log("entityif2");
             GetStunned();
         }
         else
         {
-            Debug.Log("bouttaknockbackenemy, knockbackforcex is: " + d_Entity.knockBackForce.x);
             if(attackDetails.position.x> transform.GetChild(0).transform.position.x)
             {
                 knockBackDirection = -1;
@@ -149,8 +143,6 @@ public class Entity : MonoBehaviour
             {
                 knockBackDirection = 1;
             }
-            Debug.Log("positiondebugenemy: " + transform.position.x);
-            Debug.Log("positiondebugplayer: " + attackDetails.position.x);
 
             rb.AddForce(new Vector2(d_Entity.knockBackForce.x * knockBackDirection, d_Entity.knockBackForce.y));
         }
@@ -234,10 +226,8 @@ public class Entity : MonoBehaviour
     }
     public void SetAnimBool(string varName, bool myBool)
     {
-        Debug.Log("animboolset");
         anim.SetBool(varName, myBool);
-        Debug.Log("animVar: " + varName);
-        Debug.Log("animBool: " + myBool);
+
     }
     public void SetVelocity(float vel)
     {
@@ -322,7 +312,6 @@ public class Entity : MonoBehaviour
     {
         if (wallCheck == null || groundCheck == null)
         {
-            Debug.Log("some error");
             return;
         }
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + (facingDirection* d_Entity.wallCheckDist), wallCheck.position.y, wallCheck.position.z));

@@ -38,7 +38,6 @@ public class PlayerStats : MonoBehaviour
     }
     private void HandleDamage(AttackDetails attackDetails)
     {
-        Debug.Log("HandlingDamage");
         int direction;
         if (attackDetails.position.x > transform.position.x)
         {
@@ -49,7 +48,6 @@ public class PlayerStats : MonoBehaviour
             direction = 1;
         }
         currentHealth -= attackDetails.damage;
-        Debug.Log("HandlingDamage current health: " + currentHealth);
         if (currentHealth > 0)
         {
             //IMPORTANT KEEP
@@ -83,12 +81,10 @@ public class PlayerStats : MonoBehaviour
     }*/
     public void TakeDamage(AttackDetails attackDetails)
     {
-        Debug.Log("playertakingdamage");
         damageHandler.Invoke(attackDetails);
     }
     private void Die()
     {
-        Debug.Log("Playerdeath");
         Instantiate(deathChunkParticle, transform.position, deathChunkParticle.transform.rotation);
         Instantiate(deathBloodParticle, transform.position, deathBloodParticle.transform.rotation);
         //IMPORTANT KEEP

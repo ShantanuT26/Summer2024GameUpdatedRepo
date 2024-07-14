@@ -18,6 +18,8 @@ public class SceneSwitchManager : MonoBehaviour
     private bool sceneLoaded;
     private bool menuRemoved;
     private Scene backgroundScene;
+    //TEMPORARY REFERENCE
+    private Player player;
     private Camera backgroundSceneCam;
     [SerializeField]private Canvas menuCanvas;
     public void ButtonPressSceneSwitch()
@@ -37,6 +39,10 @@ public class SceneSwitchManager : MonoBehaviour
         //IMPORTANT KEEP
         //playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         //playerController.FreezePlayer(true);
+
+        //TEMPORARY LINES BELOW
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player.SuspendPlayerInAir(true);
     }
     public void StartGame()
     {
@@ -45,6 +51,7 @@ public class SceneSwitchManager : MonoBehaviour
         startCalled = true;
         loadScene2 = SceneManager.LoadSceneAsync(scene2, LoadSceneMode.Additive);
         loadScene2.allowSceneActivation = false;
+        
 
         //playerController.FreezePlayer(false);
     }
@@ -74,6 +81,9 @@ public class SceneSwitchManager : MonoBehaviour
                     backgroundScene = SceneManager.GetSceneByName(scene2);
                     SceneManager.SetActiveScene(SceneManager.GetSceneByName(scene1));   
                     sceneLoaded = true;
+                    //TEMPORARY LINE
+                    player.SuspendPlayerInAir(false);
+
                     //IMPORTANT KEEP
                     //playerController.FreezePlayer(false);
 

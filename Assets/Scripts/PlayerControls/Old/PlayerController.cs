@@ -300,7 +300,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isTouchingWall && !isTouchingLedge)
         {
-            UnityEngine.Debug.Log("canledgeclimb");
             canLedgeClimb = true;
         }
         if(canLedgeClimb)

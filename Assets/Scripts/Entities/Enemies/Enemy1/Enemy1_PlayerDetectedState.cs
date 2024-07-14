@@ -29,7 +29,6 @@ public class Enemy1_PlayerDetectedState : PlayerDetectedState
         }
         else if(entity.CheckPlayerMaxDist()==false)
         {
-            Debug.Log("enteringlookforplayerstate1");
             fsm.ChangeState(enemy1.lookForPlayerState);
         }
     }

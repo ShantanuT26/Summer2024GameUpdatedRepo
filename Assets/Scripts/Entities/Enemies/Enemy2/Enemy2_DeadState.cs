@@ -15,7 +15,6 @@ public class Enemy2_DeadState : DeadState
         base.ActionLogicUpdate();
         entity.InstantiateDeathParticles("DeathChunks");
         entity.InstantiateDeathParticles("DeathBlood");
-        Debug.Log("enemy2death");
         entity.DestroyEntity();
     }
 

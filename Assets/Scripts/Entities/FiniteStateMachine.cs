@@ -12,7 +12,6 @@ public class FiniteStateMachine
     }
     public void InitializeState(State inputState)
     {
-        Debug.Log("stateinitialized");
         currentState = inputState;
         currentState.BeginAction();
     }

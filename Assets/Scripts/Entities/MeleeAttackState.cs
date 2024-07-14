@@ -19,9 +19,7 @@ public class MeleeAttackState : AttackState
     {
         base.ActionLogicUpdate();
         attackDetails.position = entity.GetMeleeAttackPosition();
-        Debug.Log("activemeleeattackposition: " + entity.GetMeleeAttackPosition());
         attackDetails.damage = d_MeleeAttackState.attackDamage;
-        Debug.Log("enemyposition: " + attackDetails.position);
     }
     public override void ActionPhysicsUpdate()
     {
@@ -38,21 +36,16 @@ public class MeleeAttackState : AttackState
     public override void DoDamage()
     {
         base.DoDamage();
-        Debug.Log("DoDamage");
         Collider2D[] hitObjects = Physics2D.OverlapCircleAll(entity.GetMeleeAttackPosition(),
             d_MeleeAttackState.attackRadius, d_MeleeAttackState.whatIsPlayer);
-        Debug.Log("Player is: ");
         foreach (Collider2D hitobj in hitObjects)
         {
-            Debug.Log("foreachentered");
             PlayerStats player = hitobj.gameObject.GetComponent<PlayerStats>();
             
             if(player!=null)
             {
-                Debug.Log("Playernotnull");
                 player.TakeDamage(attackDetails);
             }
-            Debug.Log("player: " + player);
         }
     }
 

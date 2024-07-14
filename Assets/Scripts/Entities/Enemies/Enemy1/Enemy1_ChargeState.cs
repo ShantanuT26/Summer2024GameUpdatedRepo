@@ -15,7 +15,6 @@ public class Enemy1_ChargeState : ChargeState
         base.ActionLogicUpdate();
         if(isTouchingWall || !isTouchingGround)
         {
-            Debug.Log("enteringlookforplayerstate; isTouchingGround = " + isTouchingGround);
             fsm.ChangeState(enemy1.lookForPlayerState);
         }
         if(entity.CheckMeleeAttackDist())

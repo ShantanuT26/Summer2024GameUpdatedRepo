@@ -22,7 +22,6 @@ public class EnemySpawner : MonoBehaviour
         playerPosition = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
         if (Mathf.Abs(playerPosition.x-spawnRegion.position.x)<playerDistFromSpawnRegion  && canSpawn)
         {
-            Debug.Log("instantiateenemy");
             Instantiate(enemy1, spawnRegion.position, Quaternion.Euler(0, 0, 0));
             canSpawn = false;
         }

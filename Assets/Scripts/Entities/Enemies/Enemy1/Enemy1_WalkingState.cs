@@ -14,7 +14,6 @@ public class Enemy1_WalkingState : WalkingState
     public override void ActionLogicUpdate()
     {
         base.ActionLogicUpdate();
-        Debug.Log("myenemyposition: " + entity.gameObject.transform.GetChild(0).transform.position.x);
     }
 
     public override void ActionPhysicsUpdate()
@@ -30,7 +29,6 @@ public class Enemy1_WalkingState : WalkingState
         {
             fsm.ChangeState(enemy1.myPlayerDetectedState);
         }
-        Debug.Log("Currentstate: " + fsm.GetCurrentState());
     }
 
     public override void BeginAction()

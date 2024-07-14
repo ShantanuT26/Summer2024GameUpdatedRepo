@@ -90,7 +90,6 @@ public class PlayerCombat : MonoBehaviour
     private void CheckAttackHitbox()
     {
         attackDetails.position = gameObject.transform.position;
-        Debug.Log("myplayerposition: " + attackDetails.position);
         Collider2D[] attackedObjects = Physics2D.OverlapCircleAll(attack1HitBox.position, attack1Radius, canBeAttacked);
 
         foreach(Collider2D collider in attackedObjects)

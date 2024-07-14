@@ -20,7 +20,6 @@ public class WalkingState : State
 
     public override void ActionPhysicsUpdate()
     {
-        Debug.Log("walkingphysicsupdate");
         base.ActionPhysicsUpdate();
         entity.SetVelocity(d_WalkState.walkingSpeed);
 
@@ -53,11 +52,9 @@ public class WalkingState : State
 
     public override void BeginAction()
     {
-        Debug.Log("WalkingBegun");
         base.BeginAction();
         isWalking = true;
         entity.SetVelocity(d_WalkState.walkingSpeed);
-        Debug.Log("getvelocity: " + entity.GetVelocity());
         entity.SetAnimBool(animVarName, isWalking);
     }
 

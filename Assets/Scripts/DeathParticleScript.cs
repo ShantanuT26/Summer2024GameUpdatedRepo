@@ -12,7 +12,6 @@ public class DeathParticleScript : MonoBehaviour
     }
     private void OnEnable()
     {
-        Debug.Log("Death happened");
         HandleDeathParticlePoolReturn(gameObject.tag);
     }
     private async void HandleDeathParticlePoolReturn(string x)
@@ -20,7 +19,6 @@ public class DeathParticleScript : MonoBehaviour
         await Task.Delay(1000);
         if(this.gameObject!=null)
         {
-            Debug.Log("Sendtopool");
             ObjectPooler.Instance.SendToQueue(this.gameObject, x);
         }
         
