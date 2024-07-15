@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class Player : MonoBehaviour
 {
+    //TEMP variable
+    private bool grounded;
     private PlayerFiniteStateMachine fsm;
     public PlayerRunState runState { get; private set; }
     public PlayerIdleState idleState { get; private set; }
@@ -33,13 +36,13 @@ public class Player : MonoBehaviour
         landState = new PlayerLandState(this, fsm, playerData, "land");
         inAirState = new PlayerInAirState(this, fsm, playerData, "inAir");
         playerInputHandler = GetComponent<PlayerInputHandler>();
+        playerInputHandler.SetCanJump(true);
         facingDirection = 1;
         animationFinished = false;
         numJumpsLeft = playerData.numJumps;
     }
     private void OnEnable()
     {   
-        Debug.Log("isenabled");
         PlayerState.changeAnimBool += SetAnimBool;
         fsm.SetInitialState(idleState);
     }
@@ -50,12 +53,12 @@ public class Player : MonoBehaviour
     private void Update()
     {
         fsm.currentState.LogicUpdate();
-        var foo = animator.GetBool("idle");
-        //Debug.Log("animatoridleparam: " + foo);
+        CheckIfShouldFlip();
     }
     private void FixedUpdate()
     {
         fsm.currentState.PhysicsUpdate();
+        CheckGround();
         PhysicsUpdate();
     }
     private void SetAnimBool(string x, bool y)
@@ -79,12 +82,17 @@ public class Player : MonoBehaviour
     {
         rb.velocity = new Vector2(x, rb.velocity.y);
     }
+    public Vector2 GetVelocity()
+    {
+        return rb.velocity;
+    }
     public void SetAnimationFinished(bool x) => animationFinished = x;
 
     public void AnimationFinished() => animationFinished = true;
     public bool CheckGround()
     {
-        return Physics2D.OverlapCircle(groundCheck.transform.position, playerData.groundCheckRadius, playerData.isGround);
+        bool x = Physics2D.OverlapCircle(groundCheck.transform.position, playerData.groundCheckRadius, playerData.isGround);
+        return x;
     }
     public void SetVelocityY(float x)
     {
@@ -115,6 +123,21 @@ public class Player : MonoBehaviour
     {
         animator.SetFloat("XVelocity", rb.velocity.x);
         animator.SetFloat("YVelocity", rb.velocity.y);
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(groundCheck.position, playerData.groundCheckRadius);  
+    }
+    public void SuspendHorizontalMovement()
+    {
+        rb.velocity = new Vector2(0f, rb.velocity.y);
+    }
+    public void CheckIfShouldFlip()
+    {
+        if (playerInputHandler.movementInput.x == facingDirection * -1)
+        {
+            Flip();
+        }
     }
 }
     

@@ -9,10 +9,43 @@ public class PlayerJumpState : PlayerAbilityState
     }
     public override void BeginAction()
     {
+        Debug.Log("entering jump state");
         base.BeginAction();
         player.SubtractNumJumpsLeft();
         player.SetVelocityY(playerData.jumpVelocity);
-        isAbilityDone = true;
        // player.playerInputHandler.jumpInput = false;
+    }
+
+    public override void EndAction()
+    {
+        base.EndAction();
+        Debug.Log("entering end jump state");
+    }
+
+    public override void LogicChecks()
+    {
+        base.LogicChecks();
+        if(player.playerInputHandler.canJump == true)
+        {
+            player.SetVelocityY(playerData.jumpVelocity);
+        }
+        
+    }
+
+    public override void LogicUpdate()
+    {
+        //player.SetVelocityY(playerData.jumpVelocity);
+        base.LogicUpdate();
+        
+        if (player.playerInputHandler.jumpInput == false)
+        {
+            isAbilityDone = true;
+        }
+        else if(Time.time > actionStartTime + playerData.maxJumpTime)
+        {
+            Debug.Log("Jumptimeover");
+            isAbilityDone = true;
+            player.playerInputHandler.SetCanJump(false);
+        }
     }
 }

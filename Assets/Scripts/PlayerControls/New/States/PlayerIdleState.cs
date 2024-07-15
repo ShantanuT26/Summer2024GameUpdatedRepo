@@ -11,7 +11,7 @@ public class PlayerIdleState : PlayerGroundedState
     public override void BeginAction()
     {
         base.BeginAction();
-        Debug.Log("Idlestatebegun");
+        Debug.Log("entering idle state");
         player.SetVelocity(0f);
 
     }
@@ -43,7 +43,6 @@ public class PlayerIdleState : PlayerGroundedState
         base.PhysicsUpdate();
         if(xInput!=0)
         {
-            Debug.Log("xinput not 0");
             fsm.ChangeState(player.runState);
         }
     }

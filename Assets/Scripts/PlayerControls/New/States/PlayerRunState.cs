@@ -11,7 +11,7 @@ public class PlayerRunState : PlayerGroundedState
     public override void BeginAction()
     {
         base.BeginAction();
-        Debug.Log("Runstatebegun");
+        Debug.Log("entering run state");
     }
 
     public override void EndAction()

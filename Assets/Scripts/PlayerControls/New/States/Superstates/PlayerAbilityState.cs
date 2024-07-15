@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerAbilityState : PlayerState
@@ -20,12 +21,19 @@ public class PlayerAbilityState : PlayerState
     public override void LogicChecks()
     {
         base.LogicChecks();
-        if(isAbilityDone && !isGrounded)
+        isGrounded = player.CheckGround();
+    }
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
+        if (isAbilityDone && !isGrounded)
         {
+            UnityEngine.Debug.Log("changing to in air state");
             fsm.ChangeState(player.inAirState);
         }
-        else if(isAbilityDone && isGrounded)
+        else if (isAbilityDone && isGrounded && player.GetVelocity().y < 0.1f)
         {
+            UnityEngine.Debug.Log("changing to idle state");
             fsm.ChangeState(player.idleState);
         }
     }
@@ -33,7 +41,7 @@ public class PlayerAbilityState : PlayerState
     public override void PhysicsChecks()
     {
         base.PhysicsChecks();
-        isGrounded = player.CheckGround();
+        
     }
 
 }

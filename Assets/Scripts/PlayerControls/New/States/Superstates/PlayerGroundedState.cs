@@ -31,24 +31,22 @@ public class PlayerGroundedState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (xInput == player.facingDirection * -1)
+        /*if (xInput == player.facingDirection * -1)
         {
             player.Flip();
-            Debug.Log("Playerflipped");
-        }
-        if(jumpInput)
+        }*/
+        if(jumpInput && player.numJumpsLeft > 0 && player.playerInputHandler.canJump) // also make sure that you have anough jumps (in case its set to 0)
         {
-            FinishJump();
-            Debug.Log("Jumpinputgiven");
+            //FinishJump();
             fsm.ChangeState(player.jumpState);
         }
 
     }
 
-    public void FinishJump()
+    /*public void FinishJump()
     {
         jumpInput = false;
-    }
+    }*/
     public override void PhysicsChecks()
     {
         base.PhysicsChecks();

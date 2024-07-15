@@ -47,7 +47,6 @@ public class PlayerState
     }
     private void ChangeAnimBool(string x, bool y)
     {
-        Debug.Log("Begininvokeprocess");
         changeAnimBool?.Invoke(x, y);
     }
     public virtual void LogicChecks()

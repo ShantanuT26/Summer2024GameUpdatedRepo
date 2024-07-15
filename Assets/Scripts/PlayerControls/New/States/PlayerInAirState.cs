@@ -13,7 +13,7 @@ public class PlayerInAirState : PlayerState
     public override void BeginAction()
     {
         base.BeginAction();
-        Debug.Log("In air state begun");
+        Debug.Log("entering in air state");
     }
 
     public override void LogicChecks()
@@ -29,7 +29,7 @@ public class PlayerInAirState : PlayerState
         {
            fsm.ChangeState(player.landState);
         }
-        else if(player.playerInputHandler.jumpInput && player.numJumpsLeft > 0) 
+        else if(player.playerInputHandler.jumpInput && player.numJumpsLeft > 0 && player.playerInputHandler.canJump) 
         {
             fsm.ChangeState(player.jumpState);
         }

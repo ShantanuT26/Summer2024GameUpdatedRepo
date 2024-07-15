@@ -10,4 +10,5 @@ public class PlayerData : ScriptableObject
     public float groundCheckRadius = 0.3f;
     public LayerMask isGround;
     public int numJumps = 3;
+    public float maxJumpTime = 0.4f;
 }

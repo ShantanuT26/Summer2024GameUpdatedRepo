@@ -8,10 +8,22 @@ public class PlayerLandState : PlayerGroundedState
     {
     }
 
+    public override void BeginAction()
+    {
+        base.BeginAction();
+        Debug.Log("entering land state");
+    }
+
+    public override void LogicChecks()
+    {
+        base.LogicChecks();
+        player.SuspendHorizontalMovement();
+    }
+
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        Debug.Log("LANDSTATE");
+        
         if(player.animationFinished)
         {
             player.SetAnimationFinished(false);

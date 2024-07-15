@@ -524,12 +524,12 @@ public class PlayerController : MonoBehaviour
         //  @ WatchJump();
         AdjustWallSpeed();
     }
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         Gizmos.DrawLine(wallCheck.position, new UnityEngine.Vector3(wallCheck.position.x + wallDist, wallCheck.position.y,
             wallCheck.position.z));
         Gizmos.DrawLine(ledgeCheck.position, new UnityEngine.Vector3(ledgeCheck.position.x + wallDist, ledgeCheck.position.y,
             ledgeCheck.position.z));
-    }
+    }*/
 }
