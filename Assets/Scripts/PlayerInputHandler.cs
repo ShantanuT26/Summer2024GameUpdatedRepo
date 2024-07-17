@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,13 @@ public class PlayerInputHandler : MonoBehaviour
     public bool canJump { get; private set; }  // set to true from player class
     public Vector2 movementInput { get; private set; }
     public bool jumpInput { get; private set; }
+
+    public bool[] attacks { get; private set; }
+
+    private void Start()
+    {
+        attacks = new bool[Enum.GetNames(typeof(PlayerAttacks)).Length];
+    }
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         if(context.performed)
@@ -34,6 +42,28 @@ public class PlayerInputHandler : MonoBehaviour
             canJump = true;
         }
     }  
+    public void OnPrimaryAttackInput(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            attacks[(int)PlayerAttacks.primaryAttack] = true;
+        }
+        if(context.canceled)
+        {
+            attacks[(int)PlayerAttacks.primaryAttack] = false;
+        }
+    }
+    public void OnSecondaryAttackInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            attacks[(int)PlayerAttacks.secondaryAttack] = true;
+        }
+        if (context.canceled)
+        {
+            attacks[(int)PlayerAttacks.secondaryAttack] = false;
+        }
+    }
     public void SetJumpInput(bool x)
     {
         jumpInput = x;
@@ -43,3 +73,9 @@ public class PlayerInputHandler : MonoBehaviour
         canJump = x;
     }
 }
+public enum PlayerAttacks
+{
+    primaryAttack,
+    secondaryAttack
+}
+

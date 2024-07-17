@@ -21,7 +21,15 @@ public class PlayerInAirState : PlayerState
         base.LogicChecks();
         xInput = player.playerInputHandler.movementInput.x;
         isGrounded = player.CheckGround();
-        if(xInput != 0)
+        if (player.playerInputHandler.attacks[(int)PlayerAttacks.primaryAttack])
+        {
+            //Change to primary attack
+        }
+        else if (player.playerInputHandler.attacks[(int)PlayerAttacks.secondaryAttack])
+        {
+            //Change to secondary attack
+        }
+        else if (xInput != 0)
         {
             player.SetVelocity(xInput*playerData.runSpeed); // change runspeed to air speed in player data
         }

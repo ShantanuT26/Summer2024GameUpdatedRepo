@@ -19,4 +19,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   numJumps: 2
-  maxJumpTime: 0.2
+  maxJumpTime: 0.35

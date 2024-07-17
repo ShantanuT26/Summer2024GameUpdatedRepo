@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public PlayerJumpState jumpState { get; private set; }
     public PlayerLandState landState { get; private set; }
     public PlayerInAirState inAirState { get; private set; }
+    public PlayerAttackState attackState { get; private set; }
     [SerializeField]private PlayerData playerData;
     private Animator animator;
     public PlayerInputHandler playerInputHandler { get; private set; }
@@ -22,6 +23,9 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     public bool animationFinished { get; private set; }
     public int facingDirection { get; private set; }
+
+    public Weapon[] weaponLoadout;
+
 
     public int numJumpsLeft {get; private set; }
     private void Awake()
@@ -35,6 +39,8 @@ public class Player : MonoBehaviour
         jumpState = new PlayerJumpState(this, fsm, playerData, "inAir");
         landState = new PlayerLandState(this, fsm, playerData, "land");
         inAirState = new PlayerInAirState(this, fsm, playerData, "inAir");
+        attackState = new PlayerAttackState(this, fsm, playerData, "attack");
+        
         playerInputHandler = GetComponent<PlayerInputHandler>();
         playerInputHandler.SetCanJump(true);
         facingDirection = 1;
@@ -140,4 +146,4 @@ public class Player : MonoBehaviour
         }
     }
 }
-    
+

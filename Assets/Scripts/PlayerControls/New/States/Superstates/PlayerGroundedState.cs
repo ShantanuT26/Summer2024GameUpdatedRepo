@@ -31,11 +31,17 @@ public class PlayerGroundedState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        /*if (xInput == player.facingDirection * -1)
+        if (player.playerInputHandler.attacks[(int)PlayerAttacks.primaryAttack])
         {
-            player.Flip();
-        }*/
-        if(jumpInput && player.numJumpsLeft > 0 && player.playerInputHandler.canJump) // also make sure that you have anough jumps (in case its set to 0)
+            fsm.ChangeState(player.attackState);
+            //Set weapon in attackstate
+        }
+        else if(player.playerInputHandler.attacks[(int)PlayerAttacks.secondaryAttack])
+        {
+            fsm.ChangeState(player.attackState);
+            //Set weapon in attackstate
+        }
+        else if(jumpInput && player.numJumpsLeft > 0 && player.playerInputHandler.canJump) // also make sure that you have anough jumps (in case its set to 0)
         {
             //FinishJump();
             fsm.ChangeState(player.jumpState);
