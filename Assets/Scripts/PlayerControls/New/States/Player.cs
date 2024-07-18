@@ -46,6 +46,11 @@ public class Player : MonoBehaviour
         facingDirection = 1;
         animationFinished = false;
         numJumpsLeft = playerData.numJumps;
+
+        for(int i = 0; i<weaponLoadout.Length; i++)
+        {
+            weaponLoadout[i].SetPlayer(this);
+        }
     }
     private void OnEnable()
     {   
@@ -67,7 +72,7 @@ public class Player : MonoBehaviour
         CheckGround();
         PhysicsUpdate();
     }
-    private void SetAnimBool(string x, bool y)
+    public void SetAnimBool(string x, bool y)
     {
         Debug.Log("animboolset: " + x + ": " + y);
         animator.SetBool(x, y);

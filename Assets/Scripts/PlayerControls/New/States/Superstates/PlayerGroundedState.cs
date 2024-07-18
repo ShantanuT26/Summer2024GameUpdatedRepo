@@ -33,13 +33,13 @@ public class PlayerGroundedState : PlayerState
         base.LogicUpdate();
         if (player.playerInputHandler.attacks[(int)PlayerAttacks.primaryAttack])
         {
+            player.attackState.SetWeapon((int)PlayerAttacks.primaryAttack);
             fsm.ChangeState(player.attackState);
-            //Set weapon in attackstate
         }
         else if(player.playerInputHandler.attacks[(int)PlayerAttacks.secondaryAttack])
         {
+            player.attackState.SetWeapon((int)PlayerAttacks.secondaryAttack);
             fsm.ChangeState(player.attackState);
-            //Set weapon in attackstate
         }
         else if(jumpInput && player.numJumpsLeft > 0 && player.playerInputHandler.canJump) // also make sure that you have anough jumps (in case its set to 0)
         {
