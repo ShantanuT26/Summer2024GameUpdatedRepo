@@ -42,19 +42,19 @@ public class SceneSwitchManager : MonoBehaviour
 
         //TEMPORARY LINES BELOW
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        player.SuspendPlayerInAir(true);
+        //player.SuspendPlayerInAir(true);
     }
     public void StartGame()
     {
         //UnloadMainMenuObjects();
         //StartCoroutine(FirstGameLoad());
         startCalled = true;
-        loadScene2 = SceneManager.LoadSceneAsync(scene2, LoadSceneMode.Additive);
-        loadScene2.allowSceneActivation = false;
+        //loadScene2 = SceneManager.LoadSceneAsync(scene2, LoadSceneMode.Additive);
+       // loadScene2.allowSceneActivation = false;
         
 
         //playerController.FreezePlayer(false);
-    }
+    }   
     public void Update()
     {
         if(startCalled)
@@ -63,7 +63,7 @@ public class SceneSwitchManager : MonoBehaviour
             {
                 UnloadMainMenuObjects();
             }
-            if (loadScene2.progress >= 0.9f && !sceneLoaded)
+          /*  if (loadScene2.progress >= 0.9f && !sceneLoaded)
             {
                 loadScene2.allowSceneActivation = true;
                 if(loadScene2.isDone)
@@ -88,7 +88,7 @@ public class SceneSwitchManager : MonoBehaviour
                     //playerController.FreezePlayer(false);
 
                 }
-            }
+            }*/
         }
     }
     /*public IEnumerator FirstGameLoad()

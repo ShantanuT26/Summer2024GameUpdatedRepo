@@ -111,6 +111,7 @@ public class Player : MonoBehaviour
     }
     public void Flip()
     {
+        Debug.Log("playerflip");
         facingDirection *= -1;
         switch(sr.flipX)
         {
@@ -144,7 +145,7 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector2(0f, rb.velocity.y);
     }
     public void CheckIfShouldFlip()
-    {
+    {       
         if (playerInputHandler.movementInput.x == facingDirection * -1)
         {
             Flip();

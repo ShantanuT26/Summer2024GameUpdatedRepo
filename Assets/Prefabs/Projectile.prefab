@@ -165,3 +165,4 @@ MonoBehaviour:
     m_Bits: 512
   damageCheck: {fileID: 6231164045372208802}
   checksRadius: 0.4
+  entity: {fileID: 1566532876303524867, guid: 3e0363b220c72fc4c968e969c2b79746, type: 3}

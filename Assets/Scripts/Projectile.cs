@@ -15,11 +15,11 @@ public class Projectile : MonoBehaviour
     [SerializeField]private Transform damageCheck;
     [SerializeField] private float checksRadius;
     private AttackDetails attackDetails;
-    private Entity entity;
+    [SerializeField]private Entity entity;
     private SpriteRenderer sr;
     private int travelDirection;
     private string objPoolerTag = "Arrow";
-    float angle=0;
+    float angle=0;  
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,7 +30,7 @@ public class Projectile : MonoBehaviour
         isTouchingGround = false;
         speed = 0;
         travelDirection = 1;
-        entity = GameObject.Find("Enemy2 (Archer)").GetComponent<Entity>();
+        //entity = GameObject.Find("Enemy2 (Archer)").GetComponent<Entity>();
     }
 
 

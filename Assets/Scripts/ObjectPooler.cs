@@ -29,8 +29,7 @@ public class ObjectPooler : MonoBehaviour
         foreach (Pool pool in pools)
         {
             Queue<GameObject> objPool = new Queue<GameObject>();
-
-            for(int i = 0; i<pool.quantity; i++)
+            for (int i = 0; i < pool.quantity; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
                 obj.SetActive(false);
@@ -38,6 +37,7 @@ public class ObjectPooler : MonoBehaviour
             }
             poolDict.Add(pool.tag, objPool);
         }
+        
     }
     public GameObject SpawnFromPool(string tag, Vector2 position, Quaternion rotation)
     {

@@ -23,11 +23,13 @@ public class PlayerInAirState : PlayerState
         isGrounded = player.CheckGround();
         if (player.playerInputHandler.attacks[(int)PlayerAttacks.primaryAttack])
         {
-            //Change to primary attack
+            player.attackState.SetWeapon((int)PlayerAttacks.primaryAttack);
+            fsm.ChangeState(player.attackState);
         }
         else if (player.playerInputHandler.attacks[(int)PlayerAttacks.secondaryAttack])
         {
-            //Change to secondary attack
+            player.attackState.SetWeapon((int)PlayerAttacks.secondaryAttack);
+            fsm.ChangeState(player.attackState);
         }
         else if (xInput != 0)
         {

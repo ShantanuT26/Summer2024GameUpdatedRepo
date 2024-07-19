@@ -47,7 +47,14 @@ public class PlayerAttackState : PlayerAbilityState
         if(endAttack)
         {
             //only temporary. Add more logic later
-            fsm.ChangeState(player.idleState);
+            if(isGrounded)
+            {
+                fsm.ChangeState(player.idleState);
+            }
+            else
+            {
+                fsm.ChangeState(player.inAirState);
+            }
         }
     }
 }
