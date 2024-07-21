@@ -16,7 +16,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     [SerializeField] private ItemSlotScript mySlot;
     [SerializeField] private Sprite myBackground;
     private Transform parentafterdrag;
-    private Vector2 initialposition;
+    private Vector2 initialposition;        
     private InventoryManager inventoryManager;
     [SerializeField] private GameObject selectedPanel;
     private void Awake()
@@ -26,7 +26,6 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         rightClick = myPlayerInput.actions["RightClick"];
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
         parentafterdrag = this.gameObject.transform.parent;
-        // initialposition = this.transform.position;
         initialposition = new Vector2(0, 0);
     }
     public UnityEngine.UI.Image GetImage()
@@ -48,7 +47,9 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             return;
         }
         image.raycastTarget = false;
-        this.transform.SetParent(transform.root);
+        Debug.Log("settingdragroot");
+        this.transform.SetParent(/*transform.root*/GameObject.Find("DragCanvas").transform);
+        Debug.Log("dragroot: " + this.transform.parent);
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -67,16 +68,14 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             return;
         }
         mySlot.SetDraggedInto(false);
-        //inventoryManager.currDragCount = inventoryManager.checkDraggedInto();
         Debug.Log("slot" + mySlot.GetMyIndex() + ": dragged into: " + mySlot.GetDraggedInto());
         image.raycastTarget=true;
         this.transform.SetParent(parentafterdrag);
         this.transform.localPosition = initialposition;
         Debug.Log("Is dragged into?: " + inventoryManager.checkDraggedInto());
         //In the next if statement, I simply check to see if OnDrop was called with a boolean variable
-        if (inventoryManager.GetWasDropped()==false/*inventoryManager.currDragCount<inventoryManager.prevDragCount || inventoryManager.currDragCount==0*/  /* && !intoSameType*/)
+        if (inventoryManager.GetWasDropped()==false)
         {
-            //mySlot.SetDraggedInto(true);
             mySlot.SetSprite(this.image.sprite);
             mySlot.SetMyQuant(mySlot.GetMyQuant());
             mySlot.SetQuantText(mySlot.GetMyQuant().ToString());
@@ -85,26 +84,10 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         {
           //I am letting it be handled by the OnDrop() function in ItemSlotScript
         }
-       // inventoryManager.prevDragCount = inventoryManager.currDragCount;
         this.transform.SetAsFirstSibling();
         selectedPanel.transform.SetAsFirstSibling();
         Debug.Log("inventory manager check draggedinto: " + inventoryManager.checkDraggedInto());
-        // inventoryManager.prevDragCount = inventoryManager.currDragCount;
         inventoryManager.SetWasDropped(false);
-        // mySlot.ClearSlot();
 
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 }

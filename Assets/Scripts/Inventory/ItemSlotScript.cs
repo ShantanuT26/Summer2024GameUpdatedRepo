@@ -30,7 +30,6 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
         manaManager=GameObject.Find("MyMana").GetComponent<ManaManager>();
         myquant = 0;
         imgstartposition = myImage.transform.position;
-        //TempImage.gameObject.SetActive(false);
     }
     public void SetMyQuant(int x)
     {
@@ -74,40 +73,35 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
     }
     public void SetSprite(Sprite x)
     {
+        Debug.Log("itemslotspriteset");
         myImage.sprite = x;
     }
     public void ClearSlot()
     {
+        Debug.Log("settingempty2");
         quant.text = "00";
         myquant = 0;
         myname = "";
         myImage.sprite = itembackground;
-     //   TempImage.sprite = myImage.sprite;
     }
     public void FillSlot(string name, int quantity, Sprite sprite)
     {
         Debug.Log("q: " + quantity);
-        myquant = quantity;
         myname = name;
         myImage.sprite = sprite;
-        //TempImage.sprite = myImage.sprite;
-        quant.text = quantity.ToString();
-        //Debug.Log("this image sprite: " + myImage.sprite);
+        SetQuantity(quantity);
     }
     public void OnPointerDown(PointerEventData eventdata)
     {
         inventoryManager.DeselectAllSlots();
         SetHighlight(true);
         changeStats();
-        //inventoryManager.changeStats(myindex);
-        inventoryManager.ToVisInv();
     }
     public void changeStats()
     {
         if (myquant>0)
         {
-            myquant--;
-            quant.text = myquant.ToString();
+            AdjustQuantity(-1);
             for(int i = 0; i<this.inventoryManager.GetScrObjArray().Length; i++)
             {
                 if (inventoryManager.GetScrObj(i).name == myname)
@@ -117,47 +111,35 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
                 }
             }
         }
-        if(myquant == 0)
+        if(CheckIsEmpty())
         {
+            Debug.Log("settingempty1");
+            //make a (or implement an already existing) clearslot method
             myname = "";
             myImage.sprite = itembackground;
-           // TempImage.sprite = myImage.sprite;
             quant.text = "00";
         }
     }
-    // Update is called once per frame
-    void Update()
+    public void AdjustQuantity(int x)
     {
+        Debug.Log("quantityadjusted");
+        myquant += x;
+        quant.text = myquant.ToString();
     }
-
-    /*public void OnBeginDrag(PointerEventData eventData)
+    public void SetQuantity(int x)
     {
-        TempImage.gameObject.SetActive(true);
-        TempImage.sprite = myImage.sprite;
-        parentAfterDrag = TempImage.transform.parent;
+        Debug.Log("quantityset");
+        myquant = x;
+        quant.text = myquant.ToString();
     }
-
-    public void OnDrag(PointerEventData eventData)
+    public bool CheckIsEmpty()
     {
-        if(myquant>0)
+        if(myquant==0)
         {
-            //myImage.transform.position = Input.mousePosition;
-            
-            TempImage.transform.position = Input.mousePosition;
-            TempImage.transform.SetAsLastSibling();
-            TempImage.transform.SetParent(transform.root);
+            return true;
         }
+        return false;
     }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        //throw new System.NotImplementedException();
-        //myImage.GetComponentInParent<Image>().sprite = myImage.sprite;
-        //myImage.transform.position = new Vector2(0, 0);
-        TempImage.transform.SetParent(parentAfterDrag);
-        Debug.Log("tempimage sprite: " + TempImage.sprite);
-    }*/
-
     public void OnDrop(PointerEventData eventData)
     {
         inventoryManager.SetWasDropped(true);
@@ -208,10 +190,8 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
             myname = myname;
             myImage.sprite = myImage.sprite;
         }
-        //Debug.Log("ONDROPCALLED");
         draggedinto = true;
         
-        inventoryManager.ToVisInv();
         //KEEP NEXT LINE!!
         //inventoryManager.prevDragCount = inventoryManager.checkDraggedInto();
         //  TempImage.sprite = dropped.GetComponent<Image>().sprite;

@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
     }
     public void PhysicsUpdate()
     {
-        animator.SetFloat("XVelocity", rb.velocity.x);
+        animator.SetFloat("XVelocity", Mathf.Abs(rb.velocity.x));
         animator.SetFloat("YVelocity", rb.velocity.y);
     }
     private void OnDrawGizmos()

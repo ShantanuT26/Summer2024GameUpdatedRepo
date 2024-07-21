@@ -21,9 +21,9 @@ public class VisibleInventory : MonoBehaviour
     }
     public void FillVisPanel(int i, int quant, Sprite sprite)
     {
+        Debug.Log("vispanelfilledinvisinv");
         visPanels[i].setQuantity(quant);
         visPanels[i].setSprite(sprite);
-        //Debug.Log("Vispanelquantity: " + quant);
     }
     public void DeselectAllPanels()
     {
@@ -31,15 +31,5 @@ public class VisibleInventory : MonoBehaviour
         {
             visPanels[i].SetSelectedPanel(false);
         }
-    }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

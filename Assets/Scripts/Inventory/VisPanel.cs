@@ -14,10 +14,9 @@ public class VisPanel : MonoBehaviour, IPointerDownHandler
     private int index;
     private VisibleInventory visInventory;
     private InventoryManager inventoryManager;
-    private void Awake()
+    private void Awake()    
     {
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
-
         visInventory = GameObject.Find("VisInvCanvas").GetComponent<VisibleInventory>();
     }
     public void OnPointerDown(PointerEventData eventData)
@@ -25,8 +24,6 @@ public class VisPanel : MonoBehaviour, IPointerDownHandler
         visInventory.DeselectAllPanels();
         selectedPanel.SetActive(true);
         inventoryManager.GetItemSlot(index).changeStats();
-        //inventoryManager.changeStats(index);
-        inventoryManager.ToVisInv();
     }
     public void SetIndex(int i)
     {
@@ -43,7 +40,6 @@ public class VisPanel : MonoBehaviour, IPointerDownHandler
             selectedPanel.SetActive(false);
         }
     }
-    // Start is called before the first frame update
     public void setQuantity(int x)
     {
         quantity.text=x.ToString();
@@ -51,16 +47,5 @@ public class VisPanel : MonoBehaviour, IPointerDownHandler
     public void setSprite(Sprite s)
     {
         myImage.sprite = s;
-    }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //Debug.Log("updating");
-        //inventoryManager.ToVisInv();
     }
 }

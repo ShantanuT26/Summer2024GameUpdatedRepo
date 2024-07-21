@@ -8,30 +8,29 @@ using UnityEngine.UI;
 public class InventoryManager : MonoBehaviour
 {
     private bool wasDropped;
-    [SerializeField]private GameObject inventory;
+    [SerializeField]private GameObject inventory;   
     [SerializeField]private bool menuActive;
     private PlayerInput playerInput;
     private InputAction myInventory;
     [SerializeField]private ItemSlotScript[] itemslots;
     [SerializeField]private ScrObj[] scrobj;
-    private VisibleInventory visInventory;
 
     private void Awake()
     {
-       // cherry = GameObject.Find("Cherry").GetComponent<Item>();;
         playerInput = GetComponent<PlayerInput>();
         myInventory = playerInput.actions["Inventory"];
+    }
+    private void Start()
+    {
         inventory.SetActive(false);
         menuActive = false;
-        visInventory = GameObject.Find("VisInvCanvas").GetComponent<VisibleInventory>();
-        for(int i = 0;  i < itemslots.Length; i++)
+        for (int i = 0; i < itemslots.Length; i++)
         {
             itemslots[i].setMyIndex(i);
         }
     }
     private void OnEnable()
     {
-        myInventory.started += invStarted;
         myInventory.performed += invPerformed;
         myInventory.canceled += invCanceled;
     }
@@ -59,10 +58,6 @@ public class InventoryManager : MonoBehaviour
     {
         return scrobj[x];
     }
-    private void invStarted(InputAction.CallbackContext context)
-    {
-
-    }
     private void invPerformed(InputAction.CallbackContext context)
     {
         Time.timeScale = 0;
@@ -75,7 +70,10 @@ public class InventoryManager : MonoBehaviour
         {
             inventory.SetActive(true);
             menuActive = true;
-            //Debug.Log(itemslots[0].mysprite);
+            Debug.Log("slot0count: " + itemslots[0].GetMyQuant() + " sprite: " + itemslots[0].getSprite() + " name: " + itemslots[0].
+            GetName());
+            Debug.Log("slot1count: " + itemslots[1].GetMyQuant() + " sprite: " + itemslots[1].getSprite() + " name: " + itemslots[1].
+            GetName());
         }
     }
     private void invCanceled(InputAction.CallbackContext context)
@@ -89,30 +87,16 @@ public class InventoryManager : MonoBehaviour
             Time.timeScale = 1;
         }
     }
-    private void OnClickPerformed(InputAction.CallbackContext context)
-    {
-
-    }
     public void DeselectAllSlots()
     {
         for(int i = 0; i<16; i++)
         {
             itemslots[i].SetHighlight(false);
         }
-    }
+    }   
     public void addItem(string n, int q, Sprite s)
     {
-        /*if (itemslots[0]!=null)
-        {
-            itemslots[0].FillSlot(n, q, s);
-            UnityEngine.Debug.Log(n + " " + q + "Sprite: " + s);
-        }
-        else
-        {
-            Debug.Log("Itemslot 0 is null");
-        }*/
-       // Debug.Log(itemslots[0].myname);
-
+        Debug.Log("itemaddedfrominvmanager");
         for(int i = 0; i<16; i++)
         {
             if (itemslots[i].GetName()=="")
@@ -120,6 +104,8 @@ public class InventoryManager : MonoBehaviour
                 
                 if (q<=64)
                 {
+                    Debug.Log("fillingitemslotfrominvmanager");
+                    Debug.Log("quantitytofill: " + q);
                     itemslots[i].FillSlot(n, q, s);
                 }
                 else
@@ -135,27 +121,23 @@ public class InventoryManager : MonoBehaviour
                 {
                     if(itemslots[i].GetMyQuant() + q <= 64)
                     {
-                        //itemslots[i].myquant += q;
-                        itemslots[i].SetMyQuant(itemslots[i].GetMyQuant() + q);
-                        itemslots[i].SetQuantText(itemslots[i].GetMyQuant().ToString());
+                        itemslots[i].AdjustQuantity(q);
                     }
                     else
                     {
                         int tempquant = itemslots[i].GetMyQuant();
-                        itemslots[i].SetMyQuant(64);
-                        itemslots[i].SetQuantText(itemslots[i].GetMyQuant().ToString());
+                        itemslots[i].SetQuantity(64);
                         addItem(n, tempquant + q - 64, s);
                     }
                     break;
                 }
             }
         }
-        ToVisInv();
+        Debug.Log("slot0count: " + itemslots[0].GetMyQuant() + " sprite: " + itemslots[0].getSprite() + " name: " + itemslots[0].
+            GetName());
+        Debug.Log("slot1count: " + itemslots[1].GetMyQuant() + " sprite: " + itemslots[1].getSprite() + " name: " + itemslots[1].
+            GetName());
     }
-    /*public void changeStats(int i)
-    {
-        ToVisInv();
-    }*/
     public int checkDraggedInto()
     {
         int count = 0;
@@ -166,18 +148,6 @@ public class InventoryManager : MonoBehaviour
                 count++;
             }
         }
-        /*if(count == 0)
-        {
-            return false;
-        }
-        return true;*/
         return count;
-    }
-    public void ToVisInv()
-    {
-        for(int i = 0; i<visInventory.GetVisPanels().Length; i++)
-        {
-            visInventory.FillVisPanel(i, itemslots[i].GetMyQuant(), itemslots[i].getSprite());
-        }
     }
 }
