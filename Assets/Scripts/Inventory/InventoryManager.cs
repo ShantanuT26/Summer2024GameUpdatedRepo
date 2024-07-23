@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.UI;
 using UnityEngine.UI;
+using System;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class InventoryManager : MonoBehaviour
     private InputAction myInventory;
     [SerializeField]private ItemSlotScript[] itemslots;
     [SerializeField]private ScrObj[] scrobj;
+    public static event Action BackToGame;
+    public static event Action BackToMainMenu;
+
 
     private void Awake()
     {
@@ -31,8 +35,12 @@ public class InventoryManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        myInventory.performed += invPerformed;
-        myInventory.canceled += invCanceled;
+        /* myInventory.performed += invPerformed;
+         myInventory.canceled += invCanceled;*/
+        ItemMenuManager.OpenHerbsMenu += OpenHerbsMenu;
+        BackToGame += CloseHerbsMenu;
+        BackToMainMenu += CloseHerbsMenu;
+        
     }
     public bool GetWasDropped()
     {
@@ -58,7 +66,21 @@ public class InventoryManager : MonoBehaviour
     {
         return scrobj[x];
     }
-    private void invPerformed(InputAction.CallbackContext context)
+    public void CloseHerbsMenu()
+    {
+        Time.timeScale = 1;
+        inventory.SetActive(false);
+        menuActive = false;
+    }
+    public void BackToGameButtonClicked()
+    {
+        BackToGame.Invoke();
+    }
+    public void BackToMainMenuButtonClicked()
+    {
+        BackToMainMenu.Invoke();
+    }
+    /*private void invPerformed(InputAction.CallbackContext context)
     {
         Time.timeScale = 0;
         if(menuActive)
@@ -86,6 +108,12 @@ public class InventoryManager : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+    }*/
+    private void OpenHerbsMenu()
+    {
+        Time.timeScale = 0;
+        inventory.SetActive(true);
+        menuActive = true;
     }
     public void DeselectAllSlots()
     {

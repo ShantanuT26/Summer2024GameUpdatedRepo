@@ -16,7 +16,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     [SerializeField] private ItemSlotScript mySlot;
     [SerializeField] private Sprite myBackground;
     private Transform parentafterdrag;
-    private Vector2 initialposition;        
+    private Vector2 initialposition;
+    [SerializeField] private GameObject inventoryCanvas;
     private InventoryManager inventoryManager;
     [SerializeField] private GameObject selectedPanel;
     private void Awake()
@@ -24,9 +25,12 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         intoSameType = false;
         myPlayerInput = GetComponent<PlayerInput>();
         rightClick = myPlayerInput.actions["RightClick"];
-        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
         parentafterdrag = this.gameObject.transform.parent;
         initialposition = new Vector2(0, 0);
+    }
+    private void Start()
+    {
+        inventoryManager = inventoryCanvas.GetComponent<InventoryManager>();
     }
     public UnityEngine.UI.Image GetImage()
     {

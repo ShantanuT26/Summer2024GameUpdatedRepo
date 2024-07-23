@@ -7,6 +7,7 @@ public class Item : MonoBehaviour
     [SerializeField] string name;
     [SerializeField] int quantity;
     [SerializeField] Sprite sprite;
+    [SerializeField]private GameObject inventoryCanvas;
     private InventoryManager inventoryManager;
 
     private void Awake()
@@ -15,7 +16,7 @@ public class Item : MonoBehaviour
     }
     void Start()
     {
-        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
+        inventoryManager = inventoryCanvas.GetComponent<InventoryManager>();
     }
     public Sprite getSprite()
     {

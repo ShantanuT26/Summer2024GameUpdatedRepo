@@ -16,18 +16,18 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
     [SerializeField]private Image myImage;
     [SerializeField]private TMP_Text quant;
     public GameObject selecthighlight;
-    private InventoryManager inventoryManager;
-    private ManaManager manaManager;
-    private HealthManager healthManager;
+    [SerializeField]private InventoryManager inventoryManager;
+    [SerializeField] private ManaManager manaManager;
+    [SerializeField] private HealthManager healthManager;
     private Transform parentAfterDrag;
     [SerializeField] private Sprite itembackground;
     [SerializeField]private Vector2 imgstartposition;
 
     private void Awake()
     {
-        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
+        /*inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
         healthManager = GameObject.Find("MyHealth").GetComponent<HealthManager>();
-        manaManager=GameObject.Find("MyMana").GetComponent<ManaManager>();
+        manaManager=GameObject.Find("MyMana").GetComponent<ManaManager>();*/
         myquant = 0;
         imgstartposition = myImage.transform.position;
     }
@@ -93,6 +93,7 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
     }
     public void OnPointerDown(PointerEventData eventdata)
     {
+        Debug.Log("pointerdownonitemslot");
         inventoryManager.DeselectAllSlots();
         SetHighlight(true);
         changeStats();
