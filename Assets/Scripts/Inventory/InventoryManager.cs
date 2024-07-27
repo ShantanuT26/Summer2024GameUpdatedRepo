@@ -15,6 +15,7 @@ public class InventoryManager : MonoBehaviour
     private InputAction myInventory;
     [SerializeField]private ItemSlotScript[] itemslots;
     [SerializeField]private ScrObj[] scrobj;
+    [SerializeField] private HashSet<ScrObj> herbs;
     public static event Action BackToGame;
     public static event Action BackToMainMenu;
 
@@ -23,14 +24,20 @@ public class InventoryManager : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         myInventory = playerInput.actions["Inventory"];
+        herbs = new HashSet<ScrObj>();
     }
     private void Start()
     {
         inventory.SetActive(false);
         menuActive = false;
+        
         for (int i = 0; i < itemslots.Length; i++)
         {
             itemslots[i].setMyIndex(i);
+        }
+        for(int i = 0; i < scrobj.Length; i++)
+        {
+            herbs.Add(scrobj[i]);
         }
     }
     private void OnEnable()
@@ -40,6 +47,7 @@ public class InventoryManager : MonoBehaviour
         ItemMenuManager.OpenHerbsMenu += OpenHerbsMenu;
         BackToGame += CloseHerbsMenu;
         BackToMainMenu += CloseHerbsMenu;
+        
         
     }
     public bool GetWasDropped()
@@ -122,8 +130,9 @@ public class InventoryManager : MonoBehaviour
             itemslots[i].SetHighlight(false);
         }
     }   
-    public void addItem(string n, int q, Sprite s)
+    public void addItem(ScrObj itemInfo, int q)
     {
+        //PotionsCraftingManager.InvokeCheckHerbsOnPlayerAction();
         Debug.Log("itemaddedfrominvmanager");
         for(int i = 0; i<16; i++)
         {
@@ -134,18 +143,18 @@ public class InventoryManager : MonoBehaviour
                 {
                     Debug.Log("fillingitemslotfrominvmanager");
                     Debug.Log("quantitytofill: " + q);
-                    itemslots[i].FillSlot(n, q, s);
+                    itemslots[i].FillSlot(itemInfo, q);
                 }
                 else
                 {
-                    itemslots[i].FillSlot(n, 64, s);
-                    addItem(n, q - 64, s);
+                    itemslots[i].FillSlot(itemInfo, 64);
+                    addItem(itemInfo, q - 64);
                 }
                 break;
             }
             else
             {
-                if (itemslots[i].GetName() == n && itemslots[i].GetMyQuant()!=64)
+                if (itemslots[i].GetName() == itemInfo.name && itemslots[i].GetMyQuant()!=64)
                 {
                     if(itemslots[i].GetMyQuant() + q <= 64)
                     {
@@ -155,11 +164,12 @@ public class InventoryManager : MonoBehaviour
                     {
                         int tempquant = itemslots[i].GetMyQuant();
                         itemslots[i].SetQuantity(64);
-                        addItem(n, tempquant + q - 64, s);
+                        addItem(itemInfo, tempquant + q - 64);
                     }
                     break;
                 }
             }
+            herbs.Add(itemInfo);
         }
         Debug.Log("slot0count: " + itemslots[0].GetMyQuant() + " sprite: " + itemslots[0].getSprite() + " name: " + itemslots[0].
             GetName());

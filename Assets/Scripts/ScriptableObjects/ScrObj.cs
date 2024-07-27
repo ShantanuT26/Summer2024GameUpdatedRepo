@@ -5,30 +5,34 @@ using UnityEngine;
 [CreateAssetMenu]
 public class ScrObj : ScriptableObject
 {
-    [SerializeField] private new string name;
-    [SerializeField] private int healing;
-    [SerializeField] private int mana;
-    // Start is called before the first frame update
-    public string getName()
+    public new string name;
+    public int healing;
+    public int mana;
+    public Sprite sprite;
+    public Sprite background;
+    public void Empty()
     {
-        return name;
+        name = "";
+        healing = 0;
+        mana = 0;
+        sprite = background;
     }
-    public int getHealing()
+    public override bool Equals(object other)
     {
-        return healing;
+        if (other == null || GetType() != other.GetType())
+        {
+            return false;
+        } 
+        ScrObj temp = (ScrObj)other;
+        return temp.name==name && temp.mana==mana && temp.sprite==sprite && temp.healing == healing;
     }
-    public int getMana()
+    public override int GetHashCode()
     {
-        return mana;
-    }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        int hash = 17;
+        hash = hash*23 + name.GetHashCode();
+        hash = hash*23 + healing.GetHashCode();
+        hash=hash*23 + mana.GetHashCode();
+        hash=hash*23 + sprite.GetHashCode();
+        return hash;
     }
 }

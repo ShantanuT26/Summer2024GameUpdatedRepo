@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Xml.Linq;
 
 public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHandler, IDragHandler, IEndDragHandler,*/ IDropHandler
 {
@@ -12,7 +13,6 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
     private bool draggedinto;
     private int myindex;
     [SerializeField]private int myquant;
-    private string myname="";
     [SerializeField]private Image myImage;
     [SerializeField]private TMP_Text quant;
     public GameObject selecthighlight;
@@ -22,6 +22,7 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
     private Transform parentAfterDrag;
     [SerializeField] private Sprite itembackground;
     [SerializeField]private Vector2 imgstartposition;
+    private ScrObj slotInfo;
 
     private void Awake()
     {
@@ -30,6 +31,8 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
         manaManager=GameObject.Find("MyMana").GetComponent<ManaManager>();*/
         myquant = 0;
         imgstartposition = myImage.transform.position;
+        slotInfo = new ScrObj();
+        slotInfo.Empty();
     }
     public void SetMyQuant(int x)
     {
@@ -49,7 +52,7 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
     }
     public string GetName()
     {
-        return myname;
+        return slotInfo.name;
     }
     public bool GetDraggedInto()
     {
@@ -69,30 +72,40 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
     }
     public Sprite getSprite()
     {
-        return myImage.sprite;
+        return slotInfo.sprite;
     }
     public void SetSprite(Sprite x)
     {
         Debug.Log("itemslotspriteset");
-        myImage.sprite = x;
+        slotInfo.sprite = x;
     }
     public void ClearSlot()
     {
         Debug.Log("settingempty2");
         quant.text = "00";
         myquant = 0;
-        myname = "";
-        myImage.sprite = itembackground;
+        slotInfo.name = "";
+        slotInfo.sprite = itembackground;
+        UpdateSlotAppearance();
     }
-    public void FillSlot(string name, int quantity, Sprite sprite)
+    private void FillSlotInfo(ScrObj x)
     {
-        Debug.Log("q: " + quantity);
-        myname = name;
-        myImage.sprite = sprite;
+        slotInfo.healing = x.healing;
+        slotInfo.sprite = x.sprite;
+        slotInfo.mana = x.mana;
+        slotInfo.name = x.name;
+    }
+    public void FillSlot(ScrObj itemInfo, int quantity)
+    {
+        //slotInfo.name = itemInfo.name;
+        //slotInfo.sprite = itemInfo.sprite;
+        FillSlotInfo(itemInfo);
         SetQuantity(quantity);
+        UpdateSlotAppearance();
     }
-    public void OnPointerDown(PointerEventData eventdata)
+    public void OnPointerDown(PointerEventData eventData)
     {
+        //PotionsCraftingManager.InvokeCheckHerbsOnPlayerAction();
         Debug.Log("pointerdownonitemslot");
         inventoryManager.DeselectAllSlots();
         SetHighlight(true);
@@ -103,23 +116,22 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
         if (myquant>0)
         {
             AdjustQuantity(-1);
-            for(int i = 0; i<this.inventoryManager.GetScrObjArray().Length; i++)
-            {
-                if (inventoryManager.GetScrObj(i).name == myname)
-                {
-                    manaManager.updateMana(inventoryManager.GetScrObj(i).getMana());
-                    healthManager.updateHealth(inventoryManager.GetScrObj(i).getHealing());
-                }
-            }
+            manaManager.updateMana(slotInfo.mana);
+            healthManager.updateHealth(slotInfo.healing);
         }
         if(CheckIsEmpty())
         {
             Debug.Log("settingempty1");
             //make a (or implement an already existing) clearslot method
-            myname = "";
-            myImage.sprite = itembackground;
+            slotInfo.name = "";
+            slotInfo.sprite = itembackground;
             quant.text = "00";
         }
+        UpdateSlotAppearance();
+    }
+    private void UpdateSlotAppearance()
+    {
+        myImage.sprite = slotInfo.sprite;
     }
     public void AdjustQuantity(int x)
     {
@@ -141,57 +153,75 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
         }
         return false;
     }
+    private void KeepSlotSame(DraggableItem draggableitem)
+    {
+        myquant = draggableitem.getSlot().myquant;
+        quant.text = myquant.ToString();
+        slotInfo.name = draggableitem.getSlot().slotInfo.name;
+        slotInfo.sprite = draggableitem.getSlot().slotInfo.sprite;
+    }
+    private void HandleDropIntoEmptySlot(DraggableItem draggableitem)
+    {
+        myquant = draggableitem.getSlot().myquant;
+        quant.text = myquant.ToString();
+        slotInfo.name = draggableitem.getSlot().slotInfo.name;
+        draggableitem.getSlot().ClearSlot();
+    }
+    private void HandleNonOverflowDropIntoPartiallyFilledSlot(DraggableItem draggableitem)
+    {
+        myquant += draggableitem.getSlot().myquant;
+        quant.text = myquant.ToString();
+        draggableitem.getSlot().ClearSlot();
+    }
+    private void HandleOverflowDropIntoPartiallyFilledSlot(DraggableItem draggableitem)
+    {
+        int tempquant1 = myquant;
+        myquant = 64;
+        quant.text = myquant.ToString();
+        int tempquant2 = tempquant1 + draggableitem.getSlot().myquant - 64;
+        draggableitem.getSlot().ClearSlot();
+        slotInfo.sprite=slotInfo.sprite;
+        inventoryManager.addItem(slotInfo, tempquant2);
+    }
     public void OnDrop(PointerEventData eventData)
     {
         inventoryManager.SetWasDropped(true);
         GameObject dropped = eventData.pointerDrag;
         DraggableItem draggableitem = dropped.GetComponent<DraggableItem>();
-        myImage.sprite = dropped.GetComponent<Image>().sprite;
+        slotInfo.sprite = dropped.GetComponent<Image>().sprite;
+
         if (this == draggableitem.getSlot())
         {
-            myquant = draggableitem.getSlot().myquant;
-            quant.text = myquant.ToString();
-            myname = draggableitem.getSlot().myname;
+            KeepSlotSame(draggableitem);
         }
-        else if (myname=="")
-        { 
-            myquant = draggableitem.getSlot().myquant;
-            quant.text = myquant.ToString();
-            myname = draggableitem.getSlot().myname;
-            draggableitem.getSlot().ClearSlot();
+        else if (slotInfo.name=="")
+        {
+            HandleDropIntoEmptySlot(draggableitem);
         }
-       else if(myname==draggableitem.getSlot().myname)
+       else if(slotInfo.name==draggableitem.getSlot().slotInfo.name)
         {
             draggableitem.intoSameType = true;
             if(this.myquant+draggableitem.getSlot().myquant<=64)
             {
-                myquant += draggableitem.getSlot().myquant;
-                quant.text = myquant.ToString();
-                draggableitem.getSlot().ClearSlot();
+                HandleNonOverflowDropIntoPartiallyFilledSlot(draggableitem);
             }
             else
             {
-                int tempquant1 = myquant;
-                myquant = 64;
-                quant.text = myquant.ToString();
-                int tempquant2 = tempquant1 + draggableitem.getSlot().myquant - 64;
-                draggableitem.getSlot().ClearSlot();
-                inventoryManager.addItem(myname, tempquant2, myImage.sprite);
+                HandleOverflowDropIntoPartiallyFilledSlot(draggableitem);
 
             }
         }
-        else if(myname != draggableitem.getSlot().myname)
+        else if(slotInfo.name != draggableitem.getSlot().slotInfo.name)
         {
             draggableitem.getSlot().myquant = draggableitem.getSlot().myquant;
             draggableitem.getSlot().quant.text = draggableitem.getSlot().myquant.ToString();
-            draggableitem.getSlot().myname = draggableitem.getSlot().myname;
-            draggableitem.getSlot().myImage.sprite = draggableitem.getSlot().myImage.sprite;
-            myquant = myquant;
-            quant.text = myquant.ToString();
-            myname = myname;
-            myImage.sprite = myImage.sprite;
+            draggableitem.getSlot().slotInfo.name = draggableitem.getSlot().slotInfo.name;
+            draggableitem.getSlot().slotInfo.sprite = draggableitem.getSlot().slotInfo.sprite;
+            KeepSlotSame(draggableitem);
         }
+        
         draggedinto = true;
+        UpdateSlotAppearance();
         
         //KEEP NEXT LINE!!
         //inventoryManager.prevDragCount = inventoryManager.checkDraggedInto();

@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    [SerializeField] string name;
+    [SerializeField] private ScrObj itemInfo;
+    //[SerializeField] string name;
     [SerializeField] int quantity;
-    [SerializeField] Sprite sprite;
+    //[SerializeField] Sprite sprite;
     [SerializeField]private GameObject inventoryCanvas;
     private InventoryManager inventoryManager;
 
     private void Awake()
     {
-        sprite = GetComponent<SpriteRenderer>().sprite;
     }
     void Start()
     {
         inventoryManager = inventoryCanvas.GetComponent<InventoryManager>();
     }
-    public Sprite getSprite()
-    {
-        return sprite;
-    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         this.gameObject.SetActive(false);
-        inventoryManager.addItem(name, quantity, sprite);
+        inventoryManager.addItem(itemInfo, quantity);
+        /* Change to inventoryManager.addItem(scriptableobject, quantity);  where scriptableobject
+         contains name, sprite, healing, and mana (or whatever) (or replace healing and mana with description, 
+        since potions will have healing and mana, and herbs will have nothing*/
+
+
     }
 }
