@@ -66,6 +66,7 @@ public class Projectile : MonoBehaviour
         this.damage = damage;
         this.speed = speed;
         travelDirection = entity.GetFacingDirection();
+        Debug.Log("enemy2facing: " + entity.GetFacingDirection());
     }
     void Update()
     {

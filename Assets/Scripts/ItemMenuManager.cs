@@ -14,6 +14,8 @@ public class ItemMenuManager : MonoBehaviour
         OpenHerbsMenu += CloseItemMenu;
         OpenPotionsMenu += CloseItemMenu;
         InventoryManager.BackToMainMenu += OpenItemMenu;
+        PotionsMenu.BackToMainMenu += OpenItemMenu;
+        PotionsCraftingMenu.ToMainMenu += OpenItemMenu;
     }
     private void Start()
     {
@@ -29,6 +31,7 @@ public class ItemMenuManager : MonoBehaviour
     }
     public void CloseItemMenu()
     {
+        Debug.Log("closingitemmenu");
         itemMenu.SetActive(false);
     }
     public void OnHerbsMenuClickFinished()   

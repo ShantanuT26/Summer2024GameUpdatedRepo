@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using Unity.UI;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -34,10 +35,6 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < itemslots.Length; i++)
         {
             itemslots[i].setMyIndex(i);
-        }
-        for(int i = 0; i < scrobj.Length; i++)
-        {
-            herbs.Add(scrobj[i]);
         }
     }
     private void OnEnable()
@@ -170,6 +167,13 @@ public class InventoryManager : MonoBehaviour
                 }
             }
             herbs.Add(itemInfo);
+            Debug.Log("itemname: " + itemInfo);
+            ScrObj[] printherbs1 = herbs.ToArray<ScrObj>();
+            foreach (ScrObj pr1 in printherbs1)
+            {
+                Debug.Log("addedherbafter: " + pr1.name);
+            }
+            PotionsCraftingManager.InvokeCheckHerbsOnPlayerAction(herbs);
         }
         Debug.Log("slot0count: " + itemslots[0].GetMyQuant() + " sprite: " + itemslots[0].getSprite() + " name: " + itemslots[0].
             GetName());
