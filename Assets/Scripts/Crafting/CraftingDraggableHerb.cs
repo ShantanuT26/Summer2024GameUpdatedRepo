@@ -5,21 +5,22 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class CraftingDraggableHerb : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class CraftingDraggableHerb : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     [SerializeField] private GameObject dragCanvas;
     [SerializeField] private GameObject origParent;
     private Vector2 origPosition;
+    public ScrObj itemInfo { get; private set; }
     private void Awake()
     {
         origPosition = (Vector2)transform.localPosition;
         Debug.Log("origposition: " + origPosition);
-    }
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        
-    }
 
+    }
+    public void SetItemInfo(ScrObj x)
+    {
+        itemInfo = x;
+    }
     public void OnDrag(PointerEventData eventData)
     {
         transform.position = Mouse.current.position.ReadValue();
@@ -31,20 +32,6 @@ public class CraftingDraggableHerb : MonoBehaviour, IDragHandler, IBeginDragHand
     {
         this.GetComponent<Image>().raycastTarget = true;
         this.transform.SetParent(origParent.transform);
-        this.transform.position = (Vector2)this.transform.parent.position + origPosition;
-        ///this.transform.localPosition = origPosition;
-        //Debug.Log("herbposition: " + this.transform.localPosition);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        this.transform.localPosition = new Vector2(0f, 0f);
     }
 }

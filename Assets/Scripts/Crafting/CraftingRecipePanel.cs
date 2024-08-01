@@ -7,24 +7,15 @@ using UnityEngine.UI;
 public class CraftingRecipePanel : MonoBehaviour, IDropHandler
 {
     [SerializeField] private Image myImage;
+    public ScrObj itemInfo {get; private set;}
     public void OnDrop(PointerEventData eventData)
     {
         GameObject dropped = eventData.pointerDrag;
         CraftingDraggableHerb droppedHerb = dropped.GetComponent<CraftingDraggableHerb>();
         Image herbImage = droppedHerb.GetComponent<Image>();
         myImage.sprite = herbImage.sprite;
+        itemInfo = droppedHerb.itemInfo;
         //Debug.Log("itemdropped: " + eventData.)
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log("recipeslotinfo: " + itemInfo.name);
     }
 }

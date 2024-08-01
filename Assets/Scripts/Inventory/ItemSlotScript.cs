@@ -12,7 +12,7 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
     
     private bool draggedinto;
     private int myindex;
-    [SerializeField]private int myquant;
+    public int myquant;
     [SerializeField]private Image myImage;
     [SerializeField]private TMP_Text quant;
     public GameObject selecthighlight;
@@ -22,7 +22,7 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
     private Transform parentAfterDrag;
     [SerializeField] private Sprite itembackground;
     [SerializeField]private Vector2 imgstartposition;
-    private ScrObj slotInfo;
+    public ScrObj slotInfo { get; private set; }
 
     private void Awake()
     {

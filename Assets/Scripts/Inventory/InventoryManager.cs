@@ -19,8 +19,6 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private HashSet<ScrObj> herbs;
     public static event Action BackToGame;
     public static event Action BackToMainMenu;
-
-
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -39,13 +37,9 @@ public class InventoryManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        /* myInventory.performed += invPerformed;
-         myInventory.canceled += invCanceled;*/
         ItemMenuManager.OpenHerbsMenu += OpenHerbsMenu;
         BackToGame += CloseHerbsMenu;
-        BackToMainMenu += CloseHerbsMenu;
-        
-        
+        BackToMainMenu += CloseHerbsMenu; 
     }
     public bool GetWasDropped()
     {
@@ -85,35 +79,6 @@ public class InventoryManager : MonoBehaviour
     {
         BackToMainMenu.Invoke();
     }
-    /*private void invPerformed(InputAction.CallbackContext context)
-    {
-        Time.timeScale = 0;
-        if(menuActive)
-        {
-            inventory.SetActive(false);
-            menuActive = false;
-        }
-        else if(!menuActive)
-        {
-            inventory.SetActive(true);
-            menuActive = true;
-            Debug.Log("slot0count: " + itemslots[0].GetMyQuant() + " sprite: " + itemslots[0].getSprite() + " name: " + itemslots[0].
-            GetName());
-            Debug.Log("slot1count: " + itemslots[1].GetMyQuant() + " sprite: " + itemslots[1].getSprite() + " name: " + itemslots[1].
-            GetName());
-        }
-    }
-    private void invCanceled(InputAction.CallbackContext context)
-    {
-        if (menuActive)
-        {
-            Time.timeScale = 0;
-        }
-        else if(!menuActive)
-        {
-            Time.timeScale = 1;
-        }
-    }*/
     private void OpenHerbsMenu()
     {
         Time.timeScale = 0;
@@ -129,8 +94,7 @@ public class InventoryManager : MonoBehaviour
     }   
     public void addItem(ScrObj itemInfo, int q)
     {
-        //PotionsCraftingManager.InvokeCheckHerbsOnPlayerAction();
-        Debug.Log("itemaddedfrominvmanager");
+        int itemCount = 0;
         for(int i = 0; i<16; i++)
         {
             if (itemslots[i].GetName()=="")
@@ -166,19 +130,22 @@ public class InventoryManager : MonoBehaviour
                     break;
                 }
             }
-            herbs.Add(itemInfo);
-            Debug.Log("itemname: " + itemInfo);
-            ScrObj[] printherbs1 = herbs.ToArray<ScrObj>();
-            foreach (ScrObj pr1 in printherbs1)
-            {
-                Debug.Log("addedherbafter: " + pr1.name);
-            }
-            PotionsCraftingManager.InvokeCheckHerbsOnPlayerAction(herbs);
         }
-        Debug.Log("slot0count: " + itemslots[0].GetMyQuant() + " sprite: " + itemslots[0].getSprite() + " name: " + itemslots[0].
-            GetName());
-        Debug.Log("slot1count: " + itemslots[1].GetMyQuant() + " sprite: " + itemslots[1].getSprite() + " name: " + itemslots[1].
-            GetName());
+        foreach(ItemSlotScript slot in itemslots)
+        {
+            if(slot.slotInfo.name == itemInfo.name)
+            {
+                itemCount += slot.myquant;
+            }
+        }
+        herbs.Add(itemInfo);
+        Debug.Log("itemname: " + itemInfo);
+        ScrObj[] printherbs1 = herbs.ToArray<ScrObj>();
+        foreach (ScrObj pr1 in printherbs1)
+        {
+            Debug.Log("addedherbafter: " + pr1.name);
+        }
+        PotionsCraftingManager.InvokeCheckHerbsOnPlayerAction(herbs, itemCount);
     }
     public int checkDraggedInto()
     {
