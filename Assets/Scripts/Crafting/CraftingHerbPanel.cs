@@ -49,6 +49,11 @@ public class CraftingHerbPanel : MonoBehaviour
         quantity = x;
         displayedQuantity.text = x.ToString();
     }
+    public void AdjustQuantity(int x)
+    {
+        quantity += x;
+        displayedQuantity.text = quantity.ToString();
+    }
     public void SetSlotContentsInfo(ScrObj x)
     {
         slotContentsInfo = x;

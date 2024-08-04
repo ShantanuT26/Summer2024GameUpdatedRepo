@@ -18,4 +18,13 @@ public class CraftingRecipePanel : MonoBehaviour, IDropHandler
         //Debug.Log("itemdropped: " + eventData.)
         Debug.Log("recipeslotinfo: " + itemInfo.name);
     }
+    public void UpdateAppearance(ScrObj currentInfo)
+    {
+        myImage.sprite = currentInfo.sprite;
+    }
+    public void ClearPanel()
+    {
+        itemInfo.Empty();
+        UpdateAppearance(itemInfo);
+    }
 }

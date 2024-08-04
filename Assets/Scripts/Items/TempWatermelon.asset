@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TempWatermelon
   m_EditorClassIdentifier: 
   name: Watermelon
-  healing: 2
-  mana: 20
+  healing: 0
+  mana: 0
   sprite: {fileID: 21300000, guid: ece33d1b60b82b641a44fc2c0560910f, type: 3}
   background: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}

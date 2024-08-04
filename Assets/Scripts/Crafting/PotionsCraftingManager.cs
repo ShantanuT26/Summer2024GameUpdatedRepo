@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEditor.TerrainTools;
 
 public class PotionsCraftingManager : MonoBehaviour
 {
@@ -15,52 +16,63 @@ public class PotionsCraftingManager : MonoBehaviour
     [SerializeField] private CraftingResultPanel craftingResultPanel;
 
     public ScrObj[] possibleHerbs;
-    public static event Action<HashSet<ScrObj>, int> CheckHerbsOnPlayer;
+    public static event Action<ScrObj, int> CheckHerbsOnPlayer;
+    public static event Action<ScrObj, int> AdjustHerbsDisplayInCraftingMenu;
     public static event Action<ScrObj> SetHerbContentsInfo;
-
+    public static event Action<ScrObj, int> AdjustHerbDisplayInHerbsMenu;
+    bool added = false;
     private void OnEnable()
     {
-        CheckHerbsOnPlayer += AdjustHerbDisplay;
+        CheckHerbsOnPlayer += AddToHerbImageDisplay;
+        AdjustHerbsDisplayInCraftingMenu += AdjustHerbImageDisplay;
     }
-    public static void InvokeCheckHerbsOnPlayerAction(HashSet<ScrObj> herbs, int x)
+    public static void InvokeCheckHerbsOnPlayerAction(ScrObj herb, int x)
     {
-        CheckHerbsOnPlayer.Invoke(herbs, x);
+        CheckHerbsOnPlayer.Invoke(herb, x);
     }
-    private void AdjustHerbDisplay(HashSet<ScrObj> herbs, int herbQuantity)
+    public static void InvokeAdjustHerbsDisplayInCraftingMenuAction(ScrObj herb, int x)
     {
-        for(int i = 0; i<possibleHerbs.Length; i++) 
-        {
-            if (herbs.Contains(possibleHerbs[i]))
-            {
-                AddToHerbImageDisplay(possibleHerbs[i], herbQuantity);
-            }
-        }
+        AdjustHerbsDisplayInCraftingMenu.Invoke(herb, x);
     }
     private void AddToHerbImageDisplay(ScrObj herb, int herbQuant)
     {
-        Debug.Log("addingtoherbimagedisplay");
-        Debug.Log("addedherbinfo: " + herb.name);
-        bool alreadyThere = false;
+        bool added = false;
         for(int i = 0; i<herbsPanels.Length; i++) 
         {
-            if (herbsPanels[i].GetComponent<CraftingHerbPanel>().GetSprite()!=background)
+            Debug.Log("added: " + added);
+            if(herbsPanels[i].GetComponent<CraftingHerbPanel>().GetSprite() == herb.sprite)
             {
-                if (herbsPanels[i].GetComponent<CraftingHerbPanel>().GetSprite() == herb.sprite)
-                {
-                    alreadyThere = true;
-                }
+                Debug.Log("cond1met");
+                Debug.Log("currherbsprite: " + herb.sprite);
+                herbsPanels[i].GetComponent<CraftingHerbPanel>().AdjustQuantity(herbQuant);
+                added = true;
             }
-            else if (herbsPanels[i].GetComponent<CraftingHerbPanel>().GetSprite() == background && alreadyThere==false)
+            else if (herbsPanels[i].GetComponent<CraftingHerbPanel>().GetSprite() == background)
             {
-                //herbsPanels[i].GetComponent<CraftingHerbPanel>().SetSlotContentsInfo(herb);
-                //this next line sets the iteminfo for every herb panel, not just one
-                //SetHerbContentsInfo.Invoke(herb);
                 herbsPanels[i].GetComponent<CraftingHerbPanel>().SetSlotContentsInfo(herb);
                 herbsPanels[i].GetComponent<CraftingHerbPanel>().SetSprite(herb.sprite);
+                Debug.Log("Herbspanelsprite: "+ herbsPanels[i].GetComponent<CraftingHerbPanel>().GetSprite());
                 herbsPanels[i].GetComponent<CraftingHerbPanel>().SetQuantity(herbQuant);
-                alreadyThere = true;
+                added = true;
+                Debug.Log("added: " + added);
             }
-            if(alreadyThere)
+            if(added)
+            {
+                return;
+            }
+        }
+    }
+    private void AdjustHerbImageDisplay(ScrObj herb, int x)
+    {
+        bool added = false;
+        for (int i = 0; i < herbsPanels.Length; i++)
+        {
+            if (herbsPanels[i].GetComponent<CraftingHerbPanel>().GetSprite()== herb.sprite)
+            {
+                herbsPanels[i].GetComponent<CraftingHerbPanel>().AdjustQuantity(x);
+                added = true;
+            }
+            if (added)
             {
                 return;
             }
@@ -68,10 +80,15 @@ public class PotionsCraftingManager : MonoBehaviour
     }
     public void CreatePotion()
     {
+        Debug.Log("creatingpotion");
         ScrObj[] recipe = new ScrObj[4];
-        for(int i = 0; i<attemptedRecipe.Length; i++)
+        
+
+        for (int i = 0; i<attemptedRecipe.Length; i++)
         {
             recipe[i] = attemptedRecipe[i].GetComponent<CraftingRecipePanel>().itemInfo;
+            AdjustHerbDisplayInHerbsMenu.Invoke(attemptedRecipe[i].GetComponent<CraftingRecipePanel>().itemInfo, -1);
+            attemptedRecipe[i].ClearPanel();
             Debug.Log("attemptedrecipe: " + recipe[i]);
         }
         for(int i = 0; i<possiblePotions.Length; i++)
@@ -86,6 +103,5 @@ public class PotionsCraftingManager : MonoBehaviour
                 craftingResultPanel.SetSprite(possiblePotions[i].sprite);
             }
         }
-        //Debug.Log("attemptedrecipe: " + recipe[0] + ", " + recipe[1]);
     }
 }

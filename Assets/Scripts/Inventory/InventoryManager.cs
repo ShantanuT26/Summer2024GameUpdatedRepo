@@ -16,14 +16,14 @@ public class InventoryManager : MonoBehaviour
     private InputAction myInventory;
     [SerializeField]private ItemSlotScript[] itemslots;
     [SerializeField]private ScrObj[] scrobj;
-    [SerializeField] private HashSet<ScrObj> herbs;
+    
     public static event Action BackToGame;
     public static event Action BackToMainMenu;
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         myInventory = playerInput.actions["Inventory"];
-        herbs = new HashSet<ScrObj>();
+        
     }
     private void Start()
     {
@@ -35,11 +35,14 @@ public class InventoryManager : MonoBehaviour
             itemslots[i].setMyIndex(i);
         }
     }
+        
+
     private void OnEnable()
     {
         ItemMenuManager.OpenHerbsMenu += OpenHerbsMenu;
         BackToGame += CloseHerbsMenu;
-        BackToMainMenu += CloseHerbsMenu; 
+        BackToMainMenu += CloseHerbsMenu;
+        PotionsCraftingManager.AdjustHerbDisplayInHerbsMenu += AdjustItemQuantity;
     }
     public bool GetWasDropped()
     {
@@ -94,17 +97,16 @@ public class InventoryManager : MonoBehaviour
     }   
     public void addItem(ScrObj itemInfo, int q)
     {
-        int itemCount = 0;
         for(int i = 0; i<16; i++)
         {
             if (itemslots[i].GetName()=="")
             {
-                
                 if (q<=64)
                 {
                     Debug.Log("fillingitemslotfrominvmanager");
                     Debug.Log("quantitytofill: " + q);
                     itemslots[i].FillSlot(itemInfo, q);
+                    ItemAdded(itemInfo);
                 }
                 else
                 {
@@ -120,6 +122,7 @@ public class InventoryManager : MonoBehaviour
                     if(itemslots[i].GetMyQuant() + q <= 64)
                     {
                         itemslots[i].AdjustQuantity(q);
+                        ItemAdded(itemInfo);
                     }
                     else
                     {
@@ -131,21 +134,42 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
-        foreach(ItemSlotScript slot in itemslots)
+    }
+    public void AdjustItemQuantity(ScrObj itemInfo, int q)
+    {
+        Debug.Log("adjustingitemq");
+        for (int i = 15; i >= 0; i--)
         {
-            if(slot.slotInfo.name == itemInfo.name)
+            if (itemslots[i].slotInfo.Equals(itemInfo))
+            {
+                Debug.Log("quantityadjusted");
+                itemslots[i].AdjustQuantity(q);
+                break;
+            }
+        }
+    }
+    private void ItemAdded(ScrObj info)
+    {
+        /* I Initially had the code that was in this method at the very end of the AddItem() method,
+          but since AddItem() recursively calls itself, this got called multiple times too, which 
+        messed up the AdjustHerbDisplay method in PotionsCraftingManager, since I kept invoking
+        one of its actions with InvokeCheckHerbsOnPLayerAction*/
+        int herbCount = CheckTotalHerbsCount(info);
+        GlobalVariables.Instance.herbs.Add(info);
+        PotionsCraftingManager.InvokeCheckHerbsOnPlayerAction(info, herbCount);
+    }
+
+    public int CheckTotalHerbsCount(ScrObj herbInfo)
+    {
+        int itemCount = 0;
+        foreach (ItemSlotScript slot in itemslots)
+        {
+            if (slot.slotInfo.name == herbInfo.name)
             {
                 itemCount += slot.myquant;
             }
         }
-        herbs.Add(itemInfo);
-        Debug.Log("itemname: " + itemInfo);
-        ScrObj[] printherbs1 = herbs.ToArray<ScrObj>();
-        foreach (ScrObj pr1 in printherbs1)
-        {
-            Debug.Log("addedherbafter: " + pr1.name);
-        }
-        PotionsCraftingManager.InvokeCheckHerbsOnPlayerAction(herbs, itemCount);
+        return itemCount;
     }
     public int checkDraggedInto()
     {

@@ -34,6 +34,7 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
         slotInfo = new ScrObj();
         slotInfo.Empty();
     }
+    
     public void SetMyQuant(int x)
     {
         myquant = x;
@@ -94,6 +95,7 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
         slotInfo.sprite = x.sprite;
         slotInfo.mana = x.mana;
         slotInfo.name = x.name;
+        //slotInfo = x;
     }
     public void FillSlot(ScrObj itemInfo, int quantity)
     {
@@ -118,6 +120,7 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
             AdjustQuantity(-1);
             manaManager.updateMana(slotInfo.mana);
             healthManager.updateHealth(slotInfo.healing);
+            PotionsCraftingManager.InvokeAdjustHerbsDisplayInCraftingMenuAction(slotInfo, -1);
         }
         if(CheckIsEmpty())
         {
