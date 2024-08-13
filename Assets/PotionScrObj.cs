@@ -7,9 +7,9 @@ using UnityEngine;
 public class PotionScrObj : ScriptableObject
 {
     public Sprite sprite;
-    [SerializeField] private new string name;
-    [SerializeField] private int healing;
-    [SerializeField] private int mana;
+    public new string name;
+    public int healing;
+    public int mana;
 
     public ScrObj[] ingredients;
 }

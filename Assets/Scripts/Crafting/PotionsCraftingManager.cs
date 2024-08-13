@@ -20,6 +20,8 @@ public class PotionsCraftingManager : MonoBehaviour
     public static event Action<ScrObj, int> AdjustHerbsDisplayInCraftingMenu;
     public static event Action<ScrObj> SetHerbContentsInfo;
     public static event Action<ScrObj, int> AdjustHerbDisplayInHerbsMenu;
+    public static event Action<ScrObj[], int> AdjustHerbDisplayInHerbsMenuMultiple;
+    public static event Action<PotionScrObj> AddPotionToPotionsMenu;
     bool added = false;
     private void OnEnable()
     {
@@ -82,16 +84,18 @@ public class PotionsCraftingManager : MonoBehaviour
     {
         Debug.Log("creatingpotion");
         ScrObj[] recipe = new ScrObj[4];
-        
-
         for (int i = 0; i<attemptedRecipe.Length; i++)
         {
             recipe[i] = attemptedRecipe[i].GetComponent<CraftingRecipePanel>().itemInfo;
-            AdjustHerbDisplayInHerbsMenu.Invoke(attemptedRecipe[i].GetComponent<CraftingRecipePanel>().itemInfo, -1);
-            attemptedRecipe[i].ClearPanel();
+            
             Debug.Log("attemptedrecipe: " + recipe[i]);
         }
-        for(int i = 0; i<possiblePotions.Length; i++)
+        AdjustHerbDisplayInHerbsMenuMultiple.Invoke(recipe, -1);
+        for (int i = 0; i < attemptedRecipe.Length; i++)
+        {
+            attemptedRecipe[i].ClearPanel();
+        }
+        for (int i = 0; i<possiblePotions.Length; i++)
         {
             Debug.Log("potionrecipe: " + possiblePotions[i].ingredients[0]
                 + ", " + possiblePotions[i].ingredients[1]
@@ -101,6 +105,8 @@ public class PotionsCraftingManager : MonoBehaviour
             {
                 Debug.Log("successfulattempt");
                 craftingResultPanel.SetSprite(possiblePotions[i].sprite);
+                AddPotionToPotionsMenu.Invoke(possiblePotions[i]);
+                break;
             }
         }
     }

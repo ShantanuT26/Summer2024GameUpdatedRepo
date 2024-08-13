@@ -11,6 +11,7 @@ public class PlayerLandState : PlayerGroundedState
     public override void BeginAction()
     {
         base.BeginAction();
+        player.spawnedIntoDoor = false;
         Debug.Log("entering land state");
     }
 

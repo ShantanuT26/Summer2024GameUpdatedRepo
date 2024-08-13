@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
@@ -25,9 +26,11 @@ public class Player : MonoBehaviour
     public int facingDirection { get; private set; }
 
     public Weapon[] weaponLoadout;
-
-
     public int numJumpsLeft {get; private set; }
+
+    public bool spawnedIntoDoor;
+
+    public bool isCompletelyFrozen;
     private void Awake()
     {
         fsm = new PlayerFiniteStateMachine();
@@ -46,6 +49,8 @@ public class Player : MonoBehaviour
         facingDirection = 1;
         animationFinished = false;
         numJumpsLeft = playerData.numJumps;
+        spawnedIntoDoor = false;
+        isCompletelyFrozen = false;
 
         for(int i = 0; i<weaponLoadout.Length; i++)
         {
@@ -56,6 +61,7 @@ public class Player : MonoBehaviour
     {   
         PlayerState.changeAnimBool += SetAnimBool;
         fsm.SetInitialState(idleState);
+        SaveLoadManager.LoadPlayerDataAction += AdjustPositionAfterLoad;
     }
     private void Start()
     {
@@ -86,8 +92,24 @@ public class Player : MonoBehaviour
         }
         else
         {
-            rb.gravityScale = 8;
+            rb.gravityScale = 4;
         }   
+    }
+    public void CompletelyFreezePlayer(bool x)
+    {
+        if(x)
+        {
+            SuspendPlayerInAir(x);
+            SuspendHorizontalMovement();
+            rb.velocity = new Vector2(0, 0);
+            isCompletelyFrozen = true;
+        }
+        else
+        {
+            SetVelocity(0);
+            SuspendPlayerInAir(x);
+            isCompletelyFrozen = false;
+        }
     }
     public void SetVelocity(float x)
     {
@@ -150,6 +172,15 @@ public class Player : MonoBehaviour
         {
             Flip();
         }
+    }
+    public void AdjustPositionAfterLoad(PlayerLoadData data)
+    {
+        gameObject.transform.position = new Vector2(data.position[0], data.position[1]);
+    }
+    public void AdjustPositionAfteSceneSwitch(Vector2 newpos)
+    {
+        spawnedIntoDoor = true;
+        gameObject.transform.position = newpos;
     }
 }
 

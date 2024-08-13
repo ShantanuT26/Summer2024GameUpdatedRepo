@@ -15,3 +15,5 @@ MonoBehaviour:
   name: Watermelon
   healing: 0
   mana: 5
+  sprite: {fileID: 0}
+  background: {fileID: 0}

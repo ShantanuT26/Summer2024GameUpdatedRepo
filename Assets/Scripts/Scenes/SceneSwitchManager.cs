@@ -1,59 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneSwitchManager : MonoBehaviour
 {
-    //[SerializeField] private CanvasGroup canvasGroup;
-    //private string scene1 = "SampleScene";
-   // private string scene2 = "SampleSceneCont";
-    [SerializeField] private SceneField scene1;
-    [SerializeField] private SceneField scene2;
-    //IMPORTANT KEEP
-    //private PlayerController playerController;
-    private AsyncOperation loadScene2;
     private bool startCalled;
-    private bool sceneLoaded;
     private bool menuRemoved;
-    private Scene backgroundScene;
-    //TEMPORARY REFERENCE
-    private Player player;
-    private Camera backgroundSceneCam;
     [SerializeField]private Canvas menuCanvas;
+    private Player player;
     public void ButtonPressSceneSwitch()
     {
-        StartGame();
-        
+        StartGame(); 
     }
     private void Awake()
     {
         menuRemoved = false;
         startCalled = false;
-        sceneLoaded = false;
-        
     }
-    private void Start()
+    private void OnEnable()
     {
-        //IMPORTANT KEEP
-        //playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        //playerController.FreezePlayer(true);
-
-        //TEMPORARY LINES BELOW
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        //player.SuspendPlayerInAir(true);
+       /* DoorTrigger.LoadSceneAction += LoadScene;
+        DoorTrigger.UnloadScenesAction += UnloadScenes;
+        DoorTrigger.SpawnPlayerAtNewDoorAction += SpawnPlayerAtNewDoor;*/
+        DoorTrigger.LoadScenesAndSpawnPlayerAction += SceneLoadAndPlayerSpawn;
     }
     public void StartGame()
     {
-        //UnloadMainMenuObjects();
-        //StartCoroutine(FirstGameLoad());
+        player = GameObject.FindObjectOfType<Player>().GetComponent<Player>();
         startCalled = true;
-        //loadScene2 = SceneManager.LoadSceneAsync(scene2, LoadSceneMode.Additive);
-       // loadScene2.allowSceneActivation = false;
-        
-
-        //playerController.FreezePlayer(false);
     }   
     public void Update()
     {
@@ -63,58 +40,112 @@ public class SceneSwitchManager : MonoBehaviour
             {
                 UnloadMainMenuObjects();
             }
-          /*  if (loadScene2.progress >= 0.9f && !sceneLoaded)
-            {
-                loadScene2.allowSceneActivation = true;
-                if(loadScene2.isDone)
-                {
-                    backgroundScene = SceneManager.GetSceneByName(scene2);
-                    GameObject[] gameObjects = backgroundScene.GetRootGameObjects();
-                    for (int i = 0; i < gameObjects.Length; i++)
-                    {
-                        if (gameObjects[i].tag == "MainCamera")
-                        {
-                            backgroundSceneCam = gameObjects[i].GetComponent<Camera>();
-                        }
-                    }
-                    backgroundSceneCam.gameObject.SetActive(false);
-                    backgroundScene = SceneManager.GetSceneByName(scene2);
-                    SceneManager.SetActiveScene(SceneManager.GetSceneByName(scene1));   
-                    sceneLoaded = true;
-                    //TEMPORARY LINE
-                    player.SuspendPlayerInAir(false);
-
-                    //IMPORTANT KEEP
-                    //playerController.FreezePlayer(false);
-
-                }
-            }*/
         }
     }
-    /*public IEnumerator FirstGameLoad()
+    /*private void SpawnPlayerAtNewDoor(DoorTrigger.DoorToSpawnAt doorToSpawnAt)
     {
-        Debug.Log("coroutinestarted");
-        AsyncOperation loadScene1 = SceneManager.LoadSceneAsync(scene1);
-
-        while (!loadScene1.isDone);
+        DoorTrigger[] possibleDoors = GameObject.FindObjectsOfType<DoorTrigger>();
+        foreach(DoorTrigger door in possibleDoors)
         {
-            Debug.Log("loadscene1: " + loadScene1.isDone);
-            yield return null;
+            if(door.currentDoorPosition == doorToSpawnAt)
+            {
+                player.AdjustPositionAfteSceneSwitch(door.gameObject.transform.position);
+                break;
+            }
         }
-        Debug.Log("Loadedscene1");
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        playerController.FreezePlayer(true);
-        Debug.Log("Playerfrozen!"); 
-        AsyncOperation loadScene2 = SceneManager.LoadSceneAsync(scene2, LoadSceneMode.Additive);
-        while(!loadScene2.isDone) 
-        {
-            yield return null;
-        }
-        playerController.FreezePlayer(false);
     }*/
+    public void SceneLoadAndPlayerSpawn(SceneField sceneToLoad, SceneField[] scenesToUnload, 
+        DoorTrigger.DoorToSpawnAt doorToSpawnAt)
+    {
+        StartCoroutine(LoadScenesSpawnPlayerInOrder(sceneToLoad, scenesToUnload, doorToSpawnAt));
+    }
+
+    public IEnumerator LoadScenesSpawnPlayerInOrder(SceneField sceneToLoad, SceneField[] scenesToUnload, DoorTrigger.DoorToSpawnAt doorToSpawnAt)
+    {
+        
+        //LOADING SCENE
+        AsyncOperation loadingScene = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+        loadingScene.allowSceneActivation = true;
+        while(!loadingScene.isDone)
+        {
+            yield return null;
+        }
+        Camera[] allCameras = GameObject.FindObjectsOfType<Camera>();
+
+        //MAINTAINING CAMERA
+        foreach (Camera camera in allCameras)
+        {
+            if (camera.tag != "MainCamera")
+            {
+                camera.gameObject.SetActive(false);
+            }
+        }
+
+        //STARTING FADE OUT CYCLE
+        SceneFadeManager.Instance.StartFadeOutCycle();
+        player.CompletelyFreezePlayer(true);
+        Debug.Log("Playerfrozentrue");
+
+        while (SceneFadeManager.Instance.GetIsFadingOut() == true)
+        {
+            yield return null;
+        }
+        //SPAWNING PLAYER
+
+        DoorTrigger[] possibleDoors = GameObject.FindObjectsOfType<DoorTrigger>();  
+        foreach (DoorTrigger door in possibleDoors)
+        {
+            if (door.currentDoorPosition == doorToSpawnAt)
+            {
+                player.AdjustPositionAfteSceneSwitch(door.gameObject.transform.position);
+                player.CompletelyFreezePlayer(false);
+                Debug.Log("Playerfrozenfalse");
+                break;
+            }
+        }
+
+        //STARTING FADE IN CYCLE 
+        SceneFadeManager.Instance.StartFadeInCycle();
+
+        //UNLOADING SCENES
+        for (int i = 0; i < scenesToUnload.Length; i++)
+        {
+            SceneManager.UnloadSceneAsync(scenesToUnload[i]);
+        }
+    }
+              
     public void UnloadMainMenuObjects()
     {
         menuCanvas.gameObject.SetActive(false);
         menuRemoved = true;
     }
+   /* private void LoadScene(SceneField sceneToLoad)
+    {
+        StartCoroutine(InOrderSceneLoader(sceneToLoad));
+    }
+    private IEnumerator InOrderSceneLoader(SceneField sceneToLoad)
+    {
+        AsyncOperation currentOperation = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+        currentOperation.allowSceneActivation = true;
+
+        while (!currentOperation.isDone)
+        {
+            yield return null;
+        }
+        Camera[] allCameras = GameObject.FindObjectsOfType<Camera>();
+        foreach (Camera camera in allCameras)
+        {
+            if (camera.tag != "MainCamera")
+            {
+                camera.gameObject.SetActive(false);
+            }
+        }
+    }
+    private void UnloadScenes(SceneField[] scenesToUnload)
+    {
+        for (int i = 0; i < scenesToUnload.Length; i++)
+        {
+            SceneManager.UnloadSceneAsync(scenesToUnload[i]);
+        }
+    }*/
 }

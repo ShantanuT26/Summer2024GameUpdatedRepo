@@ -43,6 +43,7 @@ public class InventoryManager : MonoBehaviour
         BackToGame += CloseHerbsMenu;
         BackToMainMenu += CloseHerbsMenu;
         PotionsCraftingManager.AdjustHerbDisplayInHerbsMenu += AdjustItemQuantity;
+        PotionsCraftingManager.AdjustHerbDisplayInHerbsMenuMultiple += AdjustMultipleItemQuantities;
     }
     public bool GetWasDropped()
     {
@@ -147,6 +148,25 @@ public class InventoryManager : MonoBehaviour
                 break;
             }
         }
+    }
+    public void AdjustMultipleItemQuantities(ScrObj[] itemInfo, int q)
+    {
+        for(int j = 0; j<itemInfo.Length; j++)
+        {
+            Debug.Log("slot data crafting"  + j + ": " + itemInfo[j].name);
+            for (int i = 15; i >= 0; i--)
+            {
+                Debug.Log("amqslotinfo " + i + ": " + itemslots[i].slotInfo);
+                Debug.Log("amqiteminfo" + j + ": " + itemInfo[j]);
+                if (itemslots[i].slotInfo.Equals(itemInfo[j]))
+                {
+                    itemslots[i].AdjustQuantity(q);
+                    //TODO
+                    // calling break inside a nested for loop here might be damaging something
+                    break;
+                }
+            }
+        } 
     }
     private void ItemAdded(ScrObj info)
     {

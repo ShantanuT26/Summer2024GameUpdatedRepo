@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 728d3df4332a3334089cedac35e63fb3, type: 3}
   m_Name: E1_D_LookForPlayerState
   m_EditorClassIdentifier: 
+  timeBetweenFlips: 0.3
+  numFlips: 6

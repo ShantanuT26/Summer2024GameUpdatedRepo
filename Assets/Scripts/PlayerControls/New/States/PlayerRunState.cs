@@ -41,6 +41,9 @@ public class PlayerRunState : PlayerGroundedState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        player.SetVelocity(xInput * playerData.runSpeed);
+        if(xInput!=0 && !player.isCompletelyFrozen)
+        {
+            player.SetVelocity(xInput * playerData.runSpeed);
+        }
     }
 }

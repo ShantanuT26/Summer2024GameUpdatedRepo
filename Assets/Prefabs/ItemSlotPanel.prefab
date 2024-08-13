@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5337512421717373520}
   - component: {fileID: 739300508055846581}
   - component: {fileID: 8870004305944893610}
-  - component: {fileID: 6517834983887050511}
   - component: {fileID: 9034768342178874624}
   - component: {fileID: 2341822432961505131}
+  - component: {fileID: 7993275025127821942}
   m_Layer: 5
   m_Name: ItemSlotPanel
   m_TagString: Untagged
@@ -81,27 +81,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6517834983887050511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1663702463805010209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16d05576c4a1c6e4783b2cd914a0757d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myquant: 0
-  myImage: {fileID: 6145575823096211906}
-  quant: {fileID: 7955477192959727962}
-  selecthighlight: {fileID: 4733085438156588732}
-  inventoryManager: {fileID: 0}
-  manaManager: {fileID: 0}
-  healthManager: {fileID: 0}
-  itembackground: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  imgstartposition: {x: 0, y: 0}
 --- !u!223 &9034768342178874624
 Canvas:
   m_ObjectHideFlags: 0
@@ -142,6 +121,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7993275025127821942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663702463805010209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16d05576c4a1c6e4783b2cd914a0757d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myquant: 0
+  myImage: {fileID: 6145575823096211906}
+  quant: {fileID: 7955477192959727962}
+  selecthighlight: {fileID: 4733085438156588732}
+  inventoryManager: {fileID: 0}
+  manaManager: {fileID: 0}
+  healthManager: {fileID: 0}
+  itembackground: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  imgstartposition: {x: 0, y: 0}
 --- !u!1 &2606297506591232688
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   intoSameType: 0
   image: {fileID: 6145575823096211906}
-  mySlot: {fileID: 6517834983887050511}
+  mySlot: {fileID: 0}
   myBackground: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   inventoryCanvas: {fileID: 0}
   selectedPanel: {fileID: 4733085438156588732}

@@ -31,7 +31,7 @@ public class PlayerInAirState : PlayerState
             player.attackState.SetWeapon((int)PlayerAttacks.secondaryAttack);
             fsm.ChangeState(player.attackState);
         }
-        else if (xInput != 0)
+        else if (xInput != 0 && !player.isCompletelyFrozen)
         {
             player.SetVelocity(xInput*playerData.runSpeed); // change runspeed to air speed in player data
         }

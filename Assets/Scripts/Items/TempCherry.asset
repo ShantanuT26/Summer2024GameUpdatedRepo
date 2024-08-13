@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b1cb299bac182419d26c64f3b559cc, type: 3}
   m_Name: TempCherry
   m_EditorClassIdentifier: 
-  name: 
+  name: Cherry
   healing: 0
   mana: 0
-  sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  sprite: {fileID: 21300000, guid: c6f7bfd71209fc040b49b12d5457f483, type: 3}
   background: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}

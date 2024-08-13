@@ -104,6 +104,7 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
         FillSlotInfo(itemInfo);
         SetQuantity(quantity);
         UpdateSlotAppearance();
+        Debug.Log("Slot data " + myindex + ": " + slotInfo.name);
     }
     public void OnPointerDown(PointerEventData eventData)
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class ScrObj : ScriptableObject
     public int mana;
     public Sprite sprite;
     public Sprite background;
+
     public void Empty()
     {
         name = "";
