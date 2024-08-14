@@ -6,4 +6,5 @@ using UnityEngine;
 public class WalkingStateData : ScriptableObject
 {
     public float walkingSpeed  = 4f;
+    public float maxWalkTime = 4f;
 }

@@ -9,6 +9,7 @@ TagManager:
   - DeathChunks
   - Weapon
   - PlayerCamera
+  - NPC
   layers:
   - Default
   - TransparentFX

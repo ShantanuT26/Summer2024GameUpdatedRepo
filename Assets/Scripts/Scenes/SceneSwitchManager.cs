@@ -62,25 +62,29 @@ public class SceneSwitchManager : MonoBehaviour
 
     public IEnumerator LoadScenesSpawnPlayerInOrder(SceneField sceneToLoad, SceneField[] scenesToUnload, DoorTrigger.DoorToSpawnAt doorToSpawnAt)
     {
-        
-        //LOADING SCENE
-        AsyncOperation loadingScene = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
-        loadingScene.allowSceneActivation = true;
-        while(!loadingScene.isDone)
-        {
-            yield return null;
-        }
-        Camera[] allCameras = GameObject.FindObjectsOfType<Camera>();
 
-        //MAINTAINING CAMERA
-        foreach (Camera camera in allCameras)
+        //LOADING SCENE
+        var a = SceneManager.GetSceneByName(sceneToLoad);
+        if(!a.IsValid())
         {
-            if (camera.tag != "MainCamera")
+            AsyncOperation loadingScene = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+            loadingScene.allowSceneActivation = true;
+            while (!loadingScene.isDone)
             {
-                camera.gameObject.SetActive(false);
+                yield return null;
+            }
+            Camera[] allCameras = GameObject.FindObjectsOfType<Camera>();
+
+            //MAINTAINING CAMERA
+            foreach (Camera camera in allCameras)
+            {
+                if (camera.tag != "MainCamera")
+                {
+                    camera.gameObject.SetActive(false);
+                }
             }
         }
-
+        
         //STARTING FADE OUT CYCLE
         SceneFadeManager.Instance.StartFadeOutCycle();
         player.CompletelyFreezePlayer(true);

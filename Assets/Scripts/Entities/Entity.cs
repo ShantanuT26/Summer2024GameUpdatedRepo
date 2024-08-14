@@ -59,7 +59,6 @@ public class Entity : MonoBehaviour
 
     public virtual void Start()
     {
-        
         fsm = new FiniteStateMachine();
     }
     protected virtual void Awake()
@@ -227,7 +226,6 @@ public class Entity : MonoBehaviour
     public void SetAnimBool(string varName, bool myBool)
     {
         anim.SetBool(varName, myBool);
-
     }
     public void SetVelocity(float vel)
     {

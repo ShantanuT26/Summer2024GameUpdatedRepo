@@ -19,7 +19,7 @@ public class Enemy2_RangedAttackState : RangedAttackState
 
     public override void ActionPhysicsUpdate()
     {
-        base.ActionPhysicsUpdate();
+        base.ActionPhysicsUpdate(); 
         if(isInPlayerMeleeAttackDist)
         {
             fsm.ChangeState(enemy2.meleeAttackState);
