@@ -8,24 +8,40 @@ public class HouseManager : MonoBehaviour
 {
     private Dictionary<Vector2, House> houses;
     [SerializeField] private Tilemap houseTileMap;
+    public static HouseManager Instance;
 
+    private void Awake()
+    {
+        Instance = this;  
+    }
     private void Start()
     {
         houses = new Dictionary<Vector2, House>();
-        InitializeHouses();
+        //InitializeHouses();
     }
-    private void InitializeHouses()
+
+    public void PlaceNPCSInSavedPositions(List<Vector2>npcPositions)
+    {
+        foreach(Vector2 pos in npcPositions)
+        {
+            ObjectPooler.Instance.SpawnFromPool("NPC", pos, Quaternion.Euler(0, 0, 0));
+        }
+    }
+    public void InitializeHouses(SceneField myScene)
     {
         BoundsInt mapSize = houseTileMap.cellBounds;
-        Debug.Log("mapsize: " + mapSize);
+        
+        //GETTING TILEMAP POSITIONS OF EACH HOUSE
 
         List<BoundsInt> housePositions = DetectHouses(mapSize);
 
-        StartCoroutine(InitializePlayerCoroutine(housePositions));
+        //SPAWNING NPC'S IN THE WORLD POSITION OF EACH HOUSE
+
+        StartCoroutine(InitializePlayerCoroutine(housePositions, myScene));
         
     }
-    private IEnumerator InitializePlayerCoroutine(List<BoundsInt> housePositions)
-    {
+    private IEnumerator InitializePlayerCoroutine(List<BoundsInt> housePositions, SceneField myScene)
+    {   
         while(ObjectPooler.Instance.poolDict==null)
         {
             yield return null;
@@ -33,7 +49,7 @@ public class HouseManager : MonoBehaviour
         foreach (BoundsInt hp in housePositions)
         {
             Vector3 positionToInstantiate = FindWorldPositionOfBoundsInt(hp);
-            ObjectPooler.Instance.SpawnFromPool("NPC", positionToInstantiate, Quaternion.Euler(0, 0, 0));
+            ObjectPooler.Instance.SpawnNPCFromPool("NPC", positionToInstantiate, Quaternion.Euler(0, 0, 0), myScene);
         }
 
     }
@@ -58,7 +74,6 @@ public class HouseManager : MonoBehaviour
                     x = startPos.x + houseDimensions.x;
                     y = startPos.y + houseDimensions.y;
                 }
-                
             }
         }
         return detectedHouses;
@@ -71,7 +86,7 @@ public class HouseManager : MonoBehaviour
 
     private Vector3 FindWorldPositionOfBoundsInt(BoundsInt house)
     {
-        Vector3Int bottomCenter = new Vector3Int(house.xMin + (house.size.x / 2), house.yMin);
+        Vector3Int bottomCenter = new Vector3Int(house.xMin + (house.size.x / 2), house.yMin+2);
         Vector3 actualPosition = houseTileMap.CellToWorld(bottomCenter);
         return actualPosition;
     }

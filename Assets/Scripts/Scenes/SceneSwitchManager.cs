@@ -11,6 +11,7 @@ public class SceneSwitchManager : MonoBehaviour
     private bool menuRemoved;
     [SerializeField]private Canvas menuCanvas;
     private Player player;
+    public Dictionary<SceneField, List<Vector2>> npcDict;
     public void ButtonPressSceneSwitch()
     {
         StartGame(); 
@@ -19,6 +20,7 @@ public class SceneSwitchManager : MonoBehaviour
     {
         menuRemoved = false;
         startCalled = false;
+        npcDict = new Dictionary<SceneField, List<Vector2>>();
     }
     private void OnEnable()
     {
@@ -73,6 +75,15 @@ public class SceneSwitchManager : MonoBehaviour
             {
                 yield return null;
             }
+            if (!npcDict.ContainsKey(sceneToLoad))
+            {
+                Debug.Log("debugwasnull17");
+                HouseManager.Instance.InitializeHouses(sceneToLoad);
+            }
+            else
+            {
+                HouseManager.Instance.PlaceNPCSInSavedPositions(npcDict[sceneToLoad]);
+            }
             Camera[] allCameras = GameObject.FindObjectsOfType<Camera>();
 
             //MAINTAINING CAMERA
@@ -94,8 +105,8 @@ public class SceneSwitchManager : MonoBehaviour
         {
             yield return null;
         }
-        //SPAWNING PLAYER
 
+        //SPAWNING PLAYER
         DoorTrigger[] possibleDoors = GameObject.FindObjectsOfType<DoorTrigger>();  
         foreach (DoorTrigger door in possibleDoors)
         {
@@ -111,11 +122,20 @@ public class SceneSwitchManager : MonoBehaviour
         //STARTING FADE IN CYCLE 
         SceneFadeManager.Instance.StartFadeInCycle();
 
+
+        /*first, create a temporary list. Then, go through each npc, and check if it belongs to the given scene. If it  
+         does, then add the the position of that npc to the temporary list. After you are done iterating through 
+        every npc in the entire hierarchy (for all scenes) in a given scene, add the temporary list to the 
+        dictionary, putting the scene in as the key*/
+
         //UNLOADING SCENES
         for (int i = 0; i < scenesToUnload.Length; i++)
         {
+            //npcDict.Add(scenesToUnload[i], )
             SceneManager.UnloadSceneAsync(scenesToUnload[i]);
         }
+
+
     }
               
     public void UnloadMainMenuObjects()

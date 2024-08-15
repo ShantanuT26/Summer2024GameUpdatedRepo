@@ -47,6 +47,15 @@ public class ObjectPooler : MonoBehaviour
         temp.transform.rotation = rotation;
         return temp;
     }
+    public GameObject SpawnNPCFromPool(string tag, Vector2 position, Quaternion rotation, SceneField myScene)
+    {
+        GameObject temp = poolDict[tag].Dequeue();
+        temp.SetActive(true);
+        temp.transform.position = position;
+        temp.transform.rotation = rotation;
+        temp.GetComponent<NPC>().SetScene(myScene);
+        return temp;
+    }
     public void SendToQueue(GameObject obj, string tag) 
     {
         obj.SetActive(false);

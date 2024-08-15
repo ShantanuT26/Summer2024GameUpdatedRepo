@@ -6,6 +6,8 @@ public class NPC : Entity
 {
     public NPC_IdleState idleState { get; private set; }
     public NPC_WalkingState walkingState { get; private set; }
+    
+    public SceneField myScene { get; private set; }
 
     public override void Start()
     {
@@ -18,7 +20,15 @@ public class NPC : Entity
 
     protected override void Awake()
     {
-        base.Awake();
-        
+        base.Awake();   
+    }
+
+    public GameObject GetAliveGO()
+    {
+        return aliveGO;
+    }
+    public void SetScene(SceneField x)
+    {
+        myScene = x;
     }
 }

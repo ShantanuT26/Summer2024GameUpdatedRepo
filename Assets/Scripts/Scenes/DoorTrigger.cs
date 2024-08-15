@@ -42,7 +42,6 @@ public class DoorTrigger : MonoBehaviour, IInteractible
             {
                 Interact();
             }
-            
         }
     }
     
