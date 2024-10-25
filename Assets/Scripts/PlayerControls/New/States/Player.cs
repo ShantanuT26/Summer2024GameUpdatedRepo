@@ -62,6 +62,13 @@ public class Player : MonoBehaviour
         PlayerState.changeAnimBool += SetAnimBool;
         fsm.SetInitialState(idleState);
         SaveLoadManager.LoadPlayerDataAction += AdjustPositionAfterLoad;
+        SceneSwitchManager.SetAnimReference += AssignAnimator;
+    }
+    private void OnDisable()
+    {
+        PlayerState.changeAnimBool -= SetAnimBool;
+        SaveLoadManager.LoadPlayerDataAction -= AdjustPositionAfterLoad;
+        SceneSwitchManager.SetAnimReference -= AssignAnimator;
     }
     private void Start()
     {
@@ -78,10 +85,22 @@ public class Player : MonoBehaviour
         CheckGround();
         PhysicsUpdate();
     }
+    //Temporary Method
+    public void AssignAnimator()
+    {
+        if(animator==null)
+        {
+            animator = this.gameObject.GetComponent<Animator>();
+        }
+    }
     public void SetAnimBool(string x, bool y)
     {
+        if(animator!=null)
+        {
+            animator.SetBool(x, y);
+        }
         Debug.Log("animboolset: " + x + ": " + y);
-        animator.SetBool(x, y);
+        
     }
     //Temporary method
     public void SuspendPlayerInAir(bool x)

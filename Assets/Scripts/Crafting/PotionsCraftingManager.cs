@@ -28,6 +28,11 @@ public class PotionsCraftingManager : MonoBehaviour
         CheckHerbsOnPlayer += AddToHerbImageDisplay;
         AdjustHerbsDisplayInCraftingMenu += AdjustHerbImageDisplay;
     }
+    private void OnDisable()
+    {
+        CheckHerbsOnPlayer -= AddToHerbImageDisplay;
+        AdjustHerbsDisplayInCraftingMenu -= AdjustHerbImageDisplay;
+    }
     public static void InvokeCheckHerbsOnPlayerAction(ScrObj herb, int x)
     {
         CheckHerbsOnPlayer.Invoke(herb, x);

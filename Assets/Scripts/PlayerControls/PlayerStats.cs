@@ -89,6 +89,7 @@ public class PlayerStats : MonoBehaviour
         Instantiate(deathBloodParticle, transform.position, deathBloodParticle.transform.rotation);
         //IMPORTANT KEEP
         //gameManager.Respawn(playerController.GetStartingPosition());
+
         Destroy(gameObject);
     }
 }

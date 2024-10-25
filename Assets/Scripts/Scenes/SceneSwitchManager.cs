@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,6 +13,9 @@ public class SceneSwitchManager : MonoBehaviour
     [SerializeField]private Canvas menuCanvas;
     private Player player;
     public Dictionary<SceneField, List<Vector2>> npcDict;
+
+    public static event Action SetAnimReference;
+
     public void ButtonPressSceneSwitch()
     {
         StartGame(); 
@@ -24,10 +28,11 @@ public class SceneSwitchManager : MonoBehaviour
     }
     private void OnEnable()
     {
-       /* DoorTrigger.LoadSceneAction += LoadScene;
-        DoorTrigger.UnloadScenesAction += UnloadScenes;
-        DoorTrigger.SpawnPlayerAtNewDoorAction += SpawnPlayerAtNewDoor;*/
         DoorTrigger.LoadScenesAndSpawnPlayerAction += SceneLoadAndPlayerSpawn;
+    }
+    private void OnDisable()
+    {
+        DoorTrigger.LoadScenesAndSpawnPlayerAction -= SceneLoadAndPlayerSpawn;
     }
     public void StartGame()
     {
@@ -77,7 +82,6 @@ public class SceneSwitchManager : MonoBehaviour
             }
             if (!npcDict.ContainsKey(sceneToLoad))
             {
-                Debug.Log("debugwasnull17");
                 HouseManager.Instance.InitializeHouses(sceneToLoad);
             }
             else
@@ -85,6 +89,9 @@ public class SceneSwitchManager : MonoBehaviour
                 HouseManager.Instance.PlaceNPCSInSavedPositions(npcDict[sceneToLoad]);
             }
             Camera[] allCameras = GameObject.FindObjectsOfType<Camera>();
+
+            //TEMP CODE
+            SetAnimReference.Invoke();
 
             //MAINTAINING CAMERA
             foreach (Camera camera in allCameras)
@@ -129,13 +136,20 @@ public class SceneSwitchManager : MonoBehaviour
         dictionary, putting the scene in as the key*/
 
         //UNLOADING SCENES
+        GameObject[] mynpcs = GameObject.FindGameObjectsWithTag("NPC");
         for (int i = 0; i < scenesToUnload.Length; i++)
         {
-            //npcDict.Add(scenesToUnload[i], )
+            List<Vector2>tempnpcpos = new List<Vector2>();
+            for(int j = 0; j < mynpcs.Length; j++) 
+            {
+                if (mynpcs[j].GetComponent<NPC>().myScene == scenesToUnload[i])
+                {
+                    tempnpcpos.Add(mynpcs[j].transform.position);
+                }
+            }
+            npcDict[scenesToUnload[i]] = tempnpcpos;
             SceneManager.UnloadSceneAsync(scenesToUnload[i]);
         }
-
-
     }
               
     public void UnloadMainMenuObjects()

@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class PersistentObjects : MonoBehaviour
 {
-    private PersistentObjects Instance;
+    private static PersistentObjects Instance;
 
     private void Awake()
     {
         if(Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(Instance);
+            //DontDestroyOnLoad(Instance);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(gameObject);
+            //PRESERVE
+            //Destroy(gameObject);
         }
     }
 }

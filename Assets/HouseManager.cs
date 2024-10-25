@@ -9,10 +9,20 @@ public class HouseManager : MonoBehaviour
     private Dictionary<Vector2, House> houses;
     [SerializeField] private Tilemap houseTileMap;
     public static HouseManager Instance;
+    //private BoundsInt tempBounds;
 
     private void Awake()
     {
-        Instance = this;  
+        if(Instance==null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
+        //tempBounds = new BoundsInt(new Vector3Int(0, 0, 0), new Vector3Int(326, 28, 1));
     }
     private void Start()
     {
@@ -29,7 +39,8 @@ public class HouseManager : MonoBehaviour
     }
     public void InitializeHouses(SceneField myScene)
     {
-        BoundsInt mapSize = houseTileMap.cellBounds;
+        BoundsInt mapSize = houseTileMap.cellBounds;    
+        Debug.Log("mapsize: " + mapSize);   
         
         //GETTING TILEMAP POSITIONS OF EACH HOUSE
 
@@ -90,6 +101,4 @@ public class HouseManager : MonoBehaviour
         Vector3 actualPosition = houseTileMap.CellToWorld(bottomCenter);
         return actualPosition;
     }
-
-
 }

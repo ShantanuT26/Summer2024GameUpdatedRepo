@@ -70256,10 +70256,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 487f814fb23414646b3d016008e4462a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorToSpawnTo: 3
+  doorToSpawnTo: 1
   sceneToLoad:
-    _sceneAsset: {fileID: 102900000, guid: 2349dd9e904822d46bd6381c30b733a8, type: 3}
-    _sceneName: SampleSceneCont
+    _sceneAsset: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
+    _sceneName: SampleScene
   scenesToUnload: []
   currentDoorPosition: 4
 --- !u!212 &1017289171
