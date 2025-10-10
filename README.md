@@ -51,7 +51,6 @@ Although the game is **not currently playable**, the repository demonstrates sig
 ## 🚧 Current Status
 
 The project is in a broken state and **not currently playable**.  
-Core gameplay systems (scene loading, player controller, inventory, and AI logic) are implemented and functional, with future work focused on level content, UI, and additional gameplay mechanics.
 
 ---
 
@@ -59,32 +58,23 @@ Core gameplay systems (scene loading, player controller, inventory, and AI logic
 
 | File | Description |
 |------|--------------|
-| `FSM/StateMachine.cs` | Generic state machine used by both NPCs and enemies |
-| `SceneLoader.cs` | Handles additive scene loading/unloading |
-| `PersistentObjects.cs` | Manages cross-scene object persistence |
-| `InventoryManager.cs` | Handles item stacking, slot validation, and overflow redistribution |
-| `CraftingSystem.cs` | Consumes inventory items to create new ones (e.g., potions) |
-| `PotionEffectHandler.cs` | Applies potion effects to health and mana systems |
-| `NPCController.cs` | Implements AI state transitions and proximity logic |
-| `DoorSystem.cs` | Manages scene transitions between doors |
+| `Scripts/Entities/FiniteStateMachine.cs` | Core finite state machine (FSM) controller that manages state transitions for entities. Handles initialization, switching, and execution of state-specific logic through well-defined lifecycle methods. |
+| `Scripts/Entities/State.cs` | Abstract base class defining the structure and lifecycle for all entity states. Handles environment checks (ground, wall, player proximity) and separates logic and physics updates for clean modular design. |
+| `Scripts/Entities/Entity.cs` | Comprehensive base class for all AI-driven entities. Integrates physics, animation, health, combat, and stun logic with the FSM. Manages hit detection, knockback, flipping, and Gizmo-based debugging for visual development. |
+| `Scripts/Scenes/SceneSwitchManager.cs` | Manages additive scene loading and unloading for seamless world transitions. Handles door-based scene changes, fade effects, camera persistence, and NPC position saving across scenes. |
+| `Scripts/Inventory/InventoryManager.cs` | Manages the player’s inventory, UI, and item stacking logic. Each slot can hold up to 64 of one item type, automatically redistributing overflow across slots. Integrates closely with the crafting system through event-based updates. |
+| `Scripts/Crafting/PotionsCraftingManager.cs` | Handles crafting system logic, allowing players to combine herbs from the inventory to create potions. Consumes ingredients, generates potion items, and updates both inventory and UI in real time. |
+| `Scripts/PlayerControls/New/States/Player.cs` | Main player controller implementing movement, jumping, attacking, and scene transition handling. Uses a player-specific FSM to modularize behavior, manage animations, and handle full freeze/unfreeze logic during scene switches. |
+| `Scripts/PlayerControls/New/States/PlayerState.cs` | Abstract base class for all player states. Defines animation handling, input-based logic and physics updates, and time tracking for state transitions. Enables extensible, maintainable player behavior through inheritance. |
+
 
 ---
 
 ## 📘 Future Plans
 
-- Integrate save/load system  
 - Expand crafting recipes and potion types  
-- Add NPC dialogue and quest framework  
-- Develop a level editor for modular world building  
+- Add NPC dialogue and quest framework   
 - Implement complete menu and UI system  
-
----
-
-## 🧑‍💻 Author
-
-**Developer:** Shantanu Thatte  
-**GitHub:** [ShantanuT26](https://github.com/ShantanuT26)  
-**Email:** shadowshantanu@gmail.com  
 
 ---
 
