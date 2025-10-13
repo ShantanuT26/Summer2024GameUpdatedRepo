@@ -1,10 +1,10 @@
-# 🎮 Summer 2024 Game Project (Working Name - Sorcerers' Souls)
+# Summer 2024 Game Project (Working Name - Sorcerers' Souls)
 
 A 2D platformer built in **Unity (C#)** featuring modular scene loading, finite-state-machine (FSM)–based AI, a fully functional inventory and crafting system, and dynamic NPC behavior.
 
 ---
 
-## 🧭 Overview
+## Overview
 
 This project was developed during **Summer 2024** as an independent game-development initiative.  
 The goal was to build a scalable, extensible 2D platformer framework with:
@@ -20,7 +20,7 @@ Although the game is **not currently playable**, the repository demonstrates sig
 
 ---
 
-## 🧩 Key Technical Highlights
+## Key Technical Highlights
 
 - **Language / Engine:** Unity 2022.3 (C#)  
 - **Design Patterns:**  
@@ -48,13 +48,13 @@ Although the game is **not currently playable**, the repository demonstrates sig
 
 ---
 
-## 🚧 Current Status
+## Current Status
 
 The project is in a broken state and **not currently playable**.  
 
 ---
 
-## 🔍 Notable Scripts
+## Notable Scripts
 
 | File | Description |
 |------|--------------|
@@ -70,7 +70,7 @@ The project is in a broken state and **not currently playable**.
 
 ---
 
-## 📘 Future Plans
+## Future Plans
 
 - Expand crafting recipes and potion types  
 - Add NPC dialogue and quest framework   
@@ -78,7 +78,7 @@ The project is in a broken state and **not currently playable**.
 
 ---
 
-## 🏷️ Notes
+## Notes
 
 > This repository is intended to showcase **code quality**, **system architecture**, and **design approach** rather than gameplay completeness.  
 > Reviewers are encouraged to explore the `Scripts` directory for insights into modular scene loading, FSM-driven AI, and the inventory–crafting interaction system.
