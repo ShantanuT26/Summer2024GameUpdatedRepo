@@ -1,4 +1,4 @@
-# 🎮 Summer 2024 Game Project
+# 🎮 Summer 2024 Game Project (Working Name - Sorcerers' Souls)
 
 A 2D platformer built in **Unity (C#)** featuring modular scene loading, finite-state-machine (FSM)–based AI, a fully functional inventory and crafting system, and dynamic NPC behavior.
 
