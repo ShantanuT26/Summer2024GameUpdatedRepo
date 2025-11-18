@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,6 +22,7 @@ public class VisPanel : MonoBehaviour, IPointerDownHandler
     }
     public void OnPointerDown(PointerEventData eventData)
     {
+        UnityEngine.Debug.Log("CLICKED ON CHERRY");
         visInventory.DeselectAllPanels();
         selectedPanel.SetActive(true);
         inventoryManager.GetItemSlot(index).changeStats();
@@ -42,8 +44,12 @@ public class VisPanel : MonoBehaviour, IPointerDownHandler
     }
     public void setQuantity(int x)
     {
-        quantity.text=x.ToString();
+        quantity.text = x.ToString();
     }
+    // public void subtractOne(int x)
+    // {
+    //     quantity.text=(x-1).ToString();
+    // }
     public void setSprite(Sprite s)
     {
         myImage.sprite = s;

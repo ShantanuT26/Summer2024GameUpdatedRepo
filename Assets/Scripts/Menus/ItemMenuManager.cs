@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,8 @@ public class ItemMenuManager : MonoBehaviour
     [SerializeField] private GameObject itemMenu;
     public static event Action OpenHerbsMenu;
     public static event Action OpenPotionsMenu;
+
+    [SerializeField] private CanvasVisibilityManager canvasVisibilityManager;
     private void OnEnable()
     {
         OpenHerbsMenu += CloseItemMenu;
@@ -23,6 +26,8 @@ public class ItemMenuManager : MonoBehaviour
     }
     public void OpenItemMenu(InputAction.CallbackContext context)
     {
+        UnityEngine.Debug.Log("Opening Item Menu");
+        canvasVisibilityManager.setItemMenuCanvas(true);
         itemMenu.SetActive(true);
     }
     public void OpenItemMenu()
@@ -31,11 +36,13 @@ public class ItemMenuManager : MonoBehaviour
     }
     public void CloseItemMenu()
     {
-        Debug.Log("closingitemmenu");
+        UnityEngine.Debug.Log("closingitemmenu");
+        canvasVisibilityManager.setItemMenuCanvas(false);
         itemMenu.SetActive(false);
     }
-    public void OnHerbsMenuClickFinished()   
+    public void OnHerbsMenuClickFinished()
     {
+        UnityEngine.Debug.Log("openHerbsMenuInvoked");
         OpenHerbsMenu.Invoke();
     }
     public void OnPotionsMenuButtonClick()

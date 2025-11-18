@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     [SerializeField] private Transform groundCheck;
+
+    [SerializeField] PlayerCombat playerCombat;
     public bool animationFinished { get; private set; }
     public int facingDirection { get; private set; }
 
@@ -154,12 +156,16 @@ public class Player : MonoBehaviour
     {
         Debug.Log("playerflip");
         facingDirection *= -1;
+        playerCombat.changeHitBoxPosition(facingDirection);
+
         switch(sr.flipX)
         {
             case true:
+                Debug.Log("playerfliptrue");
                 sr.flipX = false;
                 break;
             case false:
+                Debug.Log("playerflipfalse");
                 sr.flipX = true;
                 break;
         }

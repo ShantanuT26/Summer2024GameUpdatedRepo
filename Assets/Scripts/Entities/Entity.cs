@@ -136,10 +136,12 @@ public class Entity : MonoBehaviour
         {
             if(attackDetails.position.x> transform.GetChild(0).transform.position.x)
             {
+                Debug.Log("KNOCK: direction left");
                 knockBackDirection = -1;
             }
             else
             {
+                Debug.Log("KNOCK: direction right");
                 knockBackDirection = 1;
             }
 

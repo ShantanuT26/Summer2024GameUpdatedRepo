@@ -21,7 +21,7 @@ public class VisibleInventory : MonoBehaviour
     }
     public void FillVisPanel(int i, int quant, Sprite sprite)
     {
-        Debug.Log("vispanelfilledinvisinv");
+        Debug.Log("vispanelfilledinvisinv: " + "index: " + i + " quant: " + quant);
         visPanels[i].setQuantity(quant);
         visPanels[i].setSprite(sprite);
     }

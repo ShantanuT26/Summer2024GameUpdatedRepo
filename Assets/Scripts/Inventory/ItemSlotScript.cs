@@ -21,7 +21,8 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
     [SerializeField] private HealthManager healthManager;
     private Transform parentAfterDrag;
     [SerializeField] private Sprite itembackground;
-    [SerializeField]private Vector2 imgstartposition;
+    [SerializeField] private Vector2 imgstartposition;
+    
     public ScrObj slotInfo { get; private set; }
 
     private void Awake()
@@ -122,14 +123,20 @@ public class ItemSlotScript : MonoBehaviour, IPointerDownHandler,/* IBeginDragHa
             manaManager.updateMana(slotInfo.mana);
             healthManager.updateHealth(slotInfo.healing);
             PotionsCraftingManager.InvokeAdjustHerbsDisplayInCraftingMenuAction(slotInfo, -1);
+            if(myindex<=3)
+            {
+                inventoryManager.visPanels[myindex].setQuantity(myquant);
+            }
         }
         if(CheckIsEmpty())
         {
-            Debug.Log("settingempty1");
-            //make a (or implement an already existing) clearslot method
             slotInfo.name = "";
             slotInfo.sprite = itembackground;
             quant.text = "00";
+            if(myindex<=3)
+            {
+                inventoryManager.visPanels[myindex].setSprite(itembackground);
+            }
         }
         UpdateSlotAppearance();
     }
