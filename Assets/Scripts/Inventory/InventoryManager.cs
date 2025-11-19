@@ -6,6 +6,7 @@ using Unity.UI;
 using UnityEngine.UI;
 using System;
 using System.Linq;
+using System.Diagnostics;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -15,7 +16,11 @@ public class InventoryManager : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction myInventory;
     [SerializeField]private ItemSlotScript[] itemslots;
-    [SerializeField]private ScrObj[] scrobj;
+    [SerializeField] private ScrObj[] scrobj;
+
+    [SerializeField] public VisPanel[] visPanels;
+
+    [SerializeField] private CanvasVisibilityManager canvasVisibilityManager;
     
     public static event Action BackToGame;
     public static event Action BackToMainMenu;
@@ -73,6 +78,7 @@ public class InventoryManager : MonoBehaviour
     {
         Time.timeScale = 1;
         inventory.SetActive(false);
+        canvasVisibilityManager.setInventoryCanvas(false);
         menuActive = false;
     }
     public void BackToGameButtonClicked()
@@ -87,6 +93,7 @@ public class InventoryManager : MonoBehaviour
     {
         Time.timeScale = 0;
         inventory.SetActive(true);
+        canvasVisibilityManager.setInventoryCanvas(true);
         menuActive = true;
     }
     public void DeselectAllSlots()
@@ -100,13 +107,15 @@ public class InventoryManager : MonoBehaviour
     {
         for(int i = 0; i<16; i++)
         {
+            UnityEngine.Debug.Log("THE VALUE OF I(0) IS: " + i);
             if (itemslots[i].GetName()=="")
             {
                 if (q<=64)
                 {
-                    Debug.Log("fillingitemslotfrominvmanager");
-                    Debug.Log("quantitytofill: " + q);
+                    UnityEngine.Debug.Log("fillingitemslotfrominvmanager");
+                    UnityEngine.Debug.Log("quantitytofill: " + q);
                     itemslots[i].FillSlot(itemInfo, q);
+                    UnityEngine.Debug.Log("THE VALUE OF I IS: " + i);
                     ItemAdded(itemInfo);
                 }
                 else
@@ -138,12 +147,12 @@ public class InventoryManager : MonoBehaviour
     }
     public void AdjustItemQuantity(ScrObj itemInfo, int q)
     {
-        Debug.Log("adjustingitemq");
+        UnityEngine.Debug.Log("adjustingitemq");
         for (int i = 15; i >= 0; i--)
         {
             if (itemslots[i].slotInfo.Equals(itemInfo))
             {
-                Debug.Log("quantityadjusted");
+                UnityEngine.Debug.Log("quantityadjusted");
                 itemslots[i].AdjustQuantity(q);
                 break;
             }
@@ -153,11 +162,11 @@ public class InventoryManager : MonoBehaviour
     {
         for(int j = 0; j<itemInfo.Length; j++)
         {
-            Debug.Log("slot data crafting"  + j + ": " + itemInfo[j].name);
+            UnityEngine.Debug.Log("slot data crafting"  + j + ": " + itemInfo[j].name);
             for (int i = 15; i >= 0; i--)
             {
-                Debug.Log("amqslotinfo " + i + ": " + itemslots[i].slotInfo);
-                Debug.Log("amqiteminfo" + j + ": " + itemInfo[j]);
+                UnityEngine.Debug.Log("amqslotinfo " + i + ": " + itemslots[i].slotInfo);
+                UnityEngine.Debug.Log("amqiteminfo" + j + ": " + itemInfo[j]);
                 if (itemslots[i].slotInfo.Equals(itemInfo[j]))
                 {
                     itemslots[i].AdjustQuantity(q);

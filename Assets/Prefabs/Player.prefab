@@ -305,6 +305,15 @@ MonoBehaviour:
   canBeAttacked:
     serializedVersion: 2
     m_Bits: 128
+  mouseClick:
+    m_Name: Mouse Click
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 69f0794d-375d-4094-bfe3-aa00cdad66ec
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!114 &764039323970232691
 MonoBehaviour:
   m_ObjectHideFlags: 0
